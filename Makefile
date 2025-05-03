@@ -22,7 +22,7 @@ SRCS_DIR := src
 OBJS_DIR := obj
 
 SRCS := $(shell find $(SRCS_DIR) -type f -name '*.cpp')
-OBJS := $(SRCS:$(SRCS_DIR)/%.c=$(OBJS_DIR)/%.o)
+OBJS := $(SRCS:$(SRCS_DIR)/%.c=$(OJBS_DIR)/%.o)
 
 $(OBJS_DIR)/%.o: $(SRCS_DIR)/%.c
 	@mkdir -p $(dir $@)
