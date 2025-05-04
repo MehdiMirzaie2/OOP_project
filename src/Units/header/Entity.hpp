@@ -18,23 +18,24 @@ protected:
     int cost;
 
 public:
+    // initializers
     Entity();
     Entity(float dmg, float loc_x, float loc_y, float spd, float radius_atk, int cst);
 
+    //getters
     float getDamage();
-    void setDamage(float new_dmg);
-
-    float getSpeed();
-    void setSpeed(float new_sp);
-
     sf::Vector2f getLocation();
-    void setLocation(sf::Vector2f *newloc);
-
+    float getSpeed();
     float getRadius_of_attack();
-    void setRadius_of_attack(float radius);
-
     int getCost();
+
+    //setters
+    void setDamage(float new_dmg);
+    void setSpeed(float new_sp);
+    void setLocation(sf::Vector2f *newloc);
+    void setRadius_of_attack(float radius);
     void setCost(int new_c);
+
 };
 
 #endif

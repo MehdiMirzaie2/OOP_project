@@ -1,5 +1,7 @@
 #include "../header/Entity.hpp"
 
+Entity::Entity(){}; // does nothing atm because I dont know what to put as the default values yet.
+
 Entity::Entity(float dmg, float loc_x, float loc_y, float spd, float radius_atk, int cst)
 {
     location = std::make_unique<sf::Vector2f>(loc_x, loc_y);
