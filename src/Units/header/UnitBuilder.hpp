@@ -15,7 +15,7 @@ class UnitBuilder // Provides interface for concrete unit builders
         int cost;
         Weapon* weapon; // To be implemented
 
-    public:
+    public: 
         
         // Builder Params
         UnitBuilder& withHP(float hp);
@@ -23,11 +23,11 @@ class UnitBuilder // Provides interface for concrete unit builders
         UnitBuilder&  withSpeed(float new_sp);
         UnitBuilder&  withLocation(sf::Vector2f *newloc);
         UnitBuilder&  withRadius_of_attack(float radius);
-        UnitBuilder&  withCost(int new_c);
+        UnitBuilder&  withCost(int new_c); 
         virtual UnitBuilder& withWeapon(Weapon* new_weapon) = 0; // make abstract as it is different for each subbuilder.
         
         // Joining all the components
-        virtual Unit build() = 0; // Different for all subclass builders
+        virtual Unit* build() = 0; // Different for all subclass builders
 }
 
 #endif // UNITS_HEADER_UNITBUILDER_HPP_

@@ -14,13 +14,13 @@ class Unit : public Entity
 {
 	protected:
         float HP;
-        Weapon* weapon; // to be implemented
+       // Weapon* weapon; // to be implemented
 
 	public:
 
 		// initialisers
 		Unit();
-		Unit(UnitBuilder unitBuilder); //unit builder has the values for the unit
+		//Unit(UnitBuilder unitBuilder); //unit builder has the values for the unit
 		Unit &operator=(const Unit &_src);
 		Unit(const Unit &_src);
 		~Unit();
