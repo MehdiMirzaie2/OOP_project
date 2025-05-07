@@ -5,13 +5,15 @@
 #include "map.hpp"
 #include "SFML/Graphics.hpp"
 
+
 class Game{
     private:
         sf::RenderWindow* window;
-
+        Map gameMap;
+        
     public:
         Game();
-
+        void draw_all();
         void runGame();
         
 };

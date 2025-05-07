@@ -1,26 +1,28 @@
 #include "../header/Game.hpp"
 
 Game::Game(){
-    window = new sf::RenderWindow(sf::VideoMode(200,200), "YES EYS");
+    window = new sf::RenderWindow(sf::VideoMode(WINDOW_WIDTH, WINDOW_HEIGHT), "map4");
+}
+
+void Game::draw_all(){
+    gameMap.drawMap(window);
 }
 
 void Game:: runGame()
 {
-    // Example: Create a circle shape to draw
-    sf::CircleShape shape(100.f);
-    shape.setFillColor(sf::Color::Green);
-
+    
     while(window->isOpen()){
         sf::Event event;
         while(window->pollEvent(event)){
-            if (sf::Mouse::isButtonPressed(sf::Mouse::Left)){
+            if (event.type == sf::Event::Closed){
                 window->close();
             }
         }
+        
         window->clear();
 
-        // Draw the shape
-        window->draw(shape);
+       
+        draw_all();
 
         window->display();
     }
