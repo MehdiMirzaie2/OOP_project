@@ -22,15 +22,13 @@ OBJS_DIR := obj
 # INCS := $(shell find $(SRCS_DIR) -type dir -name 'header')
 
 SRCS := $(shell find $(SRCS_DIR) -type f -name '*.cpp')
-OBJS := $(SRCS:$(SRCS_DIR)/%.c=$(OBJS_DIR)/%.o)
-
-
+OBJS := $(SRCS:$(SRCS_DIR)/%.cpp=$(OJBS_DIR)/%.o)
 
 CC := g++
 CFLAGS := -std=c++17 -Wall -Wextra -Werror
 CPPFLAGS := $(addprefix -I,$(INCS_DIR))
 
-$(OBJS_DIR)/%.o: $(SRCS_DIR)/%.c
+$(OBJS_DIR)/%.o: $(SRCS_DIR)/%.cpp
 	@mkdir -p $(dir $@)
 	@$(CC) $(CFLAGS) $(CPPFLAGS) -c $< -o $@
 
@@ -52,9 +50,3 @@ fclean: clean
 re: fclean all
 
 .PHONY: all clean fclean re
-
-
-
-
-
-# g++ -std=c++17 main.cpp -I/opt/homebrew/Cellar/sfml/3.0.0_1/include -o program -L/opt/homebrew/Cellar/sfml/3.0.0_1/lib -lsfml-graphics -lsfml-window -lsfml-system 
