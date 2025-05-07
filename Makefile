@@ -19,14 +19,8 @@ INCS_DIR := include
 SRCS_DIR := src
 OBJS_DIR := obj
 
-# INCS := $(shell find $(SRCS_DIR) -type dir -name 'header')
-
 SRCS := $(shell find $(SRCS_DIR) -type f -name '*.cpp')
-OBJS := $(SRCS:$(SRCS_DIR)/%.cpp=$(OJBS_DIR)/%.o)
-
-CC := g++
-CFLAGS := -std=c++17 -Wall -Wextra -Werror
-CPPFLAGS := $(addprefix -I,$(INCS_DIR))
+OBJS := $(SRCS:$(SRCS_DIR)/%.cpp=$(OBJS_DIR)/%.o)
 
 $(OBJS_DIR)/%.o: $(SRCS_DIR)/%.cpp
 	@mkdir -p $(dir $@)

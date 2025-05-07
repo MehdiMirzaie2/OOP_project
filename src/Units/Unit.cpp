@@ -1,27 +1,30 @@
-#include "Unit.hpp"
+#include "../../include/Unit.hpp"
 
-Unit::Unit()
-{
-	std::cout << "unit default constructor called\n";
-}
+Unit::Unit() : Entity() {};
 
-Unit::Unit(t_unit _values)
-{
-	std::cout << "unit constructor called\n";
-	this->values = _values;
-}
+Unit::Unit(UnitBuilder unitBuilder) : Entity(unitBuilder.dmg, unitBuilder.loc_x, unitBuilder.loc_y, unitBuilder.spd, unitBuilder.radius_atk, unitBuilder.cst), HP(unitBuilder.hp) {};
 
 Unit &Unit::operator=(const Unit &_src)
 {
-	std::cout << "unit copy assignment constructor called\n";
+    std::cout << "unit copy assignment constructor called\n";
 }
 
 Unit::Unit(const Unit &_src)
 {
-	std::cout << "unit copy constructor called\n";
+    std::cout << "unit copy constructor called\n";
+}
+
+float Unit::getHP()
+{
+    return HP;
+};
+
+void Unit::setHP(float newHP)
+{
+    HP = newHP;
 }
 
 Unit::~Unit()
 {
-	std::cout << "unit destructor called\n";
+    std::cout << "unit destructor called\n";
 }
