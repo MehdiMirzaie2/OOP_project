@@ -1,37 +1,44 @@
 NAME := royal_clash
-CC := g++
-CFLAGS := -std=c++17 -Wall -Wextra -Werror
 
 OS := $(shell uname)
+
+# these can be empty if we are on linux
+SFML_INCLUDE = 
+SFML_LIBS = 
 
 ifeq ($(OS), Darwin)
 # mac includes
 SFML_INCLUDE += -I/opt/homebrew/Cellar/sfml/3.0.0_1/include
 SFML_LIBS += -L/opt/homebrew/Cellar/sfml/3.0.0_1/lib
-
-# need to know where the libs are on your computers, might even work if i don't define it for linux.
-else
-SFML_INCLUDE += 
-SFML_LIBS += 
 endif
 
 # extensions required
 EXTENSIONS := -lsfml-graphics -lsfml-window -lsfml-system
 
+INCS_DIR := include
 SRCS_DIR := src
 OBJS_DIR := obj
+
+# INCS := $(shell find $(SRCS_DIR) -type dir -name 'header')
 
 SRCS := $(shell find $(SRCS_DIR) -type f -name '*.cpp')
 OBJS := $(SRCS:$(SRCS_DIR)/%.c=$(OBJS_DIR)/%.o)
 
+
+
+CC := g++
+CFLAGS := -std=c++17 -Wall -Wextra -Werror
+CPPFLAGS := $(addprefix -I,$(INCS_DIR))
+
 $(OBJS_DIR)/%.o: $(SRCS_DIR)/%.c
 	@mkdir -p $(dir $@)
-	@$(CC) $(CFLAGS) -c $< -o $@
+	@$(CC) $(CFLAGS) $(CPPFLAGS) -c $< -o $@
 
 $(NAME): $(OBJS)
-	@$(CC) $(CFLAGS) $(SFML_INCLUDE) $(OBJS) $(SFML_LIBS) $(EXTENSIONS) -o $@
+	@$(CC) $(CFLAGS) $(CPPFLAGS) $(SFML_INCLUDE) $(OBJS) $(SFML_LIBS) $(EXTENSIONS) -o $@
 
 all: $(NAME)
+	@echo $(CPPFLAGS)
 	@echo "FINISHED BUILIDING PROJECT"
 
 clean:
