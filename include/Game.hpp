@@ -1,20 +1,22 @@
 #ifndef UNITS_HEADER_GAME_HPP_
 #define UNITS_HEADER_GAME_HPP_
 
+#include "Window.hpp"
 #include "User.hpp"
 #include "map.hpp"
-#include "SFML/Graphics.hpp"
 
+//Window that runs after you hit "play" on the menu
 
-class Game{
+class Game : public Window{
+
     private:
-        sf::RenderWindow* window;
         Map gameMap;
+        User user1;
         
     public:
         Game();
         void draw_all();
-        void runGame();
+        void runWindow();
         
 };
 

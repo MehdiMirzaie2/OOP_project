@@ -3,6 +3,7 @@
 
 #include <string>
 #include "Unit.hpp"
+#include "Deck.hpp"
 
 class User{
     private:
@@ -10,13 +11,13 @@ class User{
         int losses;
         std:: string name;
         int elixir;
-        Unit** units; // pointer to pointers to units to allow polymorphism
-        int current_no_units;
         Unit** towers;
         Unit** king;
-
+        Deck unitDeck;
+        
     public:
         //initializers
+        User();
         User(std:: string name);    
 
         //getters
@@ -24,7 +25,7 @@ class User{
         int getLosses();
         std:: string getName();
         int getElixir();
-        Unit** getUnits();
+       
         Unit** getTowers();
         Unit** getKing();
 
@@ -33,11 +34,12 @@ class User{
         void setLosses(int l);
         void setName(std:: string new_name);
         void setElixir(int new_elixir);
-        void addUnit(Unit* unit);
-        void replaceUnit(Unit* unit_new, Unit* to_be_replaced);
+        
+        void draw(sf::RenderWindow window);
 
-        void fight_user(User other);
-         virtual void deploy(sf::Vector2f d_loc) = 0; //abstract class
+
+        //void fight_user(User other);
+        void deploy(Unit* unit, sf::Vector2f d_loc); //abstract class
 
 };
 

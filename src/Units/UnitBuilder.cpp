@@ -15,9 +15,9 @@ UnitBuilder &UnitBuilder::withSpeed(float new_sp)
     speed = new_sp;
     return *this;
 };
-UnitBuilder &UnitBuilder::withLocation(sf::Vector2f *newloc)
+UnitBuilder &UnitBuilder::withLocation(sf::Vector2f newloc)
 {
-    location.reset(newloc);
+    location = newloc;
     return *this;
 };
 UnitBuilder &UnitBuilder::withRadius_of_attack(float radius)
@@ -30,3 +30,11 @@ UnitBuilder &UnitBuilder::withCost(int new_c)
     cost = new_c;
     return *this;
 };
+
+UnitBuilder &UnitBuilder::withSkin(sf::Sprite new_skin){
+    skin = new_skin;
+}
+
+Unit* UnitBuilder::build(){
+    return new Unit(*this);
+}

@@ -3,8 +3,7 @@
 
 // Constants (swapped for rotation)
 
-const int WINDOW_WIDTH = 1200;
-const int WINDOW_HEIGHT = 800;
+
 
 const int TOWER_WIDTH = 90;
 const int TOWER_HEIGHT = 60;
@@ -23,7 +22,7 @@ class Map{
        
     public:
         Map();
-        void drawMap(sf::RenderWindow* window);
+        void draw(sf::RenderWindow* window);
         sf::RectangleShape createTower(float x, float y, sf::Color baseColor);
         
 };

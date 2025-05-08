@@ -51,7 +51,7 @@ sf::RectangleShape Map::createTower(float x, float y, sf::Color baseColor) {
     return tower;
 }
 
-void Map::drawMap(sf::RenderWindow* window){
+void Map::draw(sf::RenderWindow* window){
 
     window->draw(elements["grass"]);
     window->draw(elements["river"]);

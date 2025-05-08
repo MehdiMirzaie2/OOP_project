@@ -8,28 +8,29 @@ class UnitBuilder // Provides interface for concrete unit builders
    
     protected:
         float HP;
-
         float damage; 
-        std::unique_ptr<sf::Vector2f> location;
-        //location = default location (provide default placement for units)
+        sf::Vector2f location;
+        //location = default location under unit inner recs
         float speed;
         float radius_of_attack;
         int cost;
+        sf::Sprite skin;
        // Weapon* weapon; // To be implemented
 
     public: 
         
         // Builder Params
+        UnitBuilder& withSkin(sf::Sprite new_skin);
         UnitBuilder& withHP(float hp);
         UnitBuilder&  withDamage(float new_dmg);
         UnitBuilder&  withSpeed(float new_sp);
-        UnitBuilder&  withLocation(sf::Vector2f *newloc);
+        UnitBuilder&  withLocation(sf::Vector2f newloc);
         UnitBuilder&  withRadius_of_attack(float radius);
         UnitBuilder&  withCost(int new_c); 
         //virtual UnitBuilder& withWeapon(Weapon* new_weapon) = 0; // make abstract as it is different for each subbuilder.
         
         // Joining all the components
-        virtual Unit* build() = 0; // Different for all subclass builders
+        virtual Unit* build(); // Different for all subclass builders
 };
 
 #endif // UNITS_HEADER_UNITBUILDER_HPP_
