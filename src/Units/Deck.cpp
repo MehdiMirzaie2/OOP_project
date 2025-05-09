@@ -77,8 +77,8 @@ Deck::Deck()
 }
 
 void Deck::draw(sf::RenderWindow* window){
-    window->draw(inner_recs);
     window->draw(rectangle);
+    window->draw(inner_recs);
 }
 
 Unit** Deck::getUnits(){

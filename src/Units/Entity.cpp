@@ -4,7 +4,7 @@ Entity::Entity(){}; // does nothing atm because I dont know what to put as the d
 
 Entity::Entity(float dmg, float loc_x, float loc_y, float spd, float radius_atk, int cst)
 {
-    location = sf::Vector2f(loc_x, loc_y);
+    location = sf::Vector2i(loc_x, loc_y);
     damage = dmg;
     speed = spd;
     radius_of_attack = radius_atk;
@@ -14,8 +14,8 @@ Entity::Entity(float dmg, float loc_x, float loc_y, float spd, float radius_atk,
 void Entity::setisActive(bool active){isActive = active;};
 bool Entity::getisActive(){return isActive;};
 
-void Entity::setLocation(sf::Vector2f newloc) { location = newloc; };
-sf::Vector2f Entity::getLocation() { return location; };
+void Entity::setLocation(sf::Vector2i newloc) { location = newloc; };
+sf::Vector2i Entity::getLocation() { return location; };
 
 float Entity::getDamage() { return damage; };
 void Entity::setDamage(float new_dmg) { damage = new_dmg; };

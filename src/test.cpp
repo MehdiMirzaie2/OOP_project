@@ -4,7 +4,7 @@
 int main() {
     
     Game test;
-    test.runGame();
+    test.runWindow();
 
     return 0;
 }

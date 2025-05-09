@@ -45,9 +45,13 @@ void User::draw(sf::RenderWindow* window){
     unitDeck.draw(window);
 }
 
-void User::deploy(Unit* unit, sf::Vector2f dep_loc)
+Deck User::getDeck(){
+    return unitDeck;
+}
+
+void User::deploy(Unit* unit, sf::Vector2i dep_loc, sf::RenderWindow* window)
 {
     unit->setLocation(dep_loc);
     unit->setisActive(true);
-    unit->draw();
+    unit->draw(window);
 }

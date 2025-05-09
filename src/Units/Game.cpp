@@ -11,9 +11,9 @@ void Game::draw_all(){
     user1.draw(window);
 }
 
-void Game:: runGame()
+void Game:: runWindow()
 {
-    Unit** user1_units = user1.unitDeck.getUnits();
+    Unit** user1_units = user1.getDeck().getUnits();
     while(window->isOpen()){
         sf::Event event;
         while(window->pollEvent(event)){
@@ -21,16 +21,17 @@ void Game:: runGame()
                 window->close();
             }
             
-                
-            if (sf::Mouse::isButtonPressed(sf::Mouse::Left)){
-                bool* picks = user1.unitDeck.getIsPicked();
-                for(int i = 0; i < MAX_UNITS; i++){
-                    if(picks[i]){
-                        //deploy the unit at the desired location
-                        user1.deploy(user1_units[i], sf::Mouse::getPosition());
-                    }
-                }
-            }
+            // unit spawn logic, keep disabled until completed by me.
+            
+            // if (sf::Mouse::isButtonPressed(sf::Mouse::Left)){
+            //     bool* picks = user1.getDeck().getIsPicked();
+            //     for(int i = 0; i < MAX_UNITS; i++){
+            //         if(picks[i]){
+            //             //deploy the unit at the desired location
+            //             user1.deploy(user1_units[i], sf::Mouse::getPosition(), window);
+            //         }
+            //     }
+            // }
             
         }
         
