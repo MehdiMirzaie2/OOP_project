@@ -29,8 +29,7 @@ class Unit : public Entity
 
 		// setters
         void setHP(float newHP);
-	
-
+		
 		void draw(sf::RenderWindow* window);
 };
 

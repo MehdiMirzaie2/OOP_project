@@ -5,12 +5,12 @@
 
 class Window
 {
-    private:
+    protected:
         sf::RenderWindow* window;
 
     public:
         virtual void runWindow() = 0;
 
-}
+};
 
 #endif // WINDOW_HPP_

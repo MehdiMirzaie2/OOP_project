@@ -1,7 +1,7 @@
 #ifndef UNITS_HEADER_UNITBUILDER_HPP_
 #define UNITS_HEADER_UNITBUILDER_HPP_
 
-#include "Unit.hpp"
+class Unit;
 
 class UnitBuilder // Provides interface for concrete unit builders
 {

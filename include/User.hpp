@@ -25,7 +25,7 @@ class User{
         int getLosses();
         std:: string getName();
         int getElixir();
-       
+        Deck getDeck();
         Unit** getTowers();
         Unit** getKing();
 
@@ -35,11 +35,11 @@ class User{
         void setName(std:: string new_name);
         void setElixir(int new_elixir);
         
-        void draw(sf::RenderWindow window);
+        void draw(sf::RenderWindow* window);
 
 
         //void fight_user(User other);
-        void deploy(Unit* unit, sf::Vector2f d_loc); //abstract class
+        void deploy(Unit* unit, sf::Vector2i d_loc, sf::RenderWindow* window); //abstract class
 
 };
 

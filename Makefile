@@ -29,6 +29,9 @@ $(OBJS_DIR)/%.o: $(SRCS_DIR)/%.cpp
 $(NAME): $(OBJS)
 	@$(CC) $(CFLAGS) $(CPPFLAGS) $(SFML_INCLUDE) $(OBJS) $(SFML_LIBS) $(EXTENSIONS) -o $@
 
+test: Game.o map.o User.o Entity.o Deck.o
+	@$(CC) $(CFLAGS) $(CPPFLAGS) $(SFML_INCLUDE) $< $(SFML_LIBS) $(EXTENSIONS) -o $@
+
 all: $(NAME)
 	@echo $(CPPFLAGS)
 	@echo "FINISHED BUILIDING PROJECT"

@@ -24,6 +24,6 @@ class Deck : public Drawable{
         void replaceUnit(Unit* unit, Unit* to_be_replaced);
         void draw(sf::RenderWindow* window);
         
-}
+};
 
 #endif // DECK_HPP_

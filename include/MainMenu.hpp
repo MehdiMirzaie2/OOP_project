@@ -16,7 +16,7 @@ class MainMenu : public Window{
     public:
         MainMenu();
         void runWindow();
-}
+};
 
 
 #endif // MAINMENU_HPP_

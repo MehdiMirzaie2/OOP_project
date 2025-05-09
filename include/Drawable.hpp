@@ -8,7 +8,7 @@ const int WINDOW_HEIGHT = 800;
 class Drawable // abstract interface for all drawables
 {
     public:
-        void draw(sf::RenderWindow* window) = 0;
-}
+       virtual void draw(sf::RenderWindow* window) = 0;
+};
 
 #endif // DRAWABLE_HPP_
