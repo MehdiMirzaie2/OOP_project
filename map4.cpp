@@ -37,15 +37,15 @@ int main() {
     laneRight.setFillColor(sf::Color(160, 140, 110));
    
     // Towers (up to down, in order)
-    auto enemyKing = createTower(WINDOW_WIDTH / 2.9 - TOWER_WIDTH / 1, WINDOW_HEIGHT / 3, sf::Color::Red); //2 
-    auto enemyLeftPrincess = createTower(WINDOW_WIDTH / 3 - 300, 80, sf::Color::Red); // 3
-    auto enemyRightPrincess = createTower(WINDOW_WIDTH / 3 + 149, 80, sf::Color::Red); // 1
+    auto enemyKing = createTower(WINDOW_WIDTH / 2.9 - TOWER_WIDTH / 1, WINDOW_HEIGHT / 15, sf::Color::Red); //2 
+    auto enemyLeftPrincess = createTower(WINDOW_WIDTH / 3 - 300, 260, sf::Color::Red); // 3
+    auto enemyRightPrincess = createTower(WINDOW_WIDTH / 3 + 149, 260, sf::Color::Red); // 1
 
 
     // FIX........
-    auto playerKing = createTower(WINDOW_WIDTH / 2.9 - TOWER_WIDTH / 1, WINDOW_HEIGHT + 45, sf::Color::Blue); //2
-    auto playerLeftPrincess = createTower(WINDOW_WIDTH / 3 - 300, WINDOW_HEIGHT + 232, sf::Color::Blue); //3
-    auto playerRightPrincess = createTower(WINDOW_WIDTH / 3 + 149, WINDOW_HEIGHT + 232, sf::Color::Blue); //1
+    auto playerKing = createTower(WINDOW_WIDTH / 2.9 - TOWER_WIDTH / 1, WINDOW_HEIGHT + 258, sf::Color::Blue); //2
+    auto playerLeftPrincess = createTower(WINDOW_WIDTH / 3 - 300, WINDOW_HEIGHT + 50, sf::Color::Blue); //3
+    auto playerRightPrincess = createTower(WINDOW_WIDTH / 3 + 149, WINDOW_HEIGHT + 50, sf::Color::Blue); //1
 
     while (window.isOpen()) {
         sf::Event event;
