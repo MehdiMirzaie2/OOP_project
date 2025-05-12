@@ -3,18 +3,17 @@
 
 // Constants (swapped for rotation)
 
-
-
 const int TOWER_WIDTH = 90;
 const int TOWER_HEIGHT = 60;
 
 #include "Unit.hpp"
+#include "Drawable.hpp"
 #include <map>
 #include <string>
 
 typedef std::pair<std::string, sf::RectangleShape> element;
 
-class Map{
+class Map : public Drawable{
     private:
         int rows;
         int cols;

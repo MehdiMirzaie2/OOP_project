@@ -11,6 +11,7 @@ class Entity : public Drawable
 {
 
 protected:
+    // hp bar if possible
     float damage; // The viable entities all have these variables
     sf::Vector2i location;
     float speed;

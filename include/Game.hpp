@@ -4,19 +4,22 @@
 #include "Window.hpp"
 #include "User.hpp"
 #include "map.hpp"
+#include "Director.hpp"
+#include "BattleWindow.hpp"
+#include "GameDataManger.hpp"
 
-//Window that runs after you hit "play" on the menu
-
-class Game : public Window{
+class Game{
 
     private:
-        Map gameMap;
-        User user1;
-        
+        Window* BattleWindow;
+        Window* CustomizeWindow;
+        Window* MenuWindow;
+        GameDataManager userData;
+       
     public:
         Game();
-        void draw_all();
-        void runWindow();
+        void runGame();
+        
         
 };
 

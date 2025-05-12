@@ -1,6 +1,13 @@
 #include "../../include/MainMenu.hpp"
 #include <iostream>
 
+MainMenu::runWindow()
+{
+    while(window->isOpen()){
+        // user controls up down to navigate menu
+    }
+}
+
 MainMenu::MainMenu()
 {
     if(!sf::Font::loadFromFile("OOP_project/src/Fonts/Quicksand-Bold.ttf")){

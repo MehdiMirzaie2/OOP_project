@@ -9,7 +9,7 @@ class Window
         sf::RenderWindow* window;
 
     public:
-        virtual void runWindow() = 0;
+        virtual int runWindow() = 0;
 
 };
 

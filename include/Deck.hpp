@@ -10,7 +10,7 @@ class Deck : public Drawable{
     private:
         sf::VertexArray rectangle;
         sf::VertexArray inner_recs;
-        Unit** units; // pointer to pointers to units to allow polymorphism
+        Unit** units; 
         int current_no_units;
         bool* isPicked;
 

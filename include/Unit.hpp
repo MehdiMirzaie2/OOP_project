@@ -2,7 +2,6 @@
 #define UNIT_HPP
 #include <iostream>
 #include "Entity.hpp"
-#include "UnitBuilder.hpp"
 
 
 class Unit : public Entity
@@ -18,10 +17,8 @@ class Unit : public Entity
 
 		// initialisers
 		Unit();
-		Unit(UnitBuilder unitBuilder); //unit builder has the values for the unit
-		Unit &operator=(const Unit &_src);
-		Unit(const Unit &_src);
-		~Unit();
+		Unit(float dmg, float loc_x, float loc_y, float spd, float radius_atk, int cst, int hp, sf::Sprite skin); //unit builder has the values for the unit
+		
 
 		// getters
         float getHP();

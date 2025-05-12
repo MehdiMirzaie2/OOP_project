@@ -1,18 +1,10 @@
 #include "../../include/Unit.hpp"
+#include "UnitBuilder.hpp"
 
 Unit::Unit() : Entity() {};
 
-Unit::Unit(UnitBuilder unitBuilder) : Entity(unitBuilder.dmg, unitBuilder.loc_x, unitBuilder.loc_y, unitBuilder.spd, unitBuilder.radius_atk, unitBuilder.cst), HP(unitBuilder.hp), skin(unitBuilder.sprite), isPicked(false) {};
+Unit::Unit(float dmg, float loc_x, float loc_y, float spd, float radius_atk, int cst, int hp, sf::Sprite skin) : Entity(dmg, loc_x, loc_y, spd, radius_atk, cst), HP(hp), skin(skin), isPicked(false) {};
 
-Unit &Unit::operator=(const Unit &_src)
-{
-    std::cout << "unit copy assignment constructor called\n";
-}
-
-Unit::Unit(const Unit &_src)
-{
-    std::cout << "unit copy constructor called\n";
-}
 
 float Unit::getHP()
 {
@@ -30,7 +22,3 @@ void Unit::draw(sf::RenderWindow* window){
     window->draw(skin);
 }
 
-Unit::~Unit()
-{
-    std::cout << "unit destructor called\n";
-}

@@ -1,7 +1,7 @@
 #ifndef UNITS_HEADER_UNITBUILDER_HPP_
 #define UNITS_HEADER_UNITBUILDER_HPP_
 
-class Unit;
+#include "Unit.hpp"
 
 class UnitBuilder // Provides interface for concrete unit builders
 {
@@ -9,12 +9,13 @@ class UnitBuilder // Provides interface for concrete unit builders
     protected:
         float HP;
         float damage; 
-        sf::Vector2f location;
+        sf::Vector2i location;
         //location = default location under unit inner recs
         float speed;
         float radius_of_attack;
         int cost;
         sf::Sprite skin;
+
        // Weapon* weapon; // To be implemented
 
     public: 
@@ -24,13 +25,13 @@ class UnitBuilder // Provides interface for concrete unit builders
         UnitBuilder& withHP(float hp);
         UnitBuilder&  withDamage(float new_dmg);
         UnitBuilder&  withSpeed(float new_sp);
-        UnitBuilder&  withLocation(sf::Vector2f newloc);
+        UnitBuilder&  withLocation(sf::Vector2i newloc);
         UnitBuilder&  withRadius_of_attack(float radius);
         UnitBuilder&  withCost(int new_c); 
         //virtual UnitBuilder& withWeapon(Weapon* new_weapon) = 0; // make abstract as it is different for each subbuilder.
         
         // Joining all the components
-        virtual Unit* build(); // Different for all subclass builders
+        virtual Unit* build() = 0; 
 };
 
 #endif // UNITS_HEADER_UNITBUILDER_HPP_

@@ -15,7 +15,7 @@ class MainMenu : public Window{
 
     public:
         MainMenu();
-        void runWindow();
+        int runWindow();
 };
 
 
