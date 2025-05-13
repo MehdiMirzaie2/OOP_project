@@ -1,5 +1,11 @@
 #include "../../include/RangerBuilder.hpp"
 
+void RangerBuilder::setCustomization(std:: string customization)
+// sets the specific customization defaults, like if the string is 'Archer' sets archer specific stats and gives bow as the weapon.
+{
+    std:: cout << "Customization used: " << customization << std:: endl;
+};
+
 RangerBuilder::RangerBuilder()
 {
     HP = 200;

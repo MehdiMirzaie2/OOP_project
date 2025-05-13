@@ -1,7 +1,12 @@
 #include "../../include/BattleWindow.hpp"
 
-void BattleWindow:: runWindow()
+BattleWindow::BattleWindow(){
+    window = nullptr;
+}
+
+int BattleWindow:: runWindow()
 {
+    this->window = new sf::RenderWindow(sf::VideoMode(WINDOW_WIDTH,WINDOW_HEIGHT), "BattleWindow");
     while(window->isOpen()){
         sf::Event event;
         while(window->pollEvent(event)){
@@ -12,19 +17,20 @@ void BattleWindow:: runWindow()
             // unit spawn logic, keep disabled until completed by me.
             // demo function to check spawning, otherwise director wouldn't be in the battleWindow
             if (sf::Mouse::isButtonPressed(sf::Mouse::Left)){
-               Unit* myunit = director.buildRanger();
-               user1.deploy(myunit, sf::Mouse::getPosition(), window);
+               Unit* myunit = director.buildRanger(" default (doesnt matter because the rangerBuilder does nothing with the setCustomization)");
+               user1.deploy(myunit, sf::Mouse::getPosition(*window), window);
             }
             
         }
         
         window->clear();
-        draw_all();
+        draw_all(window);
         window->display();
     }
+    return 0;
 }
 
-void Game::draw_all(){
+void BattleWindow::draw_all(sf::RenderWindow* window){
     gameMap.draw(window);
     user1.draw(window);
 }

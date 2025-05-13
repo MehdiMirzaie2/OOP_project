@@ -15,6 +15,7 @@ class MainMenu : public Window{
 
     public:
         MainMenu();
+        void draw_all(sf::RenderWindow* window);
         int runWindow();
 };
 

@@ -11,6 +11,6 @@ class GameDataManager
     public:
         void saveData(const User& user, const std::string& filename);
         bool loadData(User& user, const std::string& filename);
-}
+};
 
 #endif // GAMEDATAMANAGER_HPP_

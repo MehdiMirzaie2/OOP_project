@@ -2,14 +2,22 @@
 #define BATTLEWINDOW_HPP_
 
 #include "Window.hpp"
+#include "map.hpp"
+#include "Director.hpp"
+#include "User.hpp"
 
 class BattleWindow : public Window
 // Renders the battle visuals like the map.
 {
     private:
         Map gameMap;
+        Director director;
+        User user1; // bad design, must be passed from the game class, currently here for demo deployment
+
     public:
-        void runWindow();
+        BattleWindow();
+        void draw_all(sf::RenderWindow* window);
+        int runWindow();
 };
 
 

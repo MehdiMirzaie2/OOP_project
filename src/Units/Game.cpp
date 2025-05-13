@@ -1,17 +1,22 @@
 #include "../../include/Game.hpp"
 
+Game::Game(){
 
-Game::runGame(){
-    
-    int choice = MenuWindow->runWindow();
-    if (choice == 0){
-        BattleWindow->runWindow();
+}
+
+void Game::runGame(){
+    bool playing = true;
+    while (playing){
+        int choice = menuWindow.runWindow();
+        
+        if(choice == 1){
+            battleWindow.runWindow();
+        }
+        else if(choice == 2){
+            customizeWindow.runWindow();
+        }
+        else{
+            playing = false;
+        }
     }
-    else if(choice == 1){
-        CustomizeWindow->runWindow();
-    }
-    else if(choice == 2){
-        return;
-    }
-    runGame();
 }
