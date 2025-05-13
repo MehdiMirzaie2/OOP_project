@@ -1,6 +1,10 @@
 NAME := royal_clash
 
 OS := $(shell uname)
+CC := g++
+CFLAGS := -std=c++17 -Wall -Wextra -Werror
+INCS_DIR := include
+CPPFLAGS := -I$(INCS_DIR)
 
 # these can be empty if we are on linux
 SFML_INCLUDE = 
@@ -21,16 +25,19 @@ OBJS_DIR := obj
 
 SRCS := $(shell find $(SRCS_DIR) -type f -name '*.cpp')
 OBJS := $(SRCS:$(SRCS_DIR)/%.cpp=$(OBJS_DIR)/%.o)
+TEST_DEPENDENCIES := test.o Game.o map.o User.o Entity.o Unit.o Director.o Deck.o UnitBuilder.o RangerBuilder.o BattleWindow.o CustomizeWindow.o MainMenu.o TankBuilder.o MeleeBuilder.o
+TEST_DEPENDENCIES_ACTUAL = $(addprefix $(OBJS_DIR)/, $(TEST_DEPENDENCIES))
 
-$(OBJS_DIR)/%.o: $(SRCS_DIR)/%.cpp
+$(OBJS_DIR)/%.o: $(SRCS_DIR)/Units/%.cpp
 	@mkdir -p $(dir $@)
-	@$(CC) $(CFLAGS) $(CPPFLAGS) -c $< -o $@
+	@echo "Compiling $< -> $@"
+	$(CC) $(CFLAGS) $(CPPFLAGS) -c $< -o $@
 
 $(NAME): $(OBJS)
-	@$(CC) $(CFLAGS) $(CPPFLAGS) $(SFML_INCLUDE) $(OBJS) $(SFML_LIBS) $(EXTENSIONS) -o $@
+	$(CC) $(CFLAGS) $(CPPFLAGS) $(SFML_INCLUDE) $(OBJS) $(SFML_LIBS) $(EXTENSIONS) -o $@
 
-test: Game.o map.o User.o Entity.o Deck.o
-	@$(CC) $(CFLAGS) $(CPPFLAGS) $(SFML_INCLUDE) $< $(SFML_LIBS) $(EXTENSIONS) -o $@
+test: ${TEST_DEPENDENCIES_ACTUAL}
+	@$(CC) $(CFLAGS) $(CPPFLAGS) $(SFML_INCLUDE) $^ $(SFML_LIBS) $(EXTENSIONS) -o $@
 
 all: $(NAME)
 	@echo $(CPPFLAGS)
@@ -46,4 +53,4 @@ fclean: clean
 
 re: fclean all
 
-.PHONY: all clean fclean re
+.PHONY: all test clean fclean re 
