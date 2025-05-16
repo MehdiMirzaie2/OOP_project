@@ -21,8 +21,8 @@ struct s_unit {
 	u_int32_t damage;
 	u_int32_t speed;
 	u_int32_t cost;
-	s_location location;
-}
+	// s_location location;
+};
 
 #include <iostream>
 
@@ -34,18 +34,19 @@ class Unit
 
 	public:
 		// initialisers
-		Unit();
-		Unit(t_unit);
-		Unit &operator=(const Unit &_src);
-		Unit(const Unit &_src);
-		~Unit();
+		Unit() {std::cout << "hello world\n";}
+		// Unit();
+		// Unit(t_unit);
+		// Unit &operator=(const Unit &_src);
+		// Unit(const Unit &_src);
+		// ~Unit();
 
-		// getters
-		u_int32_t get_health();
-		u_int32_t get_damage();
-		u_int32_t get_speed();
-		u_int32_t get_cost();
-		t_unit get_Unit();
+		// // getters
+		// u_int32_t get_health();
+		// u_int32_t get_damage();
+		// u_int32_t get_speed();
+		// u_int32_t get_cost();
+		// t_unit get_Unit();
 
 		// setters
 };
