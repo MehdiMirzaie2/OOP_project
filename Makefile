@@ -2,7 +2,7 @@ NAME := royal_clash
 
 OS := $(shell uname)
 CC := g++
-CFLAGS := -std=c++17 -Wall -Wextra -Werror
+CFLAGS := -std=c++17
 INCS_DIR := include
 CPPFLAGS := -I$(INCS_DIR)
 

@@ -7,6 +7,7 @@ Unit::Unit(UnitBuilder unitBuilder) : Entity(unitBuilder.dmg, unitBuilder.loc_x,
 Unit &Unit::operator=(const Unit &_src)
 {
     std::cout << "unit copy assignment constructor called\n";
+    return NULL;
 }
 
 Unit::Unit(const Unit &_src)
@@ -22,7 +23,7 @@ float Unit::getHP()
 void Unit::setHP(float newHP)
 {
     HP = newHP;
-}
+}q
 
 
 
