@@ -44,16 +44,16 @@ int main() {
 
 	Texture t1, t2;
 
-//	t1.loadFromFile("figures.png");
+	t1.loadFromFile("figures.png");
 	t2.loadFromFile("board0.png");
 
-//	for (int i = 0; i < 32; i++) f[i].setTexture(t1);
+	for (int i = 0; i < 32; i++) f[i].setTexture(t1);
 	Sprite sBoard(t2);
 
-//	loadPosition();
+	loadPosition();
 
 	while (window.isOpen()) {
-//		Vector2i pos = Mouse::getPosition(window) - Vector2i(offset);
+		Vector2i pos = Mouse::getPosition(window) - Vector2i(offset);
 
 		Event e;
 
@@ -64,8 +64,8 @@ int main() {
 
 		window.clear();
 		window.draw(sBoard);
-//		for (int i = 0; i < 32; i++)
-//			window.draw(f[i]);
+		for (int i = 0; i < 32; i++)
+			window.draw(f[i]);
 		window.display();
 	}
 	return 0;
