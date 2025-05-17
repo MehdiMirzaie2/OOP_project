@@ -8,6 +8,7 @@ User::User(std:: string name){
     losses = 0;
     towers = nullptr;
     king = nullptr;
+    unitDeck = new Deck();
 }
 
 void User::setLosses(int l){
@@ -42,16 +43,17 @@ Unit** User::getTowers(){return towers;}
 Unit** User::getKing(){return king;}
 
 void User::draw(sf::RenderWindow* window){
-    unitDeck.draw(window);
+    unitDeck->draw(window);
 }
 
-Deck User::getDeck(){
+Deck* User::getDeck(){
     return unitDeck;
 }
 
-void User::deploy(Unit* unit, sf::Vector2i dep_loc, sf::RenderWindow* window)
-{
+void User::deploy(int index, sf::Vector2i dep_loc)
+{   
+    Unit* unit = unitDeck->getUnits()[index];
     unit->setLocation(dep_loc);
+    std:: cout << "UNITS LOCATION: " << unit->getLocation().x << std::endl;
     unit->setisActive(true);
-    unit->draw(window);
 }

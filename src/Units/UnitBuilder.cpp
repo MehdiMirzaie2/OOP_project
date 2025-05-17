@@ -31,8 +31,8 @@ UnitBuilder &UnitBuilder::withCost(int new_c)
     return *this;
 };
 
-UnitBuilder &UnitBuilder::withSkin(sf::Sprite new_skin){
-    skin = new_skin;
+UnitBuilder &UnitBuilder::withTexture(std::string textureName)
+{
+    this->textureName = textureName;
     return *this;
 }
-

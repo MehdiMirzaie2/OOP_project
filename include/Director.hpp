@@ -14,7 +14,7 @@ class Director
 // also a swordsman
     public:
 
-        Unit* buildRanger(std::string customization);
+        Unit* buildRanger(std::string customization = "archer");
         // Unit* buildTank(std:: string customization);
         // Unit* buildMelee(std::string customization);
 

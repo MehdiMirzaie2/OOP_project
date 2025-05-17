@@ -79,6 +79,12 @@ Deck::Deck()
 void Deck::draw(sf::RenderWindow* window){
     window->draw(rectangle);
     window->draw(inner_recs);
+
+    for(int i = 0; i < MAX_UNITS; i++){
+        if (units[i]->getisActive()){
+            units[i]->draw(window);
+        }
+    }
 }
 
 Unit** Deck::getUnits(){
@@ -97,7 +103,9 @@ void Deck::addUnit(Unit* unit){
         units[current_no_units] = unit;
         current_no_units++;
         std:: cout << "Unit added successfully\n";
+        return;
     }
+
     std:: cout << "List full, please replace a unit to continue\n";
 }
 

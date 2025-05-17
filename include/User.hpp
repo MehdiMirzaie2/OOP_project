@@ -13,7 +13,7 @@ class User{
         int elixir;
         Unit** towers;
         Unit** king;
-        Deck unitDeck;
+        Deck* unitDeck;
         
     public:
         //initializers
@@ -25,7 +25,7 @@ class User{
         int getLosses();
         std:: string getName();
         int getElixir();
-        Deck getDeck();
+        Deck* getDeck();
         Unit** getTowers();
         Unit** getKing();
 
@@ -39,7 +39,7 @@ class User{
 
 
         //void fight_user(User other);
-        void deploy(Unit* unit, sf::Vector2i d_loc, sf::RenderWindow* window); //abstract class
+        void deploy(int index, sf::Vector2i d_loc); //abstract class
 
 };
 

@@ -28,6 +28,15 @@ Map::Map(){
     auto playerLeftPrincess = createTower(WINDOW_WIDTH / 3 - 300, WINDOW_HEIGHT + 232, sf::Color::Blue); //3
     auto playerRightPrincess = createTower(WINDOW_WIDTH / 3 + 149, WINDOW_HEIGHT + 232, sf::Color::Blue); //1
 
+     // bridg/lane
+     sf::RectangleShape enemyLane(sf::Vector2f(540, 50));
+     enemyLane.setPosition(328, 166); 
+     enemyLane.setFillColor(sf::Color(160, 140, 110));
+ 
+     sf::RectangleShape playerLane(sf::Vector2f(540, 50));
+     playerLane.setPosition(328, 616); 
+     playerLane.setFillColor(sf::Color(160, 140, 110));
+
     elements.insert(element("laneleft", laneLeft));
     elements.insert(element("laneright", laneRight));
     elements.insert(element("river", river));
@@ -38,7 +47,8 @@ Map::Map(){
     elements.insert(element("enemyKing", enemyKing));
     elements.insert(element("enemyLeftPrincess", enemyLeftPrincess));
     elements.insert(element("enemyRightPrincess", enemyRightPrincess));
-
+    elements.insert(element("enemyLane", enemyLane));
+    elements.insert(element("playerLane", playerLane));
 }
 
 
@@ -65,6 +75,9 @@ void Map::draw(sf::RenderWindow* window){
     window->draw(elements["playerKing"]);
     window->draw(elements["playerLeftPrincess"]);
     window->draw(elements["playerRightPrincess"]);
+
+    window->draw(elements["playerLane"]);
+    window->draw(elements["enemyLane"]);
 
 }
 

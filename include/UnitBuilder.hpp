@@ -14,14 +14,14 @@ class UnitBuilder // Provides interface for concrete unit builders
         float speed;
         float radius_of_attack;
         int cost;
-        sf::Sprite skin;
+        std::string textureName;
 
        // Weapon* weapon; // To be implemented
 
     public: 
         
         // Builder Params
-        UnitBuilder& withSkin(sf::Sprite new_skin);
+        UnitBuilder& withTexture(std::string textureName);
         UnitBuilder& withHP(float hp);
         UnitBuilder&  withDamage(float new_dmg);
         UnitBuilder&  withSpeed(float new_sp);
