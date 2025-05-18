@@ -23,8 +23,8 @@ Map::Map(){
 
 	//sf::Texture map_texture;
 
-	map_texture.loadFromFile("/home/mehdi/Desktop/adii/src/Units/b.png");
-std::cout << map_texture.getSize().x << " " << map_texture.getSize().y << " not map texture\n";
+	map_texture.loadFromFile("src/Units/b.png");
+    std::cout << map_texture.getSize().x << " " << map_texture.getSize().y << " not map texture\n";
 	map_sprite.setTexture(map_texture);
 	if (map_sprite.getTexture() == NULL) 
 		std::cout << map_sprite.getPosition().x << " this is the sprite\n";
@@ -80,7 +80,7 @@ void Map::draw(sf::RenderWindow* window){
 	if (map_sprite.getTexture() == NULL) 
 		std::cout << "there is no texture " << map_sprite.getPosition().x << std::endl;
 	window->draw(map_sprite);
-	//std::cout << "hello world 2\n";
+    
 	/*
     window->draw(elements["grass"]);
     window->draw(elements["river"]);
