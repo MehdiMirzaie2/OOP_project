@@ -3,8 +3,8 @@
 #include <iostream>
 #include "Entity.hpp"
 
-const sf::Vector2f UNITSIZE(0.38, 0.38);
-
+//const sf::Vector2f UNITSIZE(0.38, 0.38);
+const sf::Vector2f UNITSIZE(30.f / 130.f, 30.f / 135.f);
 class Unit : public Entity
 {
 	protected:

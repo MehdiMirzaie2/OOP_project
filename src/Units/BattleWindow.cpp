@@ -54,7 +54,7 @@ int BattleWindow:: runWindow() // Used prompt to do deployment (Not my part)
             if (event.type == sf::Event::Closed){
                 window->close();
             }
-/*
+
             if (event.type == sf::Event::MouseButtonReleased){
                 if (event.mouseButton.button == sf::Mouse::Left){
                     if (unitsDeployedCount < MAX_UNITS) {
@@ -62,6 +62,11 @@ int BattleWindow:: runWindow() // Used prompt to do deployment (Not my part)
                         Unit* unitToDeploy = unitDeck->getUnits()[unitsDeployedCount];
 
                         if (unitToDeploy != nullptr && !unitToDeploy->getisActive()) {
+
+			//int deploy_x = event.mouseButton.x / 30;
+			//int deploy_y = event.mouseButton.y / 30;
+
+                          //  sf::Vector2i deployPos(deploy_x, deploy_y);
                             sf::Vector2i deployPos(event.mouseButton.x, event.mouseButton.y);
                             std::cout << "Attempting to deploy unit " << unitsDeployedCount
                                       << " at (" << deployPos.x << ", " << deployPos.y << ")" << std::endl;
@@ -80,19 +85,21 @@ int BattleWindow:: runWindow() // Used prompt to do deployment (Not my part)
                         std::cout << "All " << MAX_UNITS << " units have been deployed. No more deployments allowed." << std::endl;
                     }
                 }
-            }*/
+            }
         }
 
-        window->clear(sf::Color::Black); // Clear with a distinct color for debugging
+        //window->clear(sf::Color::Black); // Clear with a distinct color for debugging
         draw_all(window);
-        window->display();
+        //window->display();
     }
     return 0;
 }
 
 void BattleWindow::draw_all(sf::RenderWindow* window){
-    gameMap.draw(window);
-    std::cout << "calling user1 draw\n";
-    //user1.draw(window);
+    window->clear();
+	gameMap.draw(window);
+
+    user1.draw(window);
+window->display();
 }
 

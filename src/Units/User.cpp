@@ -52,8 +52,14 @@ Deck* User::getDeck(){
 
 void User::deploy(int index, sf::Vector2i dep_loc)
 {   
-    Unit* unit = unitDeck->getUnits()[index];
-    unit->setLocation(dep_loc);
+    int col = dep_loc.x / 30, row = dep_loc.y / 30;
+    std::cout << row << " " << col << std::endl;
+	Unit* unit = unitDeck->getUnits()[index];
+    //sf::Vector2i screen_pos = sf::Vector2i(30 * dep_loc.x, 30 * dep_loc * 30);
+    //dep_loc.x *= 30;
+    //dep_loc.y *= 30;
+	sf::Vector2i a = sf::Vector2i(col * 30, row * 30);
+    unit->setLocation(a);
     std:: cout << "UNITS LOCATION: " << unit->getLocation().x << std::endl;
     unit->setisActive(true);
 }
