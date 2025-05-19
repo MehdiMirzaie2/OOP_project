@@ -5,7 +5,6 @@ int unitsDeployedCount = 0;
 BattleWindow::BattleWindow(){
     user1 = User("Adi");
     window = nullptr;
-    
 }
 
 int BattleWindow:: runWindow() // Used prompt to do deployment (Not my part)
@@ -43,6 +42,7 @@ int BattleWindow:: runWindow() // Used prompt to do deployment (Not my part)
                             user1.deploy(unitsDeployedCount, deployPos); // Pass index and position
 
                             unitsDeployedCount++;
+                            unitToDeploy->useAttack();
                             std::cout << "Successfully deployed unit. Total deployed: " << unitsDeployedCount << "/" << MAX_UNITS << std::endl;
                         } else if (unitToDeploy == nullptr) {
                              std::cout << "Cannot deploy: Unit at index " << unitsDeployedCount << " is null." << std::endl;

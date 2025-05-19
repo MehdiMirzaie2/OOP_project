@@ -2,6 +2,9 @@
 #define UNIT_HPP
 #include <iostream>
 #include "Entity.hpp"
+#include "Attack.hpp"
+#include <SFML/System/Clock.hpp>
+#include <SFML/System/Time.hpp>
 
 const sf::Vector2f UNITSIZE(0.38, 0.38);
 
@@ -12,7 +15,10 @@ class Unit : public Entity
 		sf::Texture texture;
 		sf::Sprite skin;
 		bool isPicked;
-		
+		Attack* attacks;
+		bool isAttacking;
+		sf::Clock attackClock;
+		sf::Time attackCooldown;
 
        // Weapon* weapon; // to be implemente
 
@@ -30,7 +36,10 @@ class Unit : public Entity
 		// setters
         void setHP(float newHP);
 		void updateSpriteLoc();
-		
+		void useAttack();
+		void attemptShooting();
+
+
 		void draw(sf::RenderWindow* window);
 };
 

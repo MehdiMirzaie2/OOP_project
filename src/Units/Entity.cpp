@@ -8,11 +8,16 @@ Entity::Entity(float dmg, float loc_x, float loc_y, float spd, float radius_atk,
     damage = dmg;
     speed = spd;
     radius_of_attack = radius_atk;
+    isActive = false;
     cost = cst;
 }
 
 void Entity::setisActive(bool active){isActive = active;};
 bool Entity::getisActive(){return isActive;};
+
+sf::Vector2f Entity::getFloatLoc(){
+    return sf::Vector2f(location.x, location.y);
+}
 
 void Entity::setLocation(sf::Vector2i newloc) { location = newloc; };
 sf::Vector2i Entity::getLocation() { return location; };

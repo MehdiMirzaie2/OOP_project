@@ -27,6 +27,7 @@ public:
     //getters
     float getDamage();
     sf::Vector2i getLocation();
+    sf::Vector2f getFloatLoc();
     float getSpeed();
     float getRadius_of_attack();
     int getCost();

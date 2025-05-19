@@ -1,21 +1,30 @@
 #include "../../include/Unit.hpp"
 #include "UnitBuilder.hpp"
 
-
+#include <chrono>
+#include <thread>
 
 Unit::Unit() : Entity() {};
 
 Unit::Unit(float dmg, float loc_x, float loc_y, float spd, float radius_atk, int cst, int hp, std::string textureName) : Entity(dmg, loc_x, loc_y, spd, radius_atk, cst), HP(hp), isPicked(false)
-{   // Sync sprite & user pos
-    if (!texture.loadFromFile("src/Textures/" + std::string(textureName))){
+{ // Sync sprite & user pos
+    if (!texture.loadFromFile("src/Textures/" + std::string(textureName)))
+    {
         std::cout << "Unable to load texture!\n";
     }
-    
+    attacks = new Attack[5];
     skin.setTexture(texture);
-    skin.setScale(UNITSIZE); //fefsf
+    skin.setScale(UNITSIZE); // fefsf
     updateSpriteLoc();
+    isAttacking = false;
+    attackCooldown = sf::seconds(1);
 };
 
+void Unit::useAttack()
+{ // Use all 100 attack sprites
+    
+    isAttacking = true;
+}
 
 float Unit::getHP()
 {
@@ -32,9 +41,35 @@ void Unit::updateSpriteLoc()
     skin.setPosition(sf::Vector2f(this->getLocation().x, this->getLocation().y));
 }
 
-
-void Unit::draw(sf::RenderWindow* window){
+void Unit::draw(sf::RenderWindow *window)
+{
     updateSpriteLoc();
     window->draw(skin);
+
+    if (isAttacking){
+       attemptShooting();
+    }
+    for (int i = 0; i < 5; i++)
+    {
+        if (attacks[i].getisActive())
+        {
+            attacks[i].move();
+            attacks[i].draw(window);
+        }
+    }
 }
 
+void Unit::attemptShooting()
+{   
+     if (attackClock.getElapsedTime() >= attackCooldown){
+         for (int i = 0; i < 5; i++)
+        {
+            if (!attacks[i].getisActive())
+            {
+                attackClock.restart();
+                attacks[i].shoot(this->getFloatLoc());
+                break;
+            }
+        }
+     }
+}
