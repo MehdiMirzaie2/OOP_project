@@ -21,6 +21,7 @@ class Unit : public Entity
 		sf::Clock attackClock;
 		sf::Time attackCooldown;
 		bool isDead; 
+		sf::Texture deadTexture;
        // Weapon* weapon; // to be implemente
 
 	public:
@@ -33,6 +34,7 @@ class Unit : public Entity
 		// getters
         float getHP();
 		bool getisDead();
+		sf::Sprite getSkin();
 		std::vector<Attack> getAttacks();
 
 		// setters

@@ -4,7 +4,7 @@
 
 Attack::Attack()
 {
-    if (!texture.loadFromFile("src/Textures/vecteezy_archer-arrow-icon-png_21126813.png")){
+    if (!texture.loadFromFile("arrow.png")){
         std:: cout << "Unable to load texture\n";
     }
     isActive = false;
@@ -12,6 +12,20 @@ Attack::Attack()
     speed = 2;
     sprite.setTexture(texture);
     sprite.setScale(0.005f, 0.005f);
+    owner = nullptr;
+}
+
+Attack::Attack(Unit* owner)
+{
+    if (!texture.loadFromFile("arrow.png")){
+        std:: cout << "Unable to load texture\n";
+    }
+    isActive = false;
+    damage = 20;
+    speed = 2;
+    sprite.setTexture(texture);
+    sprite.setScale(0.005f, 0.005f);
+    this->owner = owner;
 }
 
 void Attack::shoot(sf::Vector2f shooting_location)
@@ -43,7 +57,10 @@ bool Attack::isHit(std::vector<Unit*> unitlist)
 {
     sf::FloatRect collision_box = sprite.getGlobalBounds();
     for(long unsigned int i = 0; i < unitlist.size(); i++){
-        if (collision_box.contains(unitlist[i]->getFloatLoc())){
+        if (owner == unitlist[i]){
+            continue;
+        }
+        if (collision_box.intersects(unitlist[i]->getSkin().getGlobalBounds())){
             isActive = false;
             unitlist[i]->takeDamage(*this);
             std:: cout << "HIT!!\n";
@@ -51,4 +68,9 @@ bool Attack::isHit(std::vector<Unit*> unitlist)
         }
     }
     return false;
+}
+
+std:: string Attack::describe(){
+    std:: string exist = "The attack is exist!\n";
+    return exist;
 }

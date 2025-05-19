@@ -10,15 +10,16 @@ class Attack : public Drawable
 // demo class for testing , might use for MVP
 {
     private:
-     
         sf::Texture texture;
         sf::Sprite sprite;
         int speed;
         bool isActive;
         int damage;
+        Unit* owner;
 
     public:
         Attack();
+        Attack(Unit* owner);
         void move();
         bool getisActive();
         void draw(sf::RenderWindow* window);
@@ -26,6 +27,7 @@ class Attack : public Drawable
         void shoot(sf::Vector2f shooting_location);
         int getDamage();
         bool isHit(std::vector<Unit*> unitlist);
+        std:: string describe();
 };
 
 #endif // ATTACK_HPP_

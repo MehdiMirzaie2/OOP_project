@@ -16,14 +16,17 @@ Unit::Unit(float dmg, float loc_x, float loc_y, float spd, float radius_atk, int
     }
     attacks.resize(5);
     for (int i = 0; i < 5; i++){
-        attacks[i] = Attack();
+        attacks[i] = Attack(this);
+    }
+    if (!deadTexture.loadFromFile("src/Textures/death.png")){
+        std:: cout << "Couldnt load death soul\n";
     }
     skin.setTexture(texture);
     skin.setScale(UNITSIZE); 
     updateSpriteLoc();
     isAttacking = false;
     attackCooldown = sf::seconds(1);
-    isDead = true;
+    isDead = false;
 };
 
 std::vector<Attack*> Unit::active_attacks = {};
@@ -76,6 +79,8 @@ std::vector<Attack> Unit::getAttacks(){
     return attacks;
 }
 
+sf::Sprite Unit::getSkin(){return skin;}
+
 void Unit::attemptShooting()
 {   
      if (attackClock.getElapsedTime() >= attackCooldown){
@@ -86,6 +91,7 @@ void Unit::attemptShooting()
                 attackClock.restart();
                 attacks[i].shoot(this->getFloatLoc());
                 active_attacks.push_back(&attacks[i]);
+                std:: cout << "Attack added: " << active_attacks[active_attacks.size() - 1]->describe() << std:: endl;
                 break;
             }
         }
@@ -93,10 +99,8 @@ void Unit::attemptShooting()
 }
 
 void Unit::dead(){
-    if (!texture.loadFromFile("src/Textures/death.png")){
-        std:: cout << "Couldnt load death soul\n";
-    }
-    skin.setTexture(texture);
+    
+    skin.setTexture(deadTexture);
     isDead = true;
 }
 
@@ -113,11 +117,13 @@ void Unit::dying_animation()
 
 void Unit::takeDamage(Attack attack)
 {
+    if (HP <= 0){
+        dead();
+        return;
+    }
     std:: cout << "Original HP: " << HP << std:: endl;
     this->HP -= attack.getDamage();
     std:: cout << "Remaining HP: " << HP << std:: endl;
 
-    if (HP <= 0){
-        dead();
-    }
+    
 }
