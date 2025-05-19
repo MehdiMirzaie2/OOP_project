@@ -18,6 +18,8 @@ class BattleWindow : public Window
 	User user2;
 	int num_deployed[2] = {0, 0};
 
+	std::vector<units *>;
+
 	void loadDecks();
 	void deploye(sf::Event);
 
