@@ -13,11 +13,13 @@ class BattleWindow : public Window
         Map gameMap;
         Director director;
         User user1; // bad design, must be passed from the game class, currently here for demo deployment
-
+        std::vector <Unit*> active_units; // units that are spawned currently
+       
     public:
         BattleWindow();
         void draw_all(sf::RenderWindow* window);
         int runWindow();
+        void checkCollisions();
 };
 
 

@@ -5,6 +5,7 @@
 #include "Attack.hpp"
 #include <SFML/System/Clock.hpp>
 #include <SFML/System/Time.hpp>
+#include <vector>
 
 const sf::Vector2f UNITSIZE(0.38, 0.38);
 
@@ -15,15 +16,15 @@ class Unit : public Entity
 		sf::Texture texture;
 		sf::Sprite skin;
 		bool isPicked;
-		Attack* attacks;
+		std::vector<Attack> attacks;
 		bool isAttacking;
 		sf::Clock attackClock;
 		sf::Time attackCooldown;
-
+		bool isDead; 
        // Weapon* weapon; // to be implemente
 
 	public:
-
+		static std::vector<Attack*> active_attacks;
 		// initialisers
 		Unit();
 		Unit(float dmg, float loc_x, float loc_y, float spd, float radius_atk, int cst, int hp, std::string textureName); //unit builder has the values for the unit
@@ -31,7 +32,8 @@ class Unit : public Entity
 
 		// getters
         float getHP();
-
+		bool getisDead();
+		std::vector<Attack> getAttacks();
 
 		// setters
         void setHP(float newHP);
@@ -39,6 +41,9 @@ class Unit : public Entity
 		void useAttack();
 		void attemptShooting();
 
+		void dead();
+		void dying_animation();
+		void takeDamage(Attack attack);
 
 		void draw(sf::RenderWindow* window);
 };

@@ -5,10 +5,12 @@ int unitsDeployedCount = 0;
 BattleWindow::BattleWindow(){
     user1 = User("Adi");
     window = nullptr;
+    active_units = {};
 }
 
 int BattleWindow:: runWindow() // Used prompt to do deployment (Not my part)
 {
+    
     Deck* unitDeck = user1.getDeck();
     std::cout << "Populating deck initially..." << std::endl;
     for(int i = 0; i < MAX_UNITS; i++){
@@ -40,7 +42,7 @@ int BattleWindow:: runWindow() // Used prompt to do deployment (Not my part)
                                       << " at (" << deployPos.x << ", " << deployPos.y << ")" << std::endl;
 
                             user1.deploy(unitsDeployedCount, deployPos); // Pass index and position
-
+                            active_units.push_back(unitToDeploy);
                             unitsDeployedCount++;
                             unitToDeploy->useAttack();
                             std::cout << "Successfully deployed unit. Total deployed: " << unitsDeployedCount << "/" << MAX_UNITS << std::endl;
@@ -66,6 +68,20 @@ int BattleWindow:: runWindow() // Used prompt to do deployment (Not my part)
 
 void BattleWindow::draw_all(sf::RenderWindow* window){
     gameMap.draw(window);
+    checkCollisions();
     user1.draw(window);
+
+   
+    
+}
+
+void BattleWindow::checkCollisions()
+{
+    for(long unsigned int i = 0; i < Unit::active_attacks.size(); i++)
+    {
+        if (Unit::active_attacks[i]->isHit(active_units)){
+            std:: cout << "Attack hit detected\n";
+        };
+    }
 }
 

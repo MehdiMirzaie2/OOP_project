@@ -4,6 +4,8 @@
 #include <chrono>
 #include <thread>
 
+#define SOUL_SPEED 2
+
 Unit::Unit() : Entity() {};
 
 Unit::Unit(float dmg, float loc_x, float loc_y, float spd, float radius_atk, int cst, int hp, std::string textureName) : Entity(dmg, loc_x, loc_y, spd, radius_atk, cst), HP(hp), isPicked(false)
@@ -12,16 +14,22 @@ Unit::Unit(float dmg, float loc_x, float loc_y, float spd, float radius_atk, int
     {
         std::cout << "Unable to load texture!\n";
     }
-    attacks = new Attack[5];
+    attacks.resize(5);
+    for (int i = 0; i < 5; i++){
+        attacks[i] = Attack();
+    }
     skin.setTexture(texture);
-    skin.setScale(UNITSIZE); // fefsf
+    skin.setScale(UNITSIZE); 
     updateSpriteLoc();
     isAttacking = false;
     attackCooldown = sf::seconds(1);
+    isDead = true;
 };
 
+std::vector<Attack*> Unit::active_attacks = {};
+
 void Unit::useAttack()
-{ // Use all 100 attack sprites
+{ // Use all attack sprites
     
     isAttacking = true;
 }
@@ -39,6 +47,11 @@ void Unit::setHP(float newHP)
 void Unit::updateSpriteLoc()
 {
     skin.setPosition(sf::Vector2f(this->getLocation().x, this->getLocation().y));
+}
+
+bool Unit::getisDead()
+{
+    return isDead;
 }
 
 void Unit::draw(sf::RenderWindow *window)
@@ -59,6 +72,10 @@ void Unit::draw(sf::RenderWindow *window)
     }
 }
 
+std::vector<Attack> Unit::getAttacks(){
+    return attacks;
+}
+
 void Unit::attemptShooting()
 {   
      if (attackClock.getElapsedTime() >= attackCooldown){
@@ -68,8 +85,39 @@ void Unit::attemptShooting()
             {
                 attackClock.restart();
                 attacks[i].shoot(this->getFloatLoc());
+                active_attacks.push_back(&attacks[i]);
                 break;
             }
         }
      }
+}
+
+void Unit::dead(){
+    if (!texture.loadFromFile("src/Textures/death.png")){
+        std:: cout << "Couldnt load death soul\n";
+    }
+    skin.setTexture(texture);
+    isDead = true;
+}
+
+// take damage from attack
+
+void Unit::dying_animation()
+{
+    // MAKES THE SOUL MOVE UP
+    // if (isDead){
+    //     skin.move(SOUL_SPEED);
+        
+    // }
+}
+
+void Unit::takeDamage(Attack attack)
+{
+    std:: cout << "Original HP: " << HP << std:: endl;
+    this->HP -= attack.getDamage();
+    std:: cout << "Remaining HP: " << HP << std:: endl;
+
+    if (HP <= 0){
+        dead();
+    }
 }
