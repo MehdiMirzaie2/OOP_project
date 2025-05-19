@@ -1,26 +1,15 @@
 #include <SFML/Graphics.hpp>
 
 int main() {
-    sf::RenderWindow window(sf::VideoMode(1200, 800), "mover circle");
+    sf::RenderWindow window(sf::VideoMode(1200, 800), "place and move");
 
-    // texture 
-    sf::Texture unitTexture;
-    if (!unitTexture.loadFromFile("ranger2.png")) { // <-- image same folder
-        return 1; // not found, exit
-    }
-    sf::Sprite unitSprite(unitTexture);
-    unitSprite.setScale(0.2f, 0.2f); // scale to fit, adjust size
-    unitSprite.setPosition(-100, -100); // start off screen, until mouse click
+    sf::CircleShape unit(25);
+    unit.setFillColor(sf::Color::Magenta);
 
-    float unitX = -100;
+    float unitX = -100; // off-screen start
     float unitY = -100;
     bool placed = false;
     bool moving = false;
-
-    // center origin
-    sf::Vector2u texSize = unitTexture.getSize();
-    float spriteWidth = texSize.x * 0.2f;
-    unitSprite.setOrigin(texSize.x / 2.0f, texSize.y / 2.0f);
 
     while (window.isOpen()) {
         sf::Event event;
@@ -28,11 +17,11 @@ int main() {
             if (event.type == sf::Event::Closed)
                 window.close();
 
-            // mouse click put sprite
+            // mouse click, go
             if (!placed && event.type == sf::Event::MouseButtonPressed && event.mouseButton.button == sf::Mouse::Left) {
-                unitX = event.mouseButton.x;
-                unitY = event.mouseButton.y;
-                unitSprite.setPosition(unitX, unitY);
+                unitX = event.mouseButton.x - unit.getRadius();
+                unitY = event.mouseButton.y - unit.getRadius();
+                unit.setPosition(unitX, unitY);
                 placed = true;
                 moving = true;
             }
@@ -40,17 +29,17 @@ int main() {
 
         // move horizontally
         if (moving) {
-            unitX += 0.2f; // moving speed
-            if (unitX > window.getSize().x - spriteWidth / 2.0f) {
-                unitX = window.getSize().x - spriteWidth / 2.0f;
+            unitX += 0.2f;
+            if (unitX > window.getSize().x - unit.getRadius() * 2) {
+                unitX = window.getSize().x - unit.getRadius() * 2;
                 moving = false;
             }
-            unitSprite.setPosition(unitX, unitY);
+            unit.setPosition(unitX, unitY);
         }
 
         window.clear(sf::Color(100, 200, 100));
         if (placed)
-            window.draw(unitSprite);
+            window.draw(unit);
         window.display();
     }
 
