@@ -26,24 +26,61 @@ int board[18][30]  = {
 
 BattleWindow::BattleWindow(){
     user1 = User("Adi");
+    user2 = User("Mehdi");
     window = nullptr;
+    m_turn = 0;
     
+}
+
+void BattleWindow::loadDecks() {
+	//int numb
+	for (int i = 0; i < 2; i++) {
+		Deck* unitDeck = (i == 0) ? user1.getDeck() : user2.getDeck();
+		
+		for(int i = 0; i < MAX_UNITS; i++) {
+        		Unit* newUnit = director.buildRanger();
+        		
+			if (newUnit)
+				unitDeck->addUnit(newUnit); // addUnit should handle current_no_units
+        		else 
+            			std::cerr << "Failed to build ranger for deck population." << std::endl;
+    		}
+
+	}
+}
+
+
+void BattleWindow::deploye(sf::Event event) {
+	
+
+	if (num_deployed[m_turn] < 5) {
+		std::cout << "this is user " << m_turn << "\n";
+		User *user = (m_turn == 0) ? &user1 : &user2;
+		//std::cout << user << std::endl;
+		Deck* unitDeck = user->getDeck();
+		Unit* unitToDeploy = unitDeck->getUnits()[num_deployed[m_turn]];
+
+       		if (unitToDeploy != nullptr && !unitToDeploy->getisActive()) {
+          		sf::Vector2i deployPos(event.mouseButton.x, event.mouseButton.y);
+          
+
+          		user->deploy(num_deployed[m_turn], deployPos); // Pass index and position
+
+			num_deployed[m_turn]++;
+			m_turn = (m_turn == 0) ? 1 : 0;
+       		}
+	} else {
+		std::cout << "player " << m_turn << " has deployed " << num_deployed[m_turn] << "\n";
+	 }	
 }
 
 int BattleWindow:: runWindow() // Used prompt to do deployment (Not my part)
 {
-    Deck* unitDeck = user1.getDeck();
-    std::cout << "Populating deck initially..." << std::endl;
-    for(int i = 0; i < MAX_UNITS; i++){
-        Unit* newUnit = director.buildRanger();
-        if (newUnit) {
-            unitDeck->addUnit(newUnit); // addUnit should handle current_no_units
-            std::cout << "Added unit " << i << " to deck. Initial loc: " << newUnit->getLocation().x << "," << newUnit->getLocation().y << " Active: " << newUnit->getisActive() << std::endl;
-        } else {
-            std::cerr << "Failed to build ranger for deck population." << std::endl;
-        }
-    }
 
+    std::cout << "Populating deck initially..." << std::endl;
+	loadDecks();
+    //Deck* unitDeck = user1.getDeck();
+    
 
 
 
@@ -57,40 +94,16 @@ int BattleWindow:: runWindow() // Used prompt to do deployment (Not my part)
 
             if (event.type == sf::Event::MouseButtonReleased){
                 if (event.mouseButton.button == sf::Mouse::Left){
-                    if (unitsDeployedCount < MAX_UNITS) {
-                        // Deploy the unit at index 'unitsDeployedCount'
-                        Unit* unitToDeploy = unitDeck->getUnits()[unitsDeployedCount];
-
-                        if (unitToDeploy != nullptr && !unitToDeploy->getisActive()) {
-
-			//int deploy_x = event.mouseButton.x / 30;
-			//int deploy_y = event.mouseButton.y / 30;
-
-                          //  sf::Vector2i deployPos(deploy_x, deploy_y);
-                            sf::Vector2i deployPos(event.mouseButton.x, event.mouseButton.y);
-                            std::cout << "Attempting to deploy unit " << unitsDeployedCount
-                                      << " at (" << deployPos.x << ", " << deployPos.y << ")" << std::endl;
-
-                            user1.deploy(unitsDeployedCount, deployPos); // Pass index and position
-
-                            unitsDeployedCount++;
-                            std::cout << "Successfully deployed unit. Total deployed: " << unitsDeployedCount << "/" << MAX_UNITS << std::endl;
-                        } else if (unitToDeploy == nullptr) {
-                             std::cout << "Cannot deploy: Unit at index " << unitsDeployedCount << " is null." << std::endl;
-                        }
-                        // If unitToDeploy is already active, it means something is off with tracking unitsDeployedCount
-                        // or units are being activated elsewhere. For this dev fix, we assume it's not active.
-
-                    } else {
-                        std::cout << "All " << MAX_UNITS << " units have been deployed. No more deployments allowed." << std::endl;
-                    }
-                }
+			std::cout << "calling delpue\n";
+			deploye(event);
+						
             }
         }
 
         //window->clear(sf::Color::Black); // Clear with a distinct color for debugging
         draw_all(window);
         //window->display();
+    }
     }
     return 0;
 }
@@ -99,7 +112,8 @@ void BattleWindow::draw_all(sf::RenderWindow* window){
     window->clear();
 	gameMap.draw(window);
 
-    user1.draw(window);
+    user2.draw(window);
+	user1.draw(window);
 window->display();
 }
 

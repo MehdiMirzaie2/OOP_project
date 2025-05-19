@@ -99,7 +99,6 @@ void Deck::setIsPicked(int pick){
     isPicked[pick] = true;
 }
 void Deck::addUnit(Unit* unit){
-std::cout << unit->getHP();
     if (current_no_units < 5){
         units.push_back(unit);
         current_no_units++;
