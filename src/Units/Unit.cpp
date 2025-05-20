@@ -46,3 +46,25 @@ void Unit::draw(sf::RenderWindow* window){
     window->draw(skin);
 }
 
+sf::Sprite Unit::getSprite() {
+	return skin;
+}
+
+
+void Unit::moveIfPicked(sf::Vector2i mouse_pos) {
+	if (isPicked) {
+		sf::Vector2i location(
+			mouse_pos.x - dydx.x,					
+			mouse_pos.y - dydx.y
+		);
+		setLocation(location);
+	}
+}
+
+void Unit::setIsPicked(bool status) {
+	isPicked = status;
+}
+
+void Unit::setDydx(sf::Vector2i _dydx) {
+	dydx = _dydx;
+}

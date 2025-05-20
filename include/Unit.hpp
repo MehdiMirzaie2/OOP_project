@@ -8,10 +8,12 @@ const sf::Vector2f UNITSIZE(-(30.f / 130.f), 30.f / 135.f);
 class Unit : public Entity
 {
 	protected:
-        float HP;
+        	float HP;
 		sf::Texture texture;
 		sf::Sprite skin;
 		bool isPicked;
+		sf::Vector2i deckPos;
+		sf::Vector2i dydx;
 		
 
        // Weapon* weapon; // to be implemente
@@ -33,6 +35,12 @@ class Unit : public Entity
 	void updateSpriteLoc();
 		
 		void draw(sf::RenderWindow* window);
+	sf::Sprite getSprite();
+
+	void setDydx(sf::Vector2i);
+	void setIsPicked(bool);
+	void moveIfPicked(sf::Vector2i);
+		//bool unitSellected(
 };
 
 #endif

@@ -33,29 +33,11 @@ BattleWindow::BattleWindow(){
     m_turn = 0;
     
 }
-/*
-void BattleWindow::loadDecks() {
-	//int numb
-	for (int i = 0; i < 2; i++) {
-		Deck* unitDeck = (i == 0) ? user1.getDeck() : user2.getDeck();
-		
-		for(int i = 0; i < MAX_UNITS; i++) {
-        		Unit* newUnit = director.buildRanger();
-        		
-			if (newUnit)
-				unitDeck->addUnit(newUnit); // addUnit should handle current_no_units
-        		else 
-            			std::cerr << "Failed to build ranger for deck population." << std::endl;
-    		}
 
-	}
-}
-*/
 
 void BattleWindow::deploye(sf::Event event) {
-	
-
 	if (num_deployed[m_turn] < 5) {
+
 		std::cout << "this is user " << m_turn << "\n";
 		User *user = (m_turn == 0) ? &user1 : &user2;
 		//std::cout << user << std::endl;
@@ -83,6 +65,40 @@ void BattleWindow::deploye(sf::Event event) {
 	 }	
 }
 
+void BattleWindow::selectUnit(sf::Event event) {
+	//(void)event;
+	User *user = (m_turn == 0) ? &user1 : &user2;
+	Deck *deck = user->getDeck();
+
+	//sf::Vector2i mouse_pos = sf::Mouse::getPosition(this->window);
+	std::cout << "sellecting units\n";
+
+	std::cout << event.mouseButton.x << " " << event.mouseButton.y << std::endl;
+	for (auto unit: deck->getUnits()) {
+		std::cout << "checking if sprte was slected\n";
+		sf::Sprite sprite = unit->getSprite();
+		std::cout << sprite.getPosition().x << " " << sprite.getPosition().y << std::endl;
+		if (sprite.getGlobalBounds().contains(event.mouseButton.x, event.mouseButton.y)) {			
+			unit->setIsPicked(true);
+			//int dx = event.mouseButton.x - sprite.getPosition().x;
+			//int dy = event.mouseButton.y - sprite.getPosition().y;
+			//sf::Vector2i location(event.mouseButton.x - dx, event.mouseButton.y - dy);
+			//unit->setLocation(location);
+			std::cout << "updated location for a unit\n";
+			
+			//unit.isPicked = true;
+
+sf::Vector2i location(
+					event.mouseButton.x - sprite.getPosition().x,
+					event.mouseButton.y - sprite.getPosition().y
+			);
+			unit->setDydx(location);
+		}
+
+	}
+	std::cout << "\n\n";
+}
+
 int BattleWindow:: runWindow() // Used prompt to do deployment (Not my part)
 {
 
@@ -93,11 +109,18 @@ int BattleWindow:: runWindow() // Used prompt to do deployment (Not my part)
 	//this->window = new sf::RenderWindow(sf::VideoMode(910,560), "BattleWindow");
 	this->window = new sf::RenderWindow(sf::VideoMode(1110,560), "BattleWindow");
 	while(window->isOpen()){
+		sf::Vector2i mouse_pos = sf::Mouse::getPosition(*(this->window));
         	sf::Event event;
 
 		while(window->pollEvent(event)){
             		if (event.type == sf::Event::Closed)
 				window->close();
+
+			if (event.type == sf::Event::MouseButtonReleased) {
+				if (event.mouseButton.button == sf::Mouse::Left) {
+					selectUnit(event);
+				}
+			}
 
             		if (event.type == sf::Event::MouseButtonReleased){
                 		if (event.mouseButton.button == sf::Mouse::Left){
@@ -107,8 +130,8 @@ int BattleWindow:: runWindow() // Used prompt to do deployment (Not my part)
         		}
     		}
 		draw_all(window);
-		user1.update();
-		user2.update();
+		user1.update(mouse_pos);
+		user2.update(mouse_pos);
     	}
     return 0;
 }

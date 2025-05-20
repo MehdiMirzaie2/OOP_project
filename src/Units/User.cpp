@@ -26,8 +26,12 @@ Elixir* User::getElixir() {
 	return m_elixir;
 }
 
-void User::update() {
+void User::update(sf::Vector2i mouse_pos) {
 	m_elixir->update();
+
+	for (auto unit: unitDeck->getUnits()) {
+		unit->moveIfPicked(mouse_pos);
+	}
 }
 
 void User::setLosses(int l){
@@ -84,3 +88,5 @@ void User::deploy(int index, sf::Vector2i dep_loc)
     std:: cout << "UNITS LOCATION: " << unit->getLocation().x << std::endl;
     unit->setisActive(true);
 }
+
+

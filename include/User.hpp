@@ -37,7 +37,7 @@ class User{
         void setName(std:: string new_name);
         void setElixir(int new_elixir);
        
-       	void update();	
+       	void update(sf::Vector2i);	
         void draw(sf::RenderWindow* window);
 
 

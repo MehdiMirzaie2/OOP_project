@@ -23,6 +23,7 @@ class BattleWindow : public Window
 	std::vector<Unit *> user2_units;
 	void loadDecks();
 	void deploye(sf::Event);
+	void selectUnit(sf::Event);
 //void deploy(int index, sf::Vector2i d_loc);
 
     public:
