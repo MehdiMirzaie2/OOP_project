@@ -77,8 +77,10 @@ void BattleWindow::deploye(sf::Event event) {
 
 
    			int col = event.mouseButton.x / 30, row = event.mouseButton.y / 30;
+			
 
-			if (board[row][col] != -1) {
+
+			if (board[row][col] != -1 && ((m_turn == 0 && col < 14) || (m_turn == 1 && col > 15))) {
 				//Unit* unit = user->unitDeck()getUnits()[num_deployed[m_turn]];
 				sf::Vector2i a = sf::Vector2i(col * 30, row * 30);
 				unitToDeploy->setLocation(a);
