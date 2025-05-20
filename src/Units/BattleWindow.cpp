@@ -80,13 +80,14 @@ void BattleWindow::deploye(sf::Event event) {
 			
 
 
-			if (board[row][col] != -1 && ((m_turn == 0 && col < 14) || (m_turn == 1 && col > 15))) {
+			if (board[row][col] == 0 && ((m_turn == 0 && col < 14) || (m_turn == 1 && col > 15))) {
 				//Unit* unit = user->unitDeck()getUnits()[num_deployed[m_turn]];
 				sf::Vector2i a = sf::Vector2i(col * 30, row * 30);
 				unitToDeploy->setLocation(a);
 				unitToDeploy->setisActive(true);
 				m_turn = (m_turn == 0) ? 1 : 0;	
 				num_deployed[m_turn]++;
+				board[row][col] = 2; // should be enums 
 			}
 
 			
