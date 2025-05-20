@@ -1,0 +1,35 @@
+#include "../../include/Entity.hpp"
+
+Entity::Entity(){}; // does nothing atm because I dont know what to put as the default values yet.
+
+Entity::Entity(float dmg, float loc_x, float loc_y, float spd, float radius_atk, int cst)
+{
+    location = sf::Vector2i(loc_x, loc_y);
+    damage = dmg;
+    speed = spd;
+    radius_of_attack = radius_atk;
+    isActive = false;
+    cost = cst;
+}
+
+void Entity::setisActive(bool active){isActive = active;};
+bool Entity::getisActive(){return isActive;};
+
+sf::Vector2f Entity::getFloatLoc(){
+    return sf::Vector2f(location.x, location.y);
+}
+
+void Entity::setLocation(sf::Vector2i newloc) { location = newloc; };
+sf::Vector2i Entity::getLocation() { return location; };
+
+float Entity::getDamage() { return damage; };
+void Entity::setDamage(float new_dmg) { damage = new_dmg; };
+
+float Entity::getSpeed() { return speed; };
+void Entity::setSpeed(float new_sp) { speed = new_sp; };
+
+float Entity::getRadius_of_attack() { return radius_of_attack; };
+void Entity::setRadius_of_attack(float radius) { radius_of_attack = radius; };
+
+int Entity::getCost() { return cost; };
+void Entity::setCost(int new_c) { cost = new_c; };
