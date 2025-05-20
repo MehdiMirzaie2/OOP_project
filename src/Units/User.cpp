@@ -12,6 +12,16 @@ User::User(std:: string name){
     unitDeck = new Deck();
 }
 
+User::User(std:: string name, int left_or_right){
+    this->name = name;
+    wins = 0;
+    losses = 0;
+    towers = nullptr;
+    king = nullptr;
+    m_elixir = new Elixir();
+    unitDeck = new Deck(left_or_right);
+}
+
 Elixir* User::getElixir() {
 	return m_elixir;
 }

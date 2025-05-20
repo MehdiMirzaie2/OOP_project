@@ -27,13 +27,13 @@ int board[18][30]  = {
 
 
 BattleWindow::BattleWindow(){
-    user1 = User("Adi");
-    user2 = User("Mehdi");
+    user1 = User("Adi", 0);
+    user2 = User("Mehdi", 1);
     window = nullptr;
     m_turn = 0;
     
 }
-
+/*
 void BattleWindow::loadDecks() {
 	//int numb
 	for (int i = 0; i < 2; i++) {
@@ -50,7 +50,7 @@ void BattleWindow::loadDecks() {
 
 	}
 }
-
+*/
 
 void BattleWindow::deploye(sf::Event event) {
 	

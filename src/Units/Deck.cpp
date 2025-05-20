@@ -1,16 +1,44 @@
 #include "../../include/Deck.hpp"
 
+Deck::Deck(int left_or_right)
+{
+	current_no_units = 0;
+	//isPicked = false;
+
+	int left_pos = (left_or_right == 0) ? 50 : 1090;
+
+	for (int i = 0; i < MAX_UNITS; ++i) {
+		/* not sure how to use builder */
+		Unit *new_unit = director.buildRanger();
+
+		if (new_unit) {
+			std::cout << "pushing unit\n";
+			sf::Vector2i location(left_pos, (50 * i) + 100);
+			new_unit->setLocation(location);
+			units.push_back(new_unit);
+
+		}
+		else
+			std::cerr << "failed to build unit\n";
+	}
+	std::cout << "built deck\n";
+}
+
 Deck::Deck()
 {
 	current_no_units = 0;
 	//isPicked = false;
 
 	for (int i = 0; i < MAX_UNITS; ++i) {
+		/* not sure how to use builder */
 		Unit *new_unit = director.buildRanger();
 
 		if (new_unit) {
 			std::cout << "pushing unit\n";
+			sf::Vector2i location(50, (50 * i) + 100);
+			new_unit->setLocation(location);
 			units.push_back(new_unit);
+
 		}
 		else
 			std::cerr << "failed to build unit\n";
@@ -96,13 +124,13 @@ Deck::Deck()
 //}
 
 void Deck::draw(sf::RenderWindow* window){
-    window->draw(rectangle);
-    window->draw(inner_recs);
+    //window->draw(rectangle);
+    //window->draw(inner_recs);
 
     for(int i = 0; i < MAX_UNITS; i++){
-        if (units[i]->getisActive()){
+        //if (units[i]->getisActive()){
             units[i]->draw(window);
-        }
+        //}
     }
 }
 

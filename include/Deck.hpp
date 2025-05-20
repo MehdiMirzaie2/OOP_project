@@ -20,6 +20,7 @@ class Deck : public Drawable{
 
     public:
         Deck();
+	Deck(int);
 
         //bool* getIsPicked();
         //void setIsPicked(int pick);

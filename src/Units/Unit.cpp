@@ -31,11 +31,15 @@ void Unit::setHP(float newHP)
     HP = newHP;
 }
 
+void Unit::updateLocation(sf::Vector2f location) {
+	skin.setPosition(location);
+}
+
+
 void Unit::updateSpriteLoc()
 {
     skin.setPosition(sf::Vector2f(this->getLocation().x, this->getLocation().y));
 }
-
 
 void Unit::draw(sf::RenderWindow* window){
     updateSpriteLoc();

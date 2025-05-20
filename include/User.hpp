@@ -20,7 +20,7 @@ class User{
         //initializers
         User();
         User(std:: string name);    
-
+	User(std::string name, int left_or_right);
         //getters
         int getWins();
         int getLosses();

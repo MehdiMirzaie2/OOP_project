@@ -29,7 +29,8 @@ class Unit : public Entity
 
 		// setters
         void setHP(float newHP);
-		void updateSpriteLoc();
+	void updateLocation(sf::Vector2f);
+	void updateSpriteLoc();
 		
 		void draw(sf::RenderWindow* window);
 };
