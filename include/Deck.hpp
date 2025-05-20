@@ -3,14 +3,15 @@
 
 
 #include "Unit.hpp"
-
+#include <vector>
 const int MAX_UNITS = 5;
 
 class Deck : public Drawable{
     private:
         sf::VertexArray rectangle;
         sf::VertexArray inner_recs;
-        Unit** units; 
+	std::vector<Unit *> units;
+	//Unit** units; 
         int current_no_units;
         bool* isPicked;
 
@@ -19,7 +20,7 @@ class Deck : public Drawable{
 
         bool* getIsPicked();
         void setIsPicked(int pick);
-        Unit** getUnits();
+	std::vector<Unit *> getUnits();
         void addUnit(Unit* unit);
         void replaceUnit(Unit* unit, Unit* to_be_replaced);
         void draw(sf::RenderWindow* window);

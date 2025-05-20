@@ -3,7 +3,7 @@
 Deck::Deck()
 {
     current_no_units = 0;
-    units = new Unit*[MAX_UNITS];
+    //units = new Unit*[MAX_UNITS];
     isPicked = new bool[MAX_UNITS];
     
      // --- Outer Rectangle (Deck Background) ---
@@ -87,7 +87,7 @@ void Deck::draw(sf::RenderWindow* window){
     }
 }
 
-Unit** Deck::getUnits(){
+std::vector<Unit *> Deck::getUnits(){
     return units;
 }
 
@@ -100,7 +100,7 @@ void Deck::setIsPicked(int pick){
 }
 void Deck::addUnit(Unit* unit){
     if (current_no_units < 5){
-        units[current_no_units] = unit;
+        units.push_back(unit);
         current_no_units++;
         std:: cout << "Unit added successfully\n";
         return;

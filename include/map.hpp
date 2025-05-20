@@ -10,6 +10,7 @@ const int TOWER_HEIGHT = 60;
 #include "Drawable.hpp"
 #include <unordered_map>
 #include <string>
+#include <vector>
 
 typedef std::pair<std::string, sf::RectangleShape> element;
 
@@ -20,6 +21,7 @@ class Map : public Drawable{
         std::unordered_map<std::string, sf::RectangleShape> elements;
 	sf::Sprite map_sprite;
 	sf::Texture map_texture;
+	std::vector<std::vector<int>> map_grid;
        
     public:
         Map();

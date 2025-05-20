@@ -10,9 +10,13 @@ Unit::Unit(float dmg, float loc_x, float loc_y, float spd, float radius_atk, int
     if (!texture.loadFromFile("src/Textures/" + std::string(textureName))){
         std::cout << "Unable to load texture!\n";
     }
-    
+    //std::cout << texture.size
     skin.setTexture(texture);
+    //skin.setTextureRect(sf::IntRect(50, 20, 100, 100));
+    skin.setScale(-1.f, 1.f);
+    
     skin.setScale(UNITSIZE); //fefsf
+	skin.setPosition(skin.getGlobalBounds().width, 0);
     updateSpriteLoc();
 };
 
