@@ -27,7 +27,7 @@ class Unit : public Entity
 
 		// getters
         float getHP();
-
+	bool getIsPicked();
 
 		// setters
         void setHP(float newHP);

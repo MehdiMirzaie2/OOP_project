@@ -167,3 +167,12 @@ void Deck::replaceUnit(Unit* unit, Unit* to_be_replaced){
     }
     std:: cout << "Unit to be replaced not found\n";
 }
+
+Unit *Deck::getPickedUnit() {
+	for (auto unit: units) {
+		if (unit->getIsPicked())
+			return unit;
+	}
+	return nullptr;
+}
+

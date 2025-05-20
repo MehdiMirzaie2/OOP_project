@@ -65,6 +65,10 @@ void Unit::setIsPicked(bool status) {
 	isPicked = status;
 }
 
+bool Unit::getIsPicked() {
+	return isPicked;
+}
+
 void Unit::setDydx(sf::Vector2i _dydx) {
 	dydx = _dydx;
 }

@@ -28,7 +28,7 @@ class Deck : public Drawable{
         void addUnit(Unit* unit);
         void replaceUnit(Unit* unit, Unit* to_be_replaced);
         void draw(sf::RenderWindow* window);
-        
+       	Unit *getPickedUnit(); 
 };
 
 #endif // DECK_HPP_
