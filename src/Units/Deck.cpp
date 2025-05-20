@@ -1,9 +1,55 @@
 #include "../../include/Deck.hpp"
 
+Deck::Deck(int left_or_right)
+{
+	current_no_units = 0;
+	//isPicked = false;
+
+	int left_pos = (left_or_right == 0) ? 50 : 1090;
+
+	for (int i = 0; i < MAX_UNITS; ++i) {
+		/* not sure how to use builder */
+		Unit *new_unit = director.buildRanger();
+
+		if (new_unit) {
+			std::cout << "pushing unit\n";
+			sf::Vector2i location(left_pos, (50 * i) + 100);
+			new_unit->setLocation(location);
+			units.push_back(new_unit);
+
+		}
+		else
+			std::cerr << "failed to build unit\n";
+	}
+	std::cout << "built deck\n";
+}
+
 Deck::Deck()
 {
+	current_no_units = 0;
+	//isPicked = false;
+
+	for (int i = 0; i < MAX_UNITS; ++i) {
+		/* not sure how to use builder */
+		Unit *new_unit = director.buildRanger();
+
+		if (new_unit) {
+			std::cout << "pushing unit\n";
+			sf::Vector2i location(50, (50 * i) + 100);
+			new_unit->setLocation(location);
+			units.push_back(new_unit);
+
+		}
+		else
+			std::cerr << "failed to build unit\n";
+	}
+	std::cout << "built deck\n";
+}
+
+
+/*
     current_no_units = 0;
-    units = new Unit*[MAX_UNITS];
+    //units = new Unit*[MAX_UNITS];
     isPicked = new bool[MAX_UNITS];
     
      // --- Outer Rectangle (Deck Background) ---
@@ -73,23 +119,25 @@ Deck::Deck()
           currentInnerRectPos.x += innerRectWidth + horizontalSpacing; 
       }
       // AI USED : GPT 4o PROMPT: these are the my game cpp files but the inner rectangles in user class are not visible
+      */
   
-}
+//}
 
 void Deck::draw(sf::RenderWindow* window){
-    window->draw(rectangle);
-    window->draw(inner_recs);
+    //window->draw(rectangle);
+    //window->draw(inner_recs);
 
     for(int i = 0; i < MAX_UNITS; i++){
-        if (units[i]->getisActive())
+        //if (units[i]->getisActive()){
             units[i]->draw(window);
+        //}
     }
 }
 
-Unit** Deck::getUnits(){
+std::vector<Unit *> Deck::getUnits(){
     return units;
 }
-
+/*
 bool* Deck::getIsPicked(){
     return isPicked;
 }
@@ -97,9 +145,10 @@ bool* Deck::getIsPicked(){
 void Deck::setIsPicked(int pick){
     isPicked[pick] = true;
 }
+*/
 void Deck::addUnit(Unit* unit){
     if (current_no_units < 5){
-        units[current_no_units] = unit;
+        units.push_back(unit);
         current_no_units++;
         std:: cout << "Unit added successfully\n";
         return;
@@ -118,3 +167,12 @@ void Deck::replaceUnit(Unit* unit, Unit* to_be_replaced){
     }
     std:: cout << "Unit to be replaced not found\n";
 }
+
+Unit *Deck::getPickedUnit() {
+	for (auto unit: units) {
+		if (unit->getIsPicked())
+			return unit;
+	}
+	return nullptr;
+}
+

@@ -7,7 +7,7 @@
 #include <SFML/System/Time.hpp>
 #include <vector>
 
-const sf::Vector2f UNITSIZE(0.3f, 0.3f);
+const sf::Vector2f UNITSIZE(-(30.f / 130.f), 30.f / 135.f);
 
 class Unit : public Entity
 {
@@ -25,6 +25,9 @@ class Unit : public Entity
 		bool isDead; 
 		sf::Texture deadTexture;
 		bool isMovingForward;
+		sf::Vector2i deckPos;
+		sf::Vector2i dydx;
+		
        // Weapon* weapon; // to be implemente
 
 	public:
@@ -52,7 +55,15 @@ class Unit : public Entity
 		void takeDamage(Attack attack);
 
 		void update(sf::Time time_passed);
+		void updateLocation(sf::Vector2f);
+		bool getIsPicked();
 		void draw(sf::RenderWindow* window);
+		sf::Sprite getSprite();
+
+		void setDydx(sf::Vector2i);
+		void setIsPicked(bool);
+		void moveIfPicked(sf::Vector2i);
+		//bool unitSellected(
 };
 
 #endif
