@@ -9,7 +9,7 @@ Deck::Deck(int left_or_right)
 
 	for (int i = 0; i < MAX_UNITS; ++i) {
 		/* not sure how to use builder */
-		Unit *new_unit = director.buildRanger();
+		Unit *new_unit = director.buildSwords();
 
 		if (new_unit) {
 			std::cout << "pushing unit\n";
@@ -31,7 +31,7 @@ Deck::Deck()
 
 	for (int i = 0; i < MAX_UNITS; ++i) {
 		/* not sure how to use builder */
-		Unit *new_unit = director.buildRanger();
+		Unit *new_unit = director.buildSwords();
 
 		if (new_unit) {
 			std::cout << "pushing unit\n";
