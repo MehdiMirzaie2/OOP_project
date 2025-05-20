@@ -54,6 +54,11 @@ void Unit::setHP(float newHP)
     HP = newHP;
 }
 
+void Unit::updateLocation(sf::Vector2f location) {
+	skin.setPosition(location);
+}
+
+
 void Unit::updateSpriteLoc()
 {
     skin.setPosition(sf::Vector2f(this->getLocation().x, this->getLocation().y));
@@ -161,4 +166,30 @@ void Unit::takeDamage(Attack attack)
     std:: cout << "Remaining HP: " << HP << std:: endl;
 
     
+}
+
+sf::Sprite Unit::getSprite() {
+	return skin;
+}
+
+void Unit::moveIfPicked(sf::Vector2i mouse_pos) {
+	if (isPicked) {
+		sf::Vector2i location(
+			mouse_pos.x - dydx.x,					
+			mouse_pos.y - dydx.y
+		);
+		setLocation(location);
+	}
+}
+
+void Unit::setIsPicked(bool status) {
+	isPicked = status;
+}
+
+bool Unit::getIsPicked() {
+	return isPicked;
+}
+
+void Unit::setDydx(sf::Vector2i _dydx) {
+	dydx = _dydx;
 }
