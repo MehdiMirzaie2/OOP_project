@@ -31,8 +31,25 @@ UnitBuilder &UnitBuilder::withCost(int new_c)
     return *this;
 };
 
-UnitBuilder &UnitBuilder::withTexture(std::string textureName)
+UnitBuilder &UnitBuilder::withIdleTexture(std::string IdletextureName)
 {
-    this->textureName = textureName;
+    this->textureIdle = IdletextureName;
     return *this;
+}
+
+UnitBuilder &UnitBuilder::withAttackingTexture(std::string attackingTextureName)
+{
+    this->textureAttacking = attackingTextureName;
+    return *this;
+}
+
+UnitBuilder &UnitBuilder::withProjectileTexture(std:: string projectileTexture)
+{
+    projectileTextureName = projectileTexture;
+    return *this;
+}
+
+Unit* UnitBuilder::build()
+{
+    return new Unit(damage, location.x, location.y, speed, radius_of_attack, cost, HP, textureIdle, textureAttacking, projectileTextureName);
 }

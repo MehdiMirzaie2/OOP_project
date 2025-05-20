@@ -7,31 +7,30 @@ class UnitBuilder // Provides interface for concrete unit builders
 {
    
     protected:
-        float HP;
-        float damage; 
+        float HP = 100; // 5 Ranged Attacks
+        float damage = 20;  
         sf::Vector2i location;
         //location = default location under unit inner recs
-        float speed;
-        float radius_of_attack;
-        int cost;
-        std::string textureName;
-
-       // Weapon* weapon; // To be implemented
+        float speed = 5;
+        float radius_of_attack = 20;
+        int cost = 2;
+        std::string textureIdle;
+        std::string textureAttacking;
+        std::string projectileTextureName;
 
     public: 
         
         // Builder Params
-        UnitBuilder& withTexture(std::string textureName);
+        UnitBuilder& withIdleTexture(std::string IdletextureName);
+        UnitBuilder& withAttackingTexture(std::string attackingTextureName);
         UnitBuilder& withHP(float hp);
         UnitBuilder&  withDamage(float new_dmg);
         UnitBuilder&  withSpeed(float new_sp);
         UnitBuilder&  withLocation(sf::Vector2i newloc);
         UnitBuilder&  withRadius_of_attack(float radius);
-        UnitBuilder&  withCost(int new_c); 
-        //virtual UnitBuilder& withWeapon(Weapon* new_weapon) = 0; // make abstract as it is different for each subbuilder.
-        
-        // Joining all the components
-        virtual Unit* build() = 0; 
+        UnitBuilder&  withCost(int new_c);  
+        UnitBuilder& withProjectileTexture(std:: string projectileTexture);
+        Unit* build();
 };
 
 #endif // UNITS_HEADER_UNITBUILDER_HPP_

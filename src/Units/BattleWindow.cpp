@@ -14,7 +14,7 @@ int BattleWindow:: runWindow() // Used prompt to do deployment (Not my part)
     Deck* unitDeck = user1.getDeck();
     std::cout << "Populating deck initially..." << std::endl;
     for(int i = 0; i < MAX_UNITS; i++){
-        Unit* newUnit = director.buildRanger();
+        Unit* newUnit = director.buildSwords();
         if (newUnit) {
             unitDeck->addUnit(newUnit); // addUnit should handle current_no_units
             std::cout << "Added unit " << i << " to deck. Initial loc: " << newUnit->getLocation().x << "," << newUnit->getLocation().y << " Active: " << newUnit->getisActive() << std::endl;
@@ -24,6 +24,7 @@ int BattleWindow:: runWindow() // Used prompt to do deployment (Not my part)
     }
     this->window = new sf::RenderWindow(sf::VideoMode(WINDOW_WIDTH,WINDOW_HEIGHT), "BattleWindow");
     while(window->isOpen()){
+        gameClock.restart();
         sf::Event event;
         while(window->pollEvent(event)){
             if (event.type == sf::Event::Closed){
@@ -44,7 +45,9 @@ int BattleWindow:: runWindow() // Used prompt to do deployment (Not my part)
                             user1.deploy(unitsDeployedCount, deployPos); // Pass index and position
                             active_units.push_back(unitToDeploy);
                             unitsDeployedCount++;
+                            unitToDeploy->startMovingForward();
                             unitToDeploy->useAttack();
+                            
                             std::cout << "Successfully deployed unit. Total deployed: " << unitsDeployedCount << "/" << MAX_UNITS << std::endl;
                         } else if (unitToDeploy == nullptr) {
                              std::cout << "Cannot deploy: Unit at index " << unitsDeployedCount << " is null." << std::endl;
@@ -58,6 +61,10 @@ int BattleWindow:: runWindow() // Used prompt to do deployment (Not my part)
                 }
             }
         }
+        
+        updateUnits(gameClock.getElapsedTime());
+        updateAttacks();
+        checkCollisions();
 
         window->clear(sf::Color::Black); // Clear with a distinct color for debugging
         draw_all(window);
@@ -66,13 +73,32 @@ int BattleWindow:: runWindow() // Used prompt to do deployment (Not my part)
     return 0;
 }
 
+void BattleWindow::updateUnits(sf::Time time_passed)
+{
+    for(Unit* unit : active_units){ // Updates all active units
+        if (unit->getisActive() && !unit->getisDead()){
+            unit->update(time_passed);
+        }
+    }
+}
+
+void BattleWindow::updateAttacks()
+{
+    for(Attack* attack : Unit::active_attacks){
+        attack->update();
+    }
+}
+
 void BattleWindow::draw_all(sf::RenderWindow* window){
     gameMap.draw(window);
-    checkCollisions();
-    user1.draw(window);
-
-   
     
+    user1.draw(window);   
+
+    for (Attack* attack_projectile : Unit::active_attacks) {
+        if (attack_projectile != nullptr && attack_projectile->getisActive()) {
+            attack_projectile->draw(window);
+        }
+    }
 }
 
 void BattleWindow::checkCollisions()

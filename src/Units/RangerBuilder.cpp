@@ -14,8 +14,10 @@ void RangerBuilder::setCustomization(std:: string customization)
 // sets the specific customization defaults, like if the string is 'Archer' sets archer specific stats and gives bow as the weapon.
 {
     // implement unordered map here
-    if (customization == "archer"){
-        textureName = "chr_archer_sprite_023.png";
+
+    if (customization == "Sword"){
+        textureIdle = "swordm1.png";
+        textureAttacking = "swordm2.png";
     }
     std:: cout << "Customization used: " << customization << std:: endl;
 };

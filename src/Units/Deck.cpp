@@ -81,13 +81,8 @@ void Deck::draw(sf::RenderWindow* window){
     window->draw(inner_recs);
 
     for(int i = 0; i < MAX_UNITS; i++){
-        if (units[i]->getisActive()){
-            // dying animation
-            // if (units[i].getisDead()){
-            //     //units[i].dying_animation();
-            // }
+        if (units[i]->getisActive())
             units[i]->draw(window);
-        }
     }
 }
 

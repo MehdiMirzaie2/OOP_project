@@ -7,13 +7,15 @@
 #include <SFML/System/Time.hpp>
 #include <vector>
 
-const sf::Vector2f UNITSIZE(0.38, 0.38);
+const sf::Vector2f UNITSIZE(0.3f, 0.3f);
 
 class Unit : public Entity
 {
 	protected:
         float HP;
-		sf::Texture texture;
+		sf::Texture unitTextureIdle;
+		sf::Texture unitTextureAttacking;
+		std:: string projectileTextureName;
 		sf::Sprite skin;
 		bool isPicked;
 		std::vector<Attack> attacks;
@@ -22,13 +24,14 @@ class Unit : public Entity
 		sf::Time attackCooldown;
 		bool isDead; 
 		sf::Texture deadTexture;
+		bool isMovingForward;
        // Weapon* weapon; // to be implemente
 
 	public:
 		static std::vector<Attack*> active_attacks;
 		// initialisers
 		Unit();
-		Unit(float dmg, float loc_x, float loc_y, float spd, float radius_atk, int cst, int hp, std::string textureName); //unit builder has the values for the unit
+		Unit(float dmg, float loc_x, float loc_y, float spd, float radius_atk, int cst, int hp, std::string idleTextureName, std:: string attackingTextureName, std:: string projectileTextureName); //unit builder has the values for the unit
 		
 
 		// getters
@@ -42,11 +45,13 @@ class Unit : public Entity
 		void updateSpriteLoc();
 		void useAttack();
 		void attemptShooting();
+		void startMovingForward();
 
 		void dead();
 		void dying_animation();
 		void takeDamage(Attack attack);
 
+		void update(sf::Time time_passed);
 		void draw(sf::RenderWindow* window);
 };
 

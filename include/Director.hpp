@@ -1,20 +1,16 @@
 #ifndef DIRECTOR_HPP_
 #define DIRECTOR_HPP_
 
-#include "RangerBuilder.hpp"
-#include "TankBuilder.hpp"
-#include "MeleeBuilder.hpp"
+#include "UnitBuilder.hpp"
 
 class Director 
 {
     private:
-        RangerBuilder rangerbuilder;
-        // MeleeBuilder meleebuilder;
-        // TankBuilder tankbuilder;
+        UnitBuilder unitBuilder;
 // also a swordsman
     public:
 
-        Unit* buildRanger(std::string customization = "archer");
+        Unit* buildSwords();
         // Unit* buildTank(std:: string customization);
         // Unit* buildMelee(std::string customization);
 

@@ -1,9 +1,12 @@
 #include "../../include/Director.hpp"
 
-
-Unit* Director::buildRanger(std::string customization)
+Unit* Director::buildSwords()
 {
-    rangerbuilder.setCustomization(customization);
-    return rangerbuilder.build();
+    return unitBuilder.withIdleTexture("swordm1.png")
+                      .withAttackingTexture("swordm2.png")
+                      .withProjectileTexture("swordslash.png")
+                      .build();
 }
+
+
 

@@ -8,25 +8,30 @@
 
 Unit::Unit() : Entity() {};
 
-Unit::Unit(float dmg, float loc_x, float loc_y, float spd, float radius_atk, int cst, int hp, std::string textureName) : Entity(dmg, loc_x, loc_y, spd, radius_atk, cst), HP(hp), isPicked(false)
+Unit::Unit(float dmg, float loc_x, float loc_y, float spd, float radius_atk, int cst, int hp, std::string idleTextureName, std:: string attackingTextureName, std:: string projectileTextureName) : Entity(dmg, loc_x, loc_y, spd, radius_atk, cst), HP(hp), isPicked(false)
 { // Sync sprite & user pos
-    if (!texture.loadFromFile("src/Textures/" + std::string(textureName)))
+    if (!unitTextureIdle.loadFromFile("src/Textures/" + std::string(idleTextureName)))
     {
-        std::cout << "Unable to load texture!\n";
+        std::cout << "Unable to load Idle texture!\n";
     }
-    attacks.resize(5);
+
+    if (!unitTextureAttacking.loadFromFile("src/Textures/" + std::string(attackingTextureName))){
+        std::cout << "Unable to load attacking texture!\n";
+    }
+    this->projectileTextureName = projectileTextureName;
     for (int i = 0; i < 5; i++){
-        attacks[i] = Attack(this);
+        attacks.push_back(Attack(this, projectileTextureName));
     }
     if (!deadTexture.loadFromFile("src/Textures/death.png")){
         std:: cout << "Couldnt load death soul\n";
     }
-    skin.setTexture(texture);
+    skin.setTexture(unitTextureIdle);
     skin.setScale(UNITSIZE); 
     updateSpriteLoc();
     isAttacking = false;
     attackCooldown = sf::seconds(1);
     isDead = false;
+    
 };
 
 std::vector<Attack*> Unit::active_attacks = {};
@@ -36,6 +41,8 @@ void Unit::useAttack()
     
     isAttacking = true;
 }
+
+void Unit::startMovingForward(){ isMovingForward = true; }
 
 float Unit::getHP()
 {
@@ -57,6 +64,34 @@ bool Unit::getisDead()
     return isDead;
 }
 
+void Unit::update(sf::Time time_passed) // Handles Unit Animations
+{
+    if (!isActive || isDead) return;
+
+    if (isAttacking) // Attacking textures/Animations
+    {
+        if (skin.getTexture() != &unitTextureAttacking){
+            skin.setTexture(unitTextureAttacking);
+        }
+        attemptShooting(); // Handles cooldown and firing
+    }
+    else{
+        if (skin.getTexture() != &unitTextureIdle) {
+            skin.setTexture(unitTextureIdle);
+        }
+    }
+
+    // Movement Logic
+    if (isMovingForward)
+    {
+        sf::Vector2f current_pos = getFloatLoc();
+        setLocation(sf::Vector2i(current_pos.x + speed*time_passed.asSeconds(), current_pos.y));
+    }
+
+    updateSpriteLoc();
+
+}
+
 void Unit::draw(sf::RenderWindow *window)
 {
     updateSpriteLoc();
@@ -65,14 +100,14 @@ void Unit::draw(sf::RenderWindow *window)
     if (isAttacking){
        attemptShooting();
     }
-    for (int i = 0; i < 5; i++)
-    {
-        if (attacks[i].getisActive())
-        {
-            attacks[i].move();
-            attacks[i].draw(window);
-        }
-    }
+    // for (int i = 0; i < 5; i++)
+    // {
+    //     if (attacks[i].getisActive())
+    //     {
+    //         attacks[i].move();
+    //         attacks[i].draw(window);
+    //     }
+    // }
 }
 
 std::vector<Attack> Unit::getAttacks(){
