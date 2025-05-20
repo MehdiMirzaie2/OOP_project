@@ -12,14 +12,16 @@ class Attack : public Drawable
     private:
         sf::Texture attackTexture;
         sf::Sprite attackSprite;
+        sf::Vector2f location;
         float speed;
         bool isActive;
         int damage;
         Unit* owner;
+        Unit* target;
 
     public:
-        Attack(std::string attackTextureName);
-        Attack(Unit* owner, std::string attackTextureName);
+      
+        Attack(Unit* owner, std::string attackTextureName, Unit* target);
         void move();
         bool getisActive();
         void draw(sf::RenderWindow* window);

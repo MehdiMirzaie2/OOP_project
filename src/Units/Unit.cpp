@@ -19,30 +19,35 @@ Unit::Unit(float dmg, float loc_x, float loc_y, float spd, float radius_atk, int
         std::cout << "Unable to load attacking texture!\n";
     }
     this->projectileTextureName = projectileTextureName;
-    for (int i = 0; i < 5; i++){
-        attacks.push_back(Attack(this, projectileTextureName));
-    }
+
+    // for (int i = 0; i < 5; i++){
+    //     attacks.push_back(new Attack(this, projectileTextureName));
+    // }
+    
     if (!deadTexture.loadFromFile("src/Textures/death.png")){
         std:: cout << "Couldnt load death soul\n";
     }
+    skin.setOrigin(unitTextureIdle.getSize().x/2.f, unitTextureIdle.getSize().y/2.f);
     skin.setTexture(unitTextureIdle);
     skin.setScale(UNITSIZE); 
     updateSpriteLoc();
     isAttacking = false;
     attackCooldown = sf::seconds(1);
     isDead = false;
+    current_target = nullptr;
     
 };
 
 std::vector<Attack*> Unit::active_attacks = {};
 
-void Unit::useAttack()
+void Unit::useAttack(Unit* hunted_target)
 { // Use all attack sprites
-    
+    current_target = hunted_target;
     isAttacking = true;
+    isMovingForward = false;
 }
 
-void Unit::startMovingForward(){ isMovingForward = true; }
+void Unit::startMovingForward(){ isMovingForward = true; isAttacking = false; current_target = nullptr;}
 
 float Unit::getHP()
 {
@@ -53,6 +58,7 @@ void Unit::setHP(float newHP)
 {
     HP = newHP;
 }
+
 
 void Unit::updateSpriteLoc()
 {
@@ -73,7 +79,13 @@ void Unit::update(sf::Time time_passed) // Handles Unit Animations
         if (skin.getTexture() != &unitTextureAttacking){
             skin.setTexture(unitTextureAttacking);
         }
-        attemptShooting(); // Handles cooldown and firing
+        if (!current_target->getisDead()){
+            attemptShooting(); // Handles cooldown and firing
+        }
+        else{
+            startMovingForward(); // Handles disabling of attacks and starts movement
+        }
+        
     }
     else{
         if (skin.getTexture() != &unitTextureIdle) {
@@ -88,6 +100,7 @@ void Unit::update(sf::Time time_passed) // Handles Unit Animations
         setLocation(sf::Vector2i(current_pos.x + speed*time_passed.asSeconds(), current_pos.y));
     }
 
+    // Update the sprite to be synced with the unit object
     updateSpriteLoc();
 
 }
@@ -110,7 +123,7 @@ void Unit::draw(sf::RenderWindow *window)
     // }
 }
 
-std::vector<Attack> Unit::getAttacks(){
+std::vector<Attack*> Unit::getAttacks(){
     return attacks;
 }
 
@@ -118,24 +131,30 @@ sf::Sprite Unit::getSkin(){return skin;}
 
 void Unit::attemptShooting()
 {   
-     if (attackClock.getElapsedTime() >= attackCooldown){
-         for (int i = 0; i < 5; i++)
-        {
-            if (!attacks[i].getisActive())
-            {
-                attackClock.restart();
-                attacks[i].shoot(this->getFloatLoc());
-                active_attacks.push_back(&attacks[i]);
-                std:: cout << "Attack added: " << active_attacks[active_attacks.size() - 1]->describe() << std:: endl;
-                break;
-            }
-        }
-     }
+    //  if (attackClock.getElapsedTime() >= attackCooldown){
+    //      for (int i = 0; i < 5; i++)
+    //     {
+    //         if (!attacks[i]->getisActive())
+    //         {
+    //             attackClock.restart();
+    //             attacks[i]->shoot(this->getFloatLoc());
+    //             active_attacks.push_back(attacks[i]);
+    //             break;
+    //         }
+    //     }
+    //  }
+
+    if (attackClock.getElapsedTime() >= attackCooldown){ // if the cooldown has passed
+        active_attacks.push_back(&Attack(this, projectileTextureName, current_target));
+    }
 }
 
 void Unit::dead(){
     
+    skin.setOrigin(deadTexture.getSize().x/2.f, deadTexture.getSize().y/2.f);
+    skin.setTextureRect(sf::IntRect(0, 0, deadTexture.getSize().x, deadTexture.getSize().y));
     skin.setTexture(deadTexture);
+    
     isDead = true;
 }
 

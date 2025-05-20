@@ -7,7 +7,7 @@
 #include <SFML/System/Time.hpp>
 #include <vector>
 
-const sf::Vector2f UNITSIZE(0.3f, 0.3f);
+const sf::Vector2f UNITSIZE(0.1f, 0.1f);
 
 class Unit : public Entity
 {
@@ -18,7 +18,8 @@ class Unit : public Entity
 		std:: string projectileTextureName;
 		sf::Sprite skin;
 		bool isPicked;
-		std::vector<Attack> attacks;
+		// std::vector<Attack*> attacks;
+		Unit* current_target;
 		bool isAttacking;
 		sf::Clock attackClock;
 		sf::Time attackCooldown;
@@ -38,12 +39,12 @@ class Unit : public Entity
         float getHP();
 		bool getisDead();
 		sf::Sprite getSkin();
-		std::vector<Attack> getAttacks();
+		std::vector<Attack*> getAttacks();
 
 		// setters
         void setHP(float newHP);
 		void updateSpriteLoc();
-		void useAttack();
+		void useAttack(Unit* hunted);
 		void attemptShooting();
 		void startMovingForward();
 

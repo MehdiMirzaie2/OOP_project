@@ -2,34 +2,24 @@
 #include "../../include/Unit.hpp"
 #include <iostream>
 
-Attack::Attack(std:: string attackTextureName)
+Attack::Attack(Unit* owner, std:: string attackTextureName, Unit* target)
 {
     if (!attackTexture.loadFromFile("src/Textures/" + attackTextureName))
     {
-        std:: cout << "Unable to load attack texture\n";
+        std::cout << "Unable to load attack texture: src/Textures/" << attackTextureName << std::endl;
+        
     }
-
+    else{
+        std::cout << "Loaded attack texture : src/Textures/" << attackTextureName << std:: endl;
+    }
     isActive = false;
     damage = 20;
-    speed = 2;
+    speed = 0.5;
     attackSprite.setOrigin(attackTexture.getSize().x/2.f, attackTexture.getSize().y/2.f);
     attackSprite.setTexture(attackTexture);
     attackSprite.setScale(0.2f, 0.2f);
-    owner = nullptr;
-}
-
-Attack::Attack(Unit* owner, std:: string attackTextureName)
-{
-    if (!attackTexture.loadFromFile("src/Textures/" + attackTextureName))
-    {
-        std:: cout << "Unable to load attack texture\n";
-    }
-    isActive = false;
-    damage = 20;
-    speed = 2;
-    attackSprite.setTexture(attackTexture);
-    attackSprite.setScale(0.005f, 0.005f);
     this->owner = owner;
+    this->target = target;
 }
 
 void Attack::shoot(sf::Vector2f shooting_location)
@@ -40,7 +30,12 @@ void Attack::shoot(sf::Vector2f shooting_location)
 
 void Attack::move()
 {
-    attackSprite.move(sf::Vector2f(speed, 0));
+    float displacement_x = target->getFloatLoc().x - location.x;
+    float displacement_y = target->getFloatLoc().y - location.y;
+
+    float time_x = displacement_x/speed;
+    float time_y = displacement_y/speed;
+    attackSprite.move(sf::Vector2f(displacement_x/time_x, displacement_y/time_y));
 }
 
 bool Attack::getisActive(){return isActive;};

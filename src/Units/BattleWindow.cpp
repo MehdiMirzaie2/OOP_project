@@ -46,7 +46,7 @@ int BattleWindow:: runWindow() // Used prompt to do deployment (Not my part)
                             active_units.push_back(unitToDeploy);
                             unitsDeployedCount++;
                             unitToDeploy->startMovingForward();
-                            unitToDeploy->useAttack();
+                            // unitToDeploy->useAttack();
                             
                             std::cout << "Successfully deployed unit. Total deployed: " << unitsDeployedCount << "/" << MAX_UNITS << std::endl;
                         } else if (unitToDeploy == nullptr) {
@@ -78,6 +78,16 @@ void BattleWindow::updateUnits(sf::Time time_passed)
     for(Unit* unit : active_units){ // Updates all active units
         if (unit->getisActive() && !unit->getisDead()){
             unit->update(time_passed);
+        }
+    }
+}
+
+void BattleWindow::startUnitAttack(Unit* attacker)
+{
+    for(Unit* unit : active_units)
+    {
+        if (abs(attacker->getFloatLoc() - unit->getFloatLoc()) <= attacker->getRadius_of_attack()){
+            attacker->useAttack(unit);
         }
     }
 }

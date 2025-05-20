@@ -23,6 +23,7 @@ class BattleWindow : public Window
         void checkCollisions();
         void updateUnits(sf::Time time_passed);
         void updateAttacks();
+        void startUnitAttacks(Unit* attacker);
 };
 
 
