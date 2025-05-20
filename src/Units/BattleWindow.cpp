@@ -23,6 +23,8 @@ int board[18][30]  = {
 {0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, -1, -1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0},
 };
 
+/*need to change the background png, made a mistake, some rows are narrower than others*/ 
+
 
 BattleWindow::BattleWindow(){
     user1 = User("Adi");
@@ -61,28 +63,11 @@ void BattleWindow::deploye(sf::Event event) {
 		Unit* unitToDeploy = unitDeck->getUnits()[num_deployed[m_turn]];
 
        		if (unitToDeploy != nullptr && !unitToDeploy->getisActive()) {
-          		//sf::Vector2i deployPos(event.mouseButton.x, event.mouseButton.y);
-          
-
-          		//user->deploy(num_deployed[m_turn], deployPos); // Pass index and position
+   			int col = (event.mouseButton.x - 100) / 30, row = event.mouseButton.y / 30;
 			
-			
-			
-			/* deploying unit on screen and pushing it in the relevent users army*/
-			
-
-
-
-
-
-
-   			int col = event.mouseButton.x / 30, row = event.mouseButton.y / 30;
-			
-
-
 			if (board[row][col] == 0 && ((m_turn == 0 && col < 14) || (m_turn == 1 && col > 15)) && user->getElixir()->getElixir() > 2) {
 				//Unit* unit = user->unitDeck()getUnits()[num_deployed[m_turn]];
-				sf::Vector2i a = sf::Vector2i(col * 30, row * 30);
+				sf::Vector2i a = sf::Vector2i((col * 30) + 100, row * 30);
 				unitToDeploy->setLocation(a);
 				unitToDeploy->setisActive(true);
 				m_turn = (m_turn == 0) ? 1 : 0;	
@@ -102,10 +87,11 @@ int BattleWindow:: runWindow() // Used prompt to do deployment (Not my part)
 {
 
 	std::cout << "Populating deck initially..." << std::endl;
-	loadDecks();
+	//loadDecks();
 
-	this->window = new sf::RenderWindow(sf::VideoMode(910,560), "BattleWindow");
     
+	//this->window = new sf::RenderWindow(sf::VideoMode(910,560), "BattleWindow");
+	this->window = new sf::RenderWindow(sf::VideoMode(1110,560), "BattleWindow");
 	while(window->isOpen()){
         	sf::Event event;
 

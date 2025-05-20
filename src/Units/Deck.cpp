@@ -2,6 +2,24 @@
 
 Deck::Deck()
 {
+	current_no_units = 0;
+	//isPicked = false;
+
+	for (int i = 0; i < MAX_UNITS; ++i) {
+		Unit *new_unit = director.buildRanger();
+
+		if (new_unit) {
+			std::cout << "pushing unit\n";
+			units.push_back(new_unit);
+		}
+		else
+			std::cerr << "failed to build unit\n";
+	}
+	std::cout << "built deck\n";
+}
+
+
+/*
     current_no_units = 0;
     //units = new Unit*[MAX_UNITS];
     isPicked = new bool[MAX_UNITS];
@@ -73,8 +91,9 @@ Deck::Deck()
           currentInnerRectPos.x += innerRectWidth + horizontalSpacing; 
       }
       // AI USED : GPT 4o PROMPT: these are the my game cpp files but the inner rectangles in user class are not visible
+      */
   
-}
+//}
 
 void Deck::draw(sf::RenderWindow* window){
     window->draw(rectangle);
@@ -90,7 +109,7 @@ void Deck::draw(sf::RenderWindow* window){
 std::vector<Unit *> Deck::getUnits(){
     return units;
 }
-
+/*
 bool* Deck::getIsPicked(){
     return isPicked;
 }
@@ -98,6 +117,7 @@ bool* Deck::getIsPicked(){
 void Deck::setIsPicked(int pick){
     isPicked[pick] = true;
 }
+*/
 void Deck::addUnit(Unit* unit){
     if (current_no_units < 5){
         units.push_back(unit);

@@ -50,7 +50,7 @@ std::cout << map_texture.getSize().x << " " << map_texture.getSize().y << " not 
 	map_sprite.setTexture(map_texture);
 	if (map_sprite.getTexture() == NULL) 
 		std::cout << map_sprite.getPosition().x << " this is the sprite\n";
-	//map_sprite.setPosition(1, 1);
+	map_sprite.setPosition(100, 0);
 		
  // Towers (up to down, in order)
     auto enemyKing = createTower(WINDOW_WIDTH / 2.9 - TOWER_WIDTH / 1, WINDOW_HEIGHT / 3, sf::Color::Red); //2 
