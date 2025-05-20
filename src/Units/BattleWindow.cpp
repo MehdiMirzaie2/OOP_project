@@ -61,13 +61,33 @@ void BattleWindow::deploye(sf::Event event) {
 		Unit* unitToDeploy = unitDeck->getUnits()[num_deployed[m_turn]];
 
        		if (unitToDeploy != nullptr && !unitToDeploy->getisActive()) {
-          		sf::Vector2i deployPos(event.mouseButton.x, event.mouseButton.y);
+          		//sf::Vector2i deployPos(event.mouseButton.x, event.mouseButton.y);
           
 
-          		user->deploy(num_deployed[m_turn], deployPos); // Pass index and position
+          		//user->deploy(num_deployed[m_turn], deployPos); // Pass index and position
+			
+			
+			
+			/* deploying unit on screen and pushing it in the relevent users army*/
+			
 
-			num_deployed[m_turn]++;
-			m_turn = (m_turn == 0) ? 1 : 0;
+
+
+
+
+
+   			int col = event.mouseButton.x / 30, row = event.mouseButton.y / 30;
+
+			if (board[row][col] != -1) {
+				//Unit* unit = user->unitDeck()getUnits()[num_deployed[m_turn]];
+				sf::Vector2i a = sf::Vector2i(col * 30, row * 30);
+				unitToDeploy->setLocation(a);
+				unitToDeploy->setisActive(true);
+				m_turn = (m_turn == 0) ? 1 : 0;	
+				num_deployed[m_turn]++;
+			}
+
+			
        		}
 	} else {
 		std::cout << "player " << m_turn << " has deployed " << num_deployed[m_turn] << "\n";
