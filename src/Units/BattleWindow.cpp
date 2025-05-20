@@ -80,7 +80,7 @@ void BattleWindow::deploye(sf::Event event) {
 			
 
 
-			if (board[row][col] == 0 && ((m_turn == 0 && col < 14) || (m_turn == 1 && col > 15))) {
+			if (board[row][col] == 0 && ((m_turn == 0 && col < 14) || (m_turn == 1 && col > 15)) && user->getElixir()->getElixir() > 2) {
 				//Unit* unit = user->unitDeck()getUnits()[num_deployed[m_turn]];
 				sf::Vector2i a = sf::Vector2i(col * 30, row * 30);
 				unitToDeploy->setLocation(a);
@@ -88,6 +88,7 @@ void BattleWindow::deploye(sf::Event event) {
 				m_turn = (m_turn == 0) ? 1 : 0;	
 				num_deployed[m_turn]++;
 				board[row][col] = 2; // should be enums 
+				user->getElixir()->decreaseElixir(3);
 			}
 
 			
@@ -100,34 +101,29 @@ void BattleWindow::deploye(sf::Event event) {
 int BattleWindow:: runWindow() // Used prompt to do deployment (Not my part)
 {
 
-    std::cout << "Populating deck initially..." << std::endl;
+	std::cout << "Populating deck initially..." << std::endl;
 	loadDecks();
-    //Deck* unitDeck = user1.getDeck();
+
+	this->window = new sf::RenderWindow(sf::VideoMode(910,560), "BattleWindow");
     
+	while(window->isOpen()){
+        	sf::Event event;
 
+		while(window->pollEvent(event)){
+            		if (event.type == sf::Event::Closed)
+				window->close();
 
-
-    this->window = new sf::RenderWindow(sf::VideoMode(910,560), "BattleWindow");
-    while(window->isOpen()){
-        sf::Event event;
-        while(window->pollEvent(event)){
-            if (event.type == sf::Event::Closed){
-                window->close();
-            }
-
-            if (event.type == sf::Event::MouseButtonReleased){
-                if (event.mouseButton.button == sf::Mouse::Left){
-			std::cout << "calling delpue\n";
-			deploye(event);
+            		if (event.type == sf::Event::MouseButtonReleased){
+                		if (event.mouseButton.button == sf::Mouse::Left){
+					deploye(event);
 						
-            }
-        }
-
-        //window->clear(sf::Color::Black); // Clear with a distinct color for debugging
-        draw_all(window);
-        //window->display();
-    }
-    }
+            			}
+        		}
+    		}
+		draw_all(window);
+		user1.update();
+		user2.update();
+    	}
     return 0;
 }
 

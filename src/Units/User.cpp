@@ -8,7 +8,16 @@ User::User(std:: string name){
     losses = 0;
     towers = nullptr;
     king = nullptr;
+    m_elixir = new Elixir();
     unitDeck = new Deck();
+}
+
+Elixir* User::getElixir() {
+	return m_elixir;
+}
+
+void User::update() {
+	m_elixir->update();
 }
 
 void User::setLosses(int l){
@@ -22,18 +31,20 @@ void User::setWins(int w){
 void User::setName(std::string new_name){
     name = new_name;
 }
-
+/*
 void User::setElixir(int new_elixir){
     elixir = new_elixir;
 }
-
+*/
 int User::getWins(){return wins;}
 int User::getLosses(){return losses;}
 std:: string User::getName(){return name;}
 
+/*
 int User::getElixir(){
     return elixir;
 }
+*/
 
 // void User::fight_user(User other){
 //     // to be done

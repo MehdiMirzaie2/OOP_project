@@ -4,13 +4,14 @@
 #include <string>
 #include "Unit.hpp"
 #include "Deck.hpp"
+#include "Elixir.hpp"
 
 class User{
     private:
         int wins;
         int losses;
         std:: string name;
-        int elixir;
+	Elixir *m_elixir;       
         Unit** towers;
         Unit** king;
         Deck* unitDeck;
@@ -24,17 +25,19 @@ class User{
         int getWins();
         int getLosses();
         std:: string getName();
-        int getElixir();
+        //int getElixir();
         Deck* getDeck();
         Unit** getTowers();
         Unit** getKing();
 
+	Elixir* getElixir();	
         //setters
         void setWins(int w);
         void setLosses(int l);
         void setName(std:: string new_name);
         void setElixir(int new_elixir);
-        
+       
+       	void update();	
         void draw(sf::RenderWindow* window);
 
 
