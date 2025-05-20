@@ -19,7 +19,6 @@ class BattleWindow : public Window
 	User user2;
 	int num_deployed[2] = {0, 0};
 
-
 	std::vector<Unit *> user1_units;
 	std::vector<Unit *> user2_units;
 	void loadDecks();
