@@ -9,11 +9,11 @@ Deck::Deck(int left_or_right)
 
 	for (int i = 0; i < MAX_UNITS; ++i) {
 		/* not sure how to use builder */
-		Unit *new_unit = director.buildRanger();
+		Unit *new_unit = director.buildSwords();
 
 		if (new_unit) {
 			std::cout << "pushing unit\n";
-			sf::Vector2i location(left_pos, (50 * i) + 100);
+			sf::Vector2f location(left_pos, (50 * i) + 100);
 			new_unit->setLocation(location);
 			units.push_back(new_unit);
 
@@ -31,11 +31,11 @@ Deck::Deck()
 
 	for (int i = 0; i < MAX_UNITS; ++i) {
 		/* not sure how to use builder */
-		Unit *new_unit = director.buildRanger();
+		Unit *new_unit = director.buildSwords();
 
 		if (new_unit) {
 			std::cout << "pushing unit\n";
-			sf::Vector2i location(50, (50 * i) + 100);
+			sf::Vector2f location(50, (50 * i) + 100);
 			new_unit->setLocation(location);
 			units.push_back(new_unit);
 

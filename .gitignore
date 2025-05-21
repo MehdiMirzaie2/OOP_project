@@ -1,2 +1,4 @@
 royal_clash
 obj
+*.o
+test

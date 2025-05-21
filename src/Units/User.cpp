@@ -83,7 +83,7 @@ void User::deploy(int index, sf::Vector2f dep_loc)
     //sf::Vector2i screen_pos = sf::Vector2i(30 * dep_loc.x, 30 * dep_loc * 30);
     //dep_loc.x *= 30;
     //dep_loc.y *= 30;
-	sf::Vector2i a = sf::Vector2i(col * 30, row * 30);
+	sf::Vector2f a = sf::Vector2f(col * 30, row * 30);
     unit->setLocation(a);
     std:: cout << "UNITS LOCATION: " << unit->getLocation().x << std::endl;
     unit->setisActive(true);

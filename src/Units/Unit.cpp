@@ -212,7 +212,7 @@ sf::Sprite Unit::getSprite() {
 
 void Unit::moveIfPicked(sf::Vector2i mouse_pos) {
 	if (isPicked) {
-		sf::Vector2i location(
+		sf::Vector2f location(
 			mouse_pos.x - dydx.x,					
 			mouse_pos.y - dydx.y
 		);
