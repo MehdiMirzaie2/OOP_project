@@ -26,7 +26,7 @@ class Unit : public Entity
 		bool isDead; 
 		sf::Texture deadTexture;
 		bool isMovingForward;
-		sf::Vector2i deckPos;
+		sf::Vector2f m_deckPos;
 		sf::Vector2i dydx;
 		sf::Clock timeSinceDeath;
 		
@@ -45,6 +45,7 @@ class Unit : public Entity
 		sf::Sprite getSkin();
 		Unit* getTarget();
 
+		sf::Vector2f getDeckPosition();
 		// setters
         void setHP(float newHP);
 		
@@ -60,7 +61,6 @@ class Unit : public Entity
 		void updateLocation(sf::Vector2f);
 		bool getIsPicked();
 		void updateSpriteLoc();
-
 		//have to change the name of these two fucntinos at some stage
 		void update(sf::Time time_passed);
 		void update();
@@ -71,6 +71,7 @@ class Unit : public Entity
 		void setDydx(sf::Vector2i);
 		void setIsPicked(bool);
 		void moveIfPicked(sf::Vector2i);
+		void setDeckPosition(sf::Vector2f);
 		//bool unitSellected(
 };
 

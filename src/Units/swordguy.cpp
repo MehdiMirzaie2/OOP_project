@@ -13,7 +13,7 @@ public:
     {
         swingSprite.setOrigin(texture.getSize().x / 2.f, texture.getSize().y / 2.f);
         swingSprite.setPosition(x, y);
-        swingSprite.setScale(0.2f, 0.2f); // adjust as needed
+        swingSprite.setScale(0.06f / 0.06f); // adjust as needed
     }
 
     void update() {

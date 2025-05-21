@@ -15,6 +15,7 @@ Deck::Deck(int left_or_right)
 			std::cout << "pushing unit\n";
 			sf::Vector2f location(left_pos, (50 * i) + 100);
 			new_unit->setLocation(location);
+			new_unit->setDeckPosition(location);
 			units.push_back(new_unit);
 
 		}

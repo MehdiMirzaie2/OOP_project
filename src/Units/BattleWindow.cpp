@@ -47,8 +47,14 @@ void BattleWindow::deploye(sf::Event event) {
 	}
 
        	if (unitToDeploy != nullptr) {
-		std::cout << "got unit to deploy\n";
+		//std::cout << "got unit to deploy\n";
    		int col = (event.mouseButton.x - 100) / 30, row = event.mouseButton.y / 30;	
+
+		if (board[row][col] != 0) {
+			unitToDeploy->setLocation(unitToDeploy->getDeckPosition());
+
+
+		}
 
 		if (board[row][col] == 0 && ((m_turn == 0 && col < 14) || (m_turn == 1 && col > 15)) && user->getElixir()->getElixir() > 2) {
 				sf::Vector2f a = sf::Vector2f((col * 30) + 100, row * 30);
@@ -59,15 +65,16 @@ void BattleWindow::deploye(sf::Event event) {
 				board[row][col] = 2; // should be enums 
 				user->getElixir()->decreaseElixir(3);
 
-                active_units.push_back(unitToDeploy);
-                unitsDeployedCount++;
-                unitToDeploy->startMovingForward();
+		                active_units.push_back(unitToDeploy);
+                		unitsDeployedCount++;
+                		unitToDeploy->startMovingForward();
                 // unitToDeploy->useAttack();
 
 				std::cout << "\n\n\ndepoyed unit\n\n\n\n";
+				
 			}
-		unitToDeploy->setIsPicked(false);
 			
+		unitToDeploy->setIsPicked(false);
 			
        	}
 		
@@ -81,12 +88,12 @@ void BattleWindow::selectUnit(sf::Event event) {
 	User *user = (m_turn == 0) ? &user1 : &user2;
 	Deck *deck = user->getDeck();
 
-	//sf::Vector2i mouse_pos = sf::Mouse::getPosition(this->window);
+	//sf::Vector2i mouse_pos = sf::Mouse::getPosition(this-window);
 	std::cout << "sellecting units\n";
 
 	std::cout << event.mouseButton.x << " " << event.mouseButton.y << std::endl;
 	for (auto unit: deck->getUnits()) {
-		std::cout << "checking if sprte was slected\n";
+		//std::cout << "checking if sprte was slected\n";
 		sf::Sprite sprite = unit->getSprite();
 		std::cout << sprite.getPosition().x << " " << sprite.getPosition().y << std::endl;
 		if (sprite.getGlobalBounds().contains(event.mouseButton.x, event.mouseButton.y)) {			
@@ -99,6 +106,7 @@ void BattleWindow::selectUnit(sf::Event event) {
 				event.mouseButton.y - sprite.getPosition().y
 			);
 			unit->setDydx(dydx);
+			break;
 		}
 
 	}

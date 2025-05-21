@@ -64,6 +64,13 @@ void Unit::updateLocation(sf::Vector2f location) {
 	skin.setPosition(location);
 }
 
+void Unit::setDeckPosition(sf::Vector2f location) {
+	m_deckPos = location;
+}
+
+sf::Vector2f Unit::getDeckPosition() {
+	return m_deckPos;
+}
 
 void Unit::updateSpriteLoc()
 {
@@ -107,7 +114,7 @@ void Unit::update() // Handles Unit Animations
     // Movement Logic
     if (isMovingForward)
     {
-        std:: cout << "Unit is moving forward!\n";
+        //std:: cout << "Unit is moving forward!\n";
         skin.move(speed, 0);
     }
 
@@ -143,7 +150,6 @@ void Unit::attemptShooting()
     //         }
     //     }
     //  }
-
     if (attackClock.getElapsedTime() >= attackCooldown){ // if the cooldown has passed                                                          
                                                                                                                  
         Attack* projectile = new Attack(this, projectileTextureName, current_target);
@@ -176,7 +182,7 @@ void Unit::dying_animation()
             skin.setTexture(deadTexture);
         }
         sf::Color current_color = skin.getColor();
-        std:: cout << "time passed since death: " << timeSinceDeath.getElapsedTime().asSeconds() << std:: endl;
+        //std:: cout << "time passed since death: " << timeSinceDeath.getElapsedTime().asSeconds() << std:: endl;
         sf::Color newColor(current_color.r, current_color.g, current_color.b, 255/(timeSinceDeath.getElapsedTime().asSeconds()*SOUL_SPEED));
         skin.setColor(newColor); // Based on the amount of time since death, change opacity
         if (skin.getColor().a <= 0.01){
