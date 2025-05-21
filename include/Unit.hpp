@@ -59,7 +59,7 @@ class Unit : public Entity
 
 		void updateLocation(sf::Vector2f);
 		bool getIsPicked();
-		
+		void updateSpriteLoc();
 
 		//have to change the name of these two fucntinos at some stage
 		void update(sf::Time time_passed);
