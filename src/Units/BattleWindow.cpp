@@ -1,4 +1,5 @@
 #include "../../include/BattleWindow.hpp"
+#include <cmath>
 
 int unitsDeployedCount = 0;
 
@@ -46,8 +47,7 @@ int BattleWindow:: runWindow() // Used prompt to do deployment (Not my part)
                             active_units.push_back(unitToDeploy);
                             unitsDeployedCount++;
                             unitToDeploy->startMovingForward();
-                            // unitToDeploy->useAttack();
-                            
+                
                             std::cout << "Successfully deployed unit. Total deployed: " << unitsDeployedCount << "/" << MAX_UNITS << std::endl;
                         } else if (unitToDeploy == nullptr) {
                              std::cout << "Cannot deploy: Unit at index " << unitsDeployedCount << " is null." << std::endl;
@@ -75,10 +75,18 @@ int BattleWindow:: runWindow() // Used prompt to do deployment (Not my part)
 
 void BattleWindow::updateUnits(sf::Time time_passed)
 {
-    for(Unit* unit : active_units){ // Updates all active units
-        if (unit->getisActive() && !unit->getisDead()){
-            unit->update(time_passed);
+    for(long unsigned int i = 0; i < active_units.size(); i++){ // Updates all active units
+
+        if (active_units[i]->getisActive()){
+            startUnitAttack(active_units[i]);
+            active_units[i]->update(time_passed);
         }
+        else
+        {
+            active_units.erase(active_units.begin() + i);
+            i--;
+        }
+        
     }
 }
 
@@ -86,7 +94,14 @@ void BattleWindow::startUnitAttack(Unit* attacker)
 {
     for(Unit* unit : active_units)
     {
-        if (abs(attacker->getFloatLoc() - unit->getFloatLoc()) <= attacker->getRadius_of_attack()){
+        if (unit == attacker){
+            continue;
+        }
+        sf::Vector2f attacker_loc = attacker->getFloatLoc();
+        sf::Vector2f target_loc = unit->getFloatLoc();
+        float distance = std::sqrt((attacker_loc.x - target_loc.x)*(attacker_loc.x - target_loc.x) + (attacker_loc.y - target_loc.y)*(attacker_loc.y - target_loc.y));
+        
+        if (abs(distance) <= attacker->getRadius_of_attack()){
             attacker->useAttack(unit);
         }
     }
@@ -105,7 +120,9 @@ void BattleWindow::draw_all(sf::RenderWindow* window){
     user1.draw(window);   
 
     for (Attack* attack_projectile : Unit::active_attacks) {
+        
         if (attack_projectile != nullptr && attack_projectile->getisActive()) {
+            attack_projectile->update();
             attack_projectile->draw(window);
         }
     }

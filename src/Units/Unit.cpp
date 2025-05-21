@@ -4,7 +4,8 @@
 #include <chrono>
 #include <thread>
 
-#define SOUL_SPEED 2
+// How quickly the souls vanish from the battlefield
+#define SOUL_SPEED 10
 
 Unit::Unit() : Entity() {};
 
@@ -35,6 +36,7 @@ Unit::Unit(float dmg, float loc_x, float loc_y, float spd, float radius_atk, int
     attackCooldown = sf::seconds(1);
     isDead = false;
     current_target = nullptr;
+    timeSinceDeath.restart();
     
 };
 
@@ -72,7 +74,13 @@ bool Unit::getisDead()
 
 void Unit::update(sf::Time time_passed) // Handles Unit Animations
 {
-    if (!isActive || isDead) return;
+    if (!isActive) return;
+
+    if (isDead)
+    {
+        dying_animation();
+        return;
+    }
 
     if (isAttacking) // Attacking textures/Animations
     {
@@ -123,8 +131,8 @@ void Unit::draw(sf::RenderWindow *window)
     // }
 }
 
-std::vector<Attack*> Unit::getAttacks(){
-    return attacks;
+Unit* Unit::getTarget(){
+    return current_target;
 }
 
 sf::Sprite Unit::getSkin(){return skin;}
@@ -144,8 +152,12 @@ void Unit::attemptShooting()
     //     }
     //  }
 
-    if (attackClock.getElapsedTime() >= attackCooldown){ // if the cooldown has passed
-        active_attacks.push_back(&Attack(this, projectileTextureName, current_target));
+    if (attackClock.getElapsedTime() >= attackCooldown){ // if the cooldown has passed                                                          
+                                                                                                                 
+        Attack* projectile = new Attack(this, projectileTextureName, current_target);
+        projectile->shoot(this->getFloatLoc());
+        active_attacks.push_back(projectile);
+        attackClock.restart();
     }
 }
 
@@ -156,23 +168,43 @@ void Unit::dead(){
     skin.setTexture(deadTexture);
     
     isDead = true;
+    isAttacking = false;
+    isMovingForward = false;
+    timeSinceDeath.restart();
 }
 
 // take damage from attack
 
 void Unit::dying_animation()
 {
-    // MAKES THE SOUL MOVE UP
-    // if (isDead){
-    //     skin.move(SOUL_SPEED);
-        
-    // }
+
+    if (isDead)
+    {
+        if (skin.getTexture() != &deadTexture){
+            skin.setTexture(deadTexture);
+        }
+        sf::Color current_color = skin.getColor();
+        std:: cout << "time passed since death: " << timeSinceDeath.getElapsedTime().asSeconds() << std:: endl;
+        sf::Color newColor(current_color.r, current_color.g, current_color.b, 255/(timeSinceDeath.getElapsedTime().asSeconds()*SOUL_SPEED));
+        skin.setColor(newColor); // Based on the amount of time since death, change opacity
+        if (skin.getColor().a <= 0.01){
+            std:: cout << "Enough time has passed...\n";
+            isActive = false;
+        }
+    }
+
+
 }
 
 void Unit::takeDamage(Attack attack)
 {
-    if (HP <= 0){
+
+    if (HP <= 0 && !isDead){
         dead();
+        return;
+    }
+
+    if (isDead){
         return;
     }
     std:: cout << "Original HP: " << HP << std:: endl;

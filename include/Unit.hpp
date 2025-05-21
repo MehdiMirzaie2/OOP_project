@@ -26,6 +26,7 @@ class Unit : public Entity
 		bool isDead; 
 		sf::Texture deadTexture;
 		bool isMovingForward;
+		sf::Clock timeSinceDeath;
        // Weapon* weapon; // to be implemente
 
 	public:
@@ -39,7 +40,7 @@ class Unit : public Entity
         float getHP();
 		bool getisDead();
 		sf::Sprite getSkin();
-		std::vector<Attack*> getAttacks();
+		Unit* getTarget();
 
 		// setters
         void setHP(float newHP);

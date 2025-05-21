@@ -1,5 +1,6 @@
 #include "../../include/Attack.hpp"
 #include "../../include/Unit.hpp"
+#include <cmath>
 #include <iostream>
 
 Attack::Attack(Unit* owner, std:: string attackTextureName, Unit* target)
@@ -30,12 +31,18 @@ void Attack::shoot(sf::Vector2f shooting_location)
 
 void Attack::move()
 {
+    sf::Vector2f location = attackSprite.getPosition();
     float displacement_x = target->getFloatLoc().x - location.x;
     float displacement_y = target->getFloatLoc().y - location.y;
 
-    float time_x = displacement_x/speed;
-    float time_y = displacement_y/speed;
-    attackSprite.move(sf::Vector2f(displacement_x/time_x, displacement_y/time_y));
+    // To calculate the unit vector for direction, as the above vector is not a unit vector, we divide by distance
+
+    float distance = std::sqrt((displacement_x*displacement_x) + (displacement_y*displacement_y));
+    float normalized_displacement_x = displacement_x/distance;
+    float normalized_displacement_y = displacement_y/distance;
+
+    
+    attackSprite.move(sf::Vector2f(normalized_displacement_x*speed, normalized_displacement_y*speed));
 }
 
 bool Attack::getisActive(){return isActive;};
@@ -68,9 +75,11 @@ bool Attack::isHit(std::vector<Unit*> unitlist)
         }
         if (collision_box.intersects(unitlist[i]->getSkin().getGlobalBounds())){
             isActive = false;
-            unitlist[i]->takeDamage(*this);
-            std:: cout << "HIT!!\n";
-            return true;
+            if(unitlist[i]->getisActive()){
+                unitlist[i]->takeDamage(*this);
+                std:: cout << "HIT!!\n";
+                return true;
+            }
         }
     }
     return false;

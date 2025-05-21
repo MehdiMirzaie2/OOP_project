@@ -12,7 +12,6 @@ class Attack : public Drawable
     private:
         sf::Texture attackTexture;
         sf::Sprite attackSprite;
-        sf::Vector2f location;
         float speed;
         bool isActive;
         int damage;
