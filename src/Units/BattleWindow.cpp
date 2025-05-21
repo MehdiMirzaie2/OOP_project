@@ -1,4 +1,5 @@
 #include "../../include/BattleWindow.hpp"
+#include <cmath>
 
 int unitsDeployedCount = 0;
 
@@ -50,7 +51,7 @@ void BattleWindow::deploye(sf::Event event) {
    		int col = (event.mouseButton.x - 100) / 30, row = event.mouseButton.y / 30;	
 
 		if (board[row][col] == 0 && ((m_turn == 0 && col < 14) || (m_turn == 1 && col > 15)) && user->getElixir()->getElixir() > 2) {
-				sf::Vector2i a = sf::Vector2i((col * 30) + 100, row * 30);
+				sf::Vector2f a = sf::Vector2f((col * 30) + 100, row * 30);
 				unitToDeploy->setLocation(a);
 				unitToDeploy->setisActive(true);
 				m_turn = (m_turn == 0) ? 1 : 0;	
@@ -61,7 +62,7 @@ void BattleWindow::deploye(sf::Event event) {
                 active_units.push_back(unitToDeploy);
                 unitsDeployedCount++;
                 unitToDeploy->startMovingForward();
-                unitToDeploy->useAttack();
+                // unitToDeploy->useAttack();
 
 				std::cout << "\n\n\ndepoyed unit\n\n\n\n";
 			}
@@ -136,7 +137,8 @@ int BattleWindow:: runWindow() // Used prompt to do deployment (Not my part)
         		}
     		}
 
-        updateUnits(gameClock.getElapsedTime());
+        // updateUnits(gameClock.getElapsedTime());
+        updateUnits();
         updateAttacks();
         checkCollisions();
 
@@ -147,11 +149,37 @@ int BattleWindow:: runWindow() // Used prompt to do deployment (Not my part)
     return 0;
 }
 
-void BattleWindow::updateUnits(sf::Time time_passed)
+void BattleWindow::updateUnits()
 {
-    for(Unit* unit : active_units){ // Updates all active units
-        if (unit->getisActive() && !unit->getisDead()){
-            unit->update(time_passed);
+    for(long unsigned int i = 0; i < active_units.size(); i++){ // Updates all active units
+
+        if (active_units[i]->getisActive()){
+        
+            startUnitAttack(active_units[i]);
+            active_units[i]->update();
+        }
+        else
+        {
+            active_units.erase(active_units.begin() + i);
+            i--;
+        }
+        
+    }
+}
+
+void BattleWindow::startUnitAttack(Unit* attacker)
+{
+    for(Unit* unit : active_units)
+    {
+        if (unit == attacker || attacker->getisDead() || unit->getisDead()){
+            continue;
+        }
+        sf::Vector2f attacker_loc = attacker->getLocation();
+        sf::Vector2f target_loc = unit->getLocation();
+        float distance = std::sqrt((attacker_loc.x - target_loc.x)*(attacker_loc.x - target_loc.x) + (attacker_loc.y - target_loc.y)*(attacker_loc.y - target_loc.y));
+        
+        if (abs(distance) <= attacker->getRadius_of_attack()){
+            attacker->useAttack(unit);
         }
     }
 }
@@ -170,7 +198,9 @@ void BattleWindow::draw_all(sf::RenderWindow* window){
     user1.draw(window);   
     user2.draw(window);
     for (Attack* attack_projectile : Unit::active_attacks) {
+        
         if (attack_projectile != nullptr && attack_projectile->getisActive()) {
+            attack_projectile->update();
             attack_projectile->draw(window);
         }
     }
@@ -181,6 +211,7 @@ void BattleWindow::checkCollisions()
 {
     for(long unsigned int i = 0; i < Unit::active_attacks.size(); i++)
     {
+        
         if (Unit::active_attacks[i]->isHit(active_units)){
             std:: cout << "Attack hit detected\n";
         };

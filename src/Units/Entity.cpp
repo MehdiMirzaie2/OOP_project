@@ -2,10 +2,10 @@
 
 Entity::Entity(){}; // does nothing atm because I dont know what to put as the default values yet.
 
-Entity::Entity(float dmg, float loc_x, float loc_y, float spd, float radius_atk, int cst)
+Entity::Entity(float dmg, sf::Vector2f location ,float spd, float radius_atk, int cst)
 {
-    location = sf::Vector2i(loc_x, loc_y);
     damage = dmg;
+    skin.setPosition(location);
     speed = spd;
     radius_of_attack = radius_atk;
     isActive = false;
@@ -15,12 +15,8 @@ Entity::Entity(float dmg, float loc_x, float loc_y, float spd, float radius_atk,
 void Entity::setisActive(bool active){isActive = active;};
 bool Entity::getisActive(){return isActive;};
 
-sf::Vector2f Entity::getFloatLoc(){
-    return sf::Vector2f(location.x, location.y);
-}
-
-void Entity::setLocation(sf::Vector2i newloc) { location = newloc; };
-sf::Vector2i Entity::getLocation() { return location; };
+sf::Vector2f Entity::getLocation() { return skin.getPosition();};
+void Entity::setLocation(sf::Vector2f new_loc){ skin.setPosition(new_loc);};
 
 float Entity::getDamage() { return damage; };
 void Entity::setDamage(float new_dmg) { damage = new_dmg; };

@@ -75,7 +75,7 @@ Deck* User::getDeck(){
     return unitDeck;
 }
 
-void User::deploy(int index, sf::Vector2i dep_loc)
+void User::deploy(int index, sf::Vector2f dep_loc)
 {   
     int col = dep_loc.x / 30, row = dep_loc.y / 30;
     std::cout << row << " " << col << std::endl;

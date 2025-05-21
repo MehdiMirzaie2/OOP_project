@@ -33,8 +33,9 @@ class BattleWindow : public Window
         void draw_all(sf::RenderWindow* window);
         int runWindow();
         void checkCollisions();
-        void updateUnits(sf::Time time_passed);
+        void updateUnits();
         void updateAttacks();
+        void startUnitAttack(Unit* attacker);
 };
 
 
