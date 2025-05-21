@@ -2,6 +2,7 @@
 #include "../../include/Unit.hpp"
 #include <cmath>
 #include <iostream>
+#include <algorithm>
 
 Attack::Attack(Unit* owner, std:: string attackTextureName, Unit* target)
 {
@@ -32,8 +33,8 @@ void Attack::shoot(sf::Vector2f shooting_location)
 void Attack::move()
 {
     sf::Vector2f location = attackSprite.getPosition();
-    float displacement_x = target->getFloatLoc().x - location.x;
-    float displacement_y = target->getFloatLoc().y - location.y;
+    float displacement_x = target->getLocation().x - location.x;
+    float displacement_y = target->getLocation().y - location.y;
 
     // To calculate the unit vector for direction, as the above vector is not a unit vector, we divide by distance
 
@@ -70,7 +71,7 @@ bool Attack::isHit(std::vector<Unit*> unitlist)
 {
     sf::FloatRect collision_box = attackSprite.getGlobalBounds();
     for(long unsigned int i = 0; i < unitlist.size(); i++){
-        if (owner == unitlist[i]){
+        if (owner == unitlist[i] || unitlist[i]->getisDead()){
             continue;
         }
         if (collision_box.intersects(unitlist[i]->getSkin().getGlobalBounds())){
@@ -78,6 +79,7 @@ bool Attack::isHit(std::vector<Unit*> unitlist)
             if(unitlist[i]->getisActive()){
                 unitlist[i]->takeDamage(*this);
                 std:: cout << "HIT!!\n";
+                Unit::active_attacks.erase(std::find(Unit::active_attacks.begin(), Unit::active_attacks.end(), this));
                 return true;
             }
         }

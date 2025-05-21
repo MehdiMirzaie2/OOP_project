@@ -50,7 +50,7 @@ Deck* User::getDeck(){
     return unitDeck;
 }
 
-void User::deploy(int index, sf::Vector2i dep_loc)
+void User::deploy(int index, sf::Vector2f dep_loc)
 {   
     Unit* unit = unitDeck->getUnits()[index];
     unit->setLocation(dep_loc);

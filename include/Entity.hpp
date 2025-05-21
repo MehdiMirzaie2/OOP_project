@@ -13,7 +13,8 @@ class Entity : public Drawable
 protected:
     // hp bar if possible
     float damage; // The viable entities all have these variables
-    sf::Vector2i location;
+    // sf::Vector2i location;
+    sf::Sprite skin;
     float speed;
     float radius_of_attack;
     int cost;
@@ -22,12 +23,11 @@ protected:
 public:
     // initializers
     Entity();
-    Entity(float dmg, float loc_x, float loc_y, float spd, float radius_atk, int cst);
+    Entity(float dmg, sf::Vector2f location, float spd, float radius_atk, int cst);
 
     //getters
     float getDamage();
-    sf::Vector2i getLocation();
-    sf::Vector2f getFloatLoc();
+    sf::Vector2f getLocation();
     float getSpeed();
     float getRadius_of_attack();
     int getCost();
@@ -36,7 +36,7 @@ public:
     //setters
     void setDamage(float new_dmg);
     void setSpeed(float new_sp);
-    void setLocation(sf::Vector2i newloc);
+    void setLocation(sf::Vector2f newloc);
     void setRadius_of_attack(float radius);
     void setCost(int new_c);
     void setisActive(bool active);

@@ -9,7 +9,7 @@
 
 Unit::Unit() : Entity() {};
 
-Unit::Unit(float dmg, float loc_x, float loc_y, float spd, float radius_atk, int cst, int hp, std::string idleTextureName, std:: string attackingTextureName, std:: string projectileTextureName) : Entity(dmg, loc_x, loc_y, spd, radius_atk, cst), HP(hp), isPicked(false)
+Unit::Unit(float dmg, float spd, sf::Vector2f location, float radius_atk, int cst, int hp, std::string idleTextureName, std:: string attackingTextureName, std:: string projectileTextureName) : Entity(dmg, location, spd, radius_atk, cst), HP(hp), isPicked(false)
 { // Sync sprite & user pos
     if (!unitTextureIdle.loadFromFile("src/Textures/" + std::string(idleTextureName)))
     {
@@ -31,7 +31,6 @@ Unit::Unit(float dmg, float loc_x, float loc_y, float spd, float radius_atk, int
     skin.setOrigin(unitTextureIdle.getSize().x/2.f, unitTextureIdle.getSize().y/2.f);
     skin.setTexture(unitTextureIdle);
     skin.setScale(UNITSIZE); 
-    updateSpriteLoc();
     isAttacking = false;
     attackCooldown = sf::seconds(1);
     isDead = false;
@@ -61,18 +60,12 @@ void Unit::setHP(float newHP)
     HP = newHP;
 }
 
-
-void Unit::updateSpriteLoc()
-{
-    skin.setPosition(sf::Vector2f(this->getLocation().x, this->getLocation().y));
-}
-
 bool Unit::getisDead()
 {
     return isDead;
 }
 
-void Unit::update(sf::Time time_passed) // Handles Unit Animations
+void Unit::update() // Handles Unit Animations
 {
     if (!isActive) return;
 
@@ -104,31 +97,20 @@ void Unit::update(sf::Time time_passed) // Handles Unit Animations
     // Movement Logic
     if (isMovingForward)
     {
-        sf::Vector2f current_pos = getFloatLoc();
-        setLocation(sf::Vector2i(current_pos.x + speed*time_passed.asSeconds(), current_pos.y));
+        std:: cout << "Unit is moving forward!\n";
+        skin.move(speed, 0);
     }
-
-    // Update the sprite to be synced with the unit object
-    updateSpriteLoc();
 
 }
 
 void Unit::draw(sf::RenderWindow *window)
 {
-    updateSpriteLoc();
     window->draw(skin);
 
     if (isAttacking){
        attemptShooting();
     }
-    // for (int i = 0; i < 5; i++)
-    // {
-    //     if (attacks[i].getisActive())
-    //     {
-    //         attacks[i].move();
-    //         attacks[i].draw(window);
-    //     }
-    // }
+
 }
 
 Unit* Unit::getTarget(){
@@ -155,7 +137,7 @@ void Unit::attemptShooting()
     if (attackClock.getElapsedTime() >= attackCooldown){ // if the cooldown has passed                                                          
                                                                                                                  
         Attack* projectile = new Attack(this, projectileTextureName, current_target);
-        projectile->shoot(this->getFloatLoc());
+        projectile->shoot(this->getLocation());
         active_attacks.push_back(projectile);
         attackClock.restart();
     }

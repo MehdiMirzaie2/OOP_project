@@ -15,7 +15,7 @@ UnitBuilder &UnitBuilder::withSpeed(float new_sp)
     speed = new_sp;
     return *this;
 };
-UnitBuilder &UnitBuilder::withLocation(sf::Vector2i newloc)
+UnitBuilder &UnitBuilder::withLocation(sf::Vector2f newloc)
 {
     location = newloc;
     return *this;
@@ -51,5 +51,5 @@ UnitBuilder &UnitBuilder::withProjectileTexture(std:: string projectileTexture)
 
 Unit* UnitBuilder::build()
 {
-    return new Unit(damage, location.x, location.y, speed, radius_of_attack, cost, HP, textureIdle, textureAttacking, projectileTextureName);
+    return new Unit(damage,speed, location,radius_of_attack, cost, HP, textureIdle, textureAttacking, projectileTextureName);
 }

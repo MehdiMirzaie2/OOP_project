@@ -16,7 +16,7 @@ class Unit : public Entity
 		sf::Texture unitTextureIdle;
 		sf::Texture unitTextureAttacking;
 		std:: string projectileTextureName;
-		sf::Sprite skin;
+		
 		bool isPicked;
 		// std::vector<Attack*> attacks;
 		Unit* current_target;
@@ -33,7 +33,7 @@ class Unit : public Entity
 		static std::vector<Attack*> active_attacks;
 		// initialisers
 		Unit();
-		Unit(float dmg, float loc_x, float loc_y, float spd, float radius_atk, int cst, int hp, std::string idleTextureName, std:: string attackingTextureName, std:: string projectileTextureName); //unit builder has the values for the unit
+		Unit(float dmg, float spd, sf::Vector2f location ,float radius_atk, int cst, int hp, std::string idleTextureName, std:: string attackingTextureName, std:: string projectileTextureName); //unit builder has the values for the unit
 		
 
 		// getters
@@ -44,7 +44,8 @@ class Unit : public Entity
 
 		// setters
         void setHP(float newHP);
-		void updateSpriteLoc();
+		
+		
 		void useAttack(Unit* hunted);
 		void attemptShooting();
 		void startMovingForward();
@@ -53,7 +54,7 @@ class Unit : public Entity
 		void dying_animation();
 		void takeDamage(Attack attack);
 
-		void update(sf::Time time_passed);
+		void update();
 		void draw(sf::RenderWindow* window);
 };
 
