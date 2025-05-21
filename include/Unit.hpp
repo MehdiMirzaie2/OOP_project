@@ -7,7 +7,7 @@
 #include <SFML/System/Time.hpp>
 #include <vector>
 
-const sf::Vector2f UNITSIZE(-(30.f / 130.f), 30.f / 135.f);
+const sf::Vector2f UNITSIZE(0.06, 0.06);
 
 class Unit : public Entity
 {

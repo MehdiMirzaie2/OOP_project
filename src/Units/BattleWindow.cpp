@@ -50,10 +50,11 @@ void BattleWindow::deploye(sf::Event event) {
 		//std::cout << "got unit to deploy\n";
    		int col = (event.mouseButton.x - 100) / 30, row = event.mouseButton.y / 30;	
 
-		if (board[row][col] != 0) {
+		unitToDeploy->setIsPicked(false);
+		if (board[row][col] != 0 || user->getElixir()->getElixir() < 2) {
+			std::cout << "did not deploy, because not enought\n";
 			unitToDeploy->setLocation(unitToDeploy->getDeckPosition());
-
-
+			return ;
 		}
 
 		if (board[row][col] == 0 && ((m_turn == 0 && col < 14) || (m_turn == 1 && col > 15)) && user->getElixir()->getElixir() > 2) {
@@ -74,7 +75,6 @@ void BattleWindow::deploye(sf::Event event) {
 				
 			}
 			
-		unitToDeploy->setIsPicked(false);
 			
        	}
 		

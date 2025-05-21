@@ -30,7 +30,7 @@ Unit::Unit(float dmg, float spd, sf::Vector2f location, float radius_atk, int cs
     }
     skin.setOrigin(unitTextureIdle.getSize().x/2.f, unitTextureIdle.getSize().y/2.f);
     skin.setTexture(unitTextureIdle);
-    skin.setScale(UNITSIZE); 
+    skin.setScale(0.06f, 0.06f); 
     isAttacking = false;
     attackCooldown = sf::seconds(1);
     isDead = false;

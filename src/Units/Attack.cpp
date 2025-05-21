@@ -19,7 +19,7 @@ Attack::Attack(Unit* owner, std:: string attackTextureName, Unit* target)
     speed = 0.5;
     attackSprite.setOrigin(attackTexture.getSize().x/2.f, attackTexture.getSize().y/2.f);
     attackSprite.setTexture(attackTexture);
-    attackSprite.setScale(0.2f, 0.2f);
+    attackSprite.setScale(0.06f, 0.06f);
     this->owner = owner;
     this->target = target;
 }
