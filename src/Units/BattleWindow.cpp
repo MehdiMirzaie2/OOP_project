@@ -113,7 +113,7 @@ void BattleWindow::selectUnit(sf::Event event) {
 	std::cout << "\n\n";
 }
 
-int BattleWindow:: runWindow() // Used prompt to do deployment (Not my part)
+int BattleWindow:: runWindow() 
 {
 
 	std::cout << "Populating deck initially..." << std::endl;

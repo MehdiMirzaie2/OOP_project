@@ -9,7 +9,7 @@
 
 Unit::Unit() : Entity() {};
 
-Unit::Unit(float dmg, float spd, sf::Vector2f location, float radius_atk, int cst, int hp, std::string idleTextureName, std:: string attackingTextureName, std:: string projectileTextureName) : Entity(dmg, location, spd, radius_atk, cst), HP(hp), isPicked(false)
+Unit::Unit(float dmg, float spd, sf::Vector2f location, float radius_atk, int cst, int hp, std::string idleTextureName, std:: string attackingTextureName, std:: string projectileTextureName, int alliance) : Entity(dmg, location, spd, radius_atk, cst), HP(hp), isPicked(false)
 { // Sync sprite & user pos
     if (!unitTextureIdle.loadFromFile("src/Textures/" + std::string(idleTextureName)))
     {
@@ -36,6 +36,8 @@ Unit::Unit(float dmg, float spd, sf::Vector2f location, float radius_atk, int cs
     isDead = false;
     current_target = nullptr;
     timeSinceDeath.restart();
+    this->alliance = alliance;
+
     
 };
 
@@ -114,8 +116,14 @@ void Unit::update() // Handles Unit Animations
     // Movement Logic
     if (isMovingForward)
     {
-        //std:: cout << "Unit is moving forward!\n";
-        skin.move(speed, 0);
+        std:: cout << "Unit is moving with alliance : " << alliance << std:: endl;
+        if (alliance == 0){ // 0 means move right
+            skin.move(speed, 0);
+        }
+        else{ // else move left
+            skin.move(-speed, 0);
+        }
+        
     }
 
 }
@@ -151,12 +159,13 @@ void Unit::attemptShooting()
     //     }
     //  }
     if (attackClock.getElapsedTime() >= attackCooldown){ // if the cooldown has passed                                                          
-                                                                                                                 
+                                                                       
         Attack* projectile = new Attack(this, projectileTextureName, current_target);
         projectile->shoot(this->getLocation());
         active_attacks.push_back(projectile);
         attackClock.restart();
     }
+    
 }
 
 void Unit::dead(){

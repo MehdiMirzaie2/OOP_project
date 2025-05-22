@@ -16,7 +16,7 @@ class Unit : public Entity
 		sf::Texture unitTextureIdle;
 		sf::Texture unitTextureAttacking;
 		std:: string projectileTextureName;
-		
+		int alliance;
 		bool isPicked;
 		// std::vector<Attack*> attacks;
 		Unit* current_target;
@@ -29,6 +29,8 @@ class Unit : public Entity
 		sf::Vector2f m_deckPos;
 		sf::Vector2i dydx;
 		sf::Clock timeSinceDeath;
+
+		sf::Clock attackAnimationHoldTime;
 		
        // Weapon* weapon; // to be implemente
 
@@ -36,7 +38,7 @@ class Unit : public Entity
 		static std::vector<Attack*> active_attacks;
 		// initialisers
 		Unit();
-		Unit(float dmg, float spd, sf::Vector2f location ,float radius_atk, int cst, int hp, std::string idleTextureName, std:: string attackingTextureName, std:: string projectileTextureName); //unit builder has the values for the unit
+		Unit(float dmg, float spd, sf::Vector2f location ,float radius_atk, int cst, int hp, std::string idleTextureName, std:: string attackingTextureName, std:: string projectileTextureName, int alliance); //unit builder has the values for the unit
 		
 
 		// getters

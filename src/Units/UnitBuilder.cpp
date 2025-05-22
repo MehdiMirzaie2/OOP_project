@@ -49,7 +49,13 @@ UnitBuilder &UnitBuilder::withProjectileTexture(std:: string projectileTexture)
     return *this;
 }
 
+UnitBuilder &UnitBuilder::withAlliance(int alliance)
+{
+    this->alliance = alliance;
+    return *this;
+}
+
 Unit* UnitBuilder::build()
 {
-    return new Unit(damage,speed, location,radius_of_attack, cost, HP, textureIdle, textureAttacking, projectileTextureName);
+    return new Unit(damage,speed, location,radius_of_attack, cost, HP, textureIdle, textureAttacking, projectileTextureName, alliance);
 }
