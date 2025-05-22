@@ -11,8 +11,9 @@ class Director
     public:
 
         Unit* buildSwords();
-        // Unit* buildTank(std:: string customization);
-        // Unit* buildMelee(std::string customization);
+        Unit* buildShooter();
+        Unit* buildTank();
+        Unit* buildMage();
 
 };
 

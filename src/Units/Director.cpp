@@ -9,5 +9,11 @@ Unit* Director::buildSwords()
                       .build();
 }
 
+Unit* Director::buildShooter()
+{
+    return unitBuilder.withIdleTexture("gunmo1.png")
+                      .withAttackingTexture("gunmo2.png")
+                      .withProjectileTexture("")
+}
 
 

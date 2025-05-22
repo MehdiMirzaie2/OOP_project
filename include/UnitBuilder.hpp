@@ -10,7 +10,7 @@ class UnitBuilder // Provides interface for concrete unit builders
         float HP = 100; // 5 Ranged Attacks
         float damage = 20;  
         sf::Vector2f location;
-        //location = default location under unit inner recs
+        
         float speed = 0.25;
         float radius_of_attack = 20;
         int cost = 2;
