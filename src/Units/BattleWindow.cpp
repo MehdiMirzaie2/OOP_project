@@ -121,7 +121,7 @@ int BattleWindow:: runWindow()
 
     
 	//this->window = new sf::RenderWindow(sf::VideoMode(910,560), "BattleWindow");
-	this->window = new sf::RenderWindow(sf::VideoMode(1110,560), "BattleWindow");
+	this->window = new sf::RenderWindow(sf::VideoMode(WINDOW_WIDTH, WINDOW_HEIGHT), "BattleWindow");
 	while(window->isOpen()){
         gameClock.restart();
 		sf::Vector2i mouse_pos = sf::Mouse::getPosition(*(this->window));
@@ -179,7 +179,8 @@ void BattleWindow::startUnitAttack(Unit* attacker)
 {
     for(Unit* unit : active_units)
     {
-        if (unit == attacker || attacker->getisDead() || unit->getisDead()){
+        if (unit == attacker || attacker->getisDead() || unit->getisDead() || attacker->getTarget() == unit){
+																				// They are already fighting
             continue;
         }
         sf::Vector2f attacker_loc = attacker->getLocation();

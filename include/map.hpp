@@ -8,6 +8,7 @@ const int TOWER_HEIGHT = 60;
 
 #include "Unit.hpp"
 #include "Drawable.hpp"
+#include "Window.hpp"
 #include <unordered_map>
 #include <string>
 #include <vector>

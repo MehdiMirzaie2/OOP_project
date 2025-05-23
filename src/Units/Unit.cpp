@@ -30,9 +30,15 @@ Unit::Unit(float dmg, float spd, sf::Vector2f location, float radius_atk, int cs
     }
     skin.setOrigin(unitTextureIdle.getSize().x/2.f, unitTextureIdle.getSize().y/2.f);
     skin.setTexture(unitTextureIdle);
-    skin.setScale(0.06f, 0.06f); 
+    
+    if (alliance == 1){ // Mirror the sprite if its in the right deck
+        skin.setScale(-0.06f, 0.06f);
+    }
+    else{
+        skin.setScale(0.06f, 0.06f); 
+    }
     isAttacking = false;
-    attackCooldown = sf::seconds(1);
+    attackCooldown = sf::seconds(2);
     isDead = false;
     current_target = nullptr;
     timeSinceDeath.restart();
@@ -96,10 +102,13 @@ void Unit::update() // Handles Unit Animations
 
     if (isAttacking) // Attacking textures/Animations
     {
-        if (skin.getTexture() != &unitTextureAttacking){
-            skin.setTexture(unitTextureAttacking);
-        }
+        // if (skin.getTexture() != &unitTextureAttacking){
+        //     skin.setTexture(unitTextureAttacking);
+        // }
+        
         if (!current_target->getisDead()){
+       
+            updateAttackAnimation();
             attemptShooting(); // Handles cooldown and firing
         }
         else{
@@ -116,7 +125,6 @@ void Unit::update() // Handles Unit Animations
     // Movement Logic
     if (isMovingForward)
     {
-        std:: cout << "Unit is moving with alliance : " << alliance << std:: endl;
         if (alliance == 0){ // 0 means move right
             skin.move(speed, 0);
         }
@@ -128,6 +136,26 @@ void Unit::update() // Handles Unit Animations
 
 }
 
+void Unit::updateAttackAnimation()
+{
+    // In the first half of the cooldown, the state remains as attacking texture
+    float first_half_after_attack = attackCooldown.asSeconds()/2;
+    float elapsed_seconds = attackClock.getElapsedTime().asSeconds();
+    float early_factor = 0.6; // Shorten the duration for attacking texture after using attack
+    first_half_after_attack = first_half_after_attack*early_factor;
+    if (elapsed_seconds <= first_half_after_attack && skin.getTexture() != &unitTextureAttacking){
+        std::cout << "First half!!\n";
+        std::cout << attackClock.getElapsedTime().asSeconds() << std:: endl;
+        skin.setTexture(unitTextureAttacking);
+    }
+    // for the second half, IdleTexture, which changes just when it becomes attack time
+    else if (elapsed_seconds > first_half_after_attack && elapsed_seconds < first_half_after_attack*2 && skin.getTexture() != &unitTextureIdle){
+        std::cout << "Second half\n";
+        skin.setTexture(unitTextureIdle);
+    }
+
+}
+
 void Unit::draw(sf::RenderWindow *window)
 {
     window->draw(skin);
@@ -135,7 +163,6 @@ void Unit::draw(sf::RenderWindow *window)
     if (isAttacking){
        attemptShooting();
     }
-
 }
 
 Unit* Unit::getTarget(){
@@ -195,7 +222,7 @@ void Unit::dying_animation()
         sf::Color newColor(current_color.r, current_color.g, current_color.b, 255/(timeSinceDeath.getElapsedTime().asSeconds()*SOUL_SPEED));
         skin.setColor(newColor); // Based on the amount of time since death, change opacity
         if (skin.getColor().a <= 0.01){
-            std:: cout << "Enough time has passed...\n";
+            
             isActive = false;
         }
     }

@@ -30,7 +30,7 @@ class Unit : public Entity
 		sf::Vector2i dydx;
 		sf::Clock timeSinceDeath;
 
-		sf::Clock attackAnimationHoldTime;
+		// sf::Clock attackAnimationHoldTime;
 		
        // Weapon* weapon; // to be implemente
 
@@ -74,6 +74,7 @@ class Unit : public Entity
 		void setIsPicked(bool);
 		void moveIfPicked(sf::Vector2i);
 		void setDeckPosition(sf::Vector2f);
+		void updateAttackAnimation();
 		//bool unitSellected(
 };
 
