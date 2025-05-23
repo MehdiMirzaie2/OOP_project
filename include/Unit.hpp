@@ -66,6 +66,7 @@ class Unit : public Entity
 		//have to change the name of these two fucntinos at some stage
 		void update(sf::Time time_passed);
 		void update();
+		void update(std::vector<std::vector<int>> & map); //map is used for path finding
 		
 		void draw(sf::RenderWindow* window);
 		sf::Sprite getSprite();

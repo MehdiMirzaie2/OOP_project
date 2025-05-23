@@ -19,14 +19,18 @@ class Map : public Drawable{
         int rows;
         int cols;
         std::unordered_map<std::string, sf::RectangleShape> elements;
-	sf::Sprite map_sprite;
-	sf::Texture map_texture;
-	std::vector<std::vector<int>> map_grid;
+        sf::Sprite map_sprite;
+        sf::Texture map_texture;
+        std::vector<std::vector<int>> map_grid;
        
     public:
         Map();
         void draw(sf::RenderWindow* window);
         sf::RectangleShape createTower(float x, float y, sf::Color baseColor);
+
+        std::vector<std::vector<int>> &getMapGrid();
+
+
         
 };
 

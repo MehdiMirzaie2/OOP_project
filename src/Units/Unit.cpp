@@ -128,6 +128,86 @@ void Unit::update() // Handles Unit Animations
 
 }
 
+
+
+void Unit::update(std::vector<std::vector<int>> & map) // Handles Unit Animations
+{
+    if (!isActive) return;
+
+    if (isDead)
+    {
+        dying_animation();
+        return;
+    }
+
+    if (isAttacking) // Attacking textures/Animations
+    {
+        if (skin.getTexture() != &unitTextureAttacking){
+            skin.setTexture(unitTextureAttacking);
+        }
+        if (!current_target->getisDead()){
+            attemptShooting(); // Handles cooldown and firing
+        }
+        else{
+            startMovingForward(); // Handles disabling of attacks and starts movement
+        }
+        
+    }
+    else{
+        if (skin.getTexture() != &unitTextureIdle) {
+            skin.setTexture(unitTextureIdle);
+        }
+    }
+
+    // Movement Logic
+    if (isMovingForward)
+    {
+        int rows = (skin.getPosition().x - 100) / 30, cols = skin.getPosition().y / 30;
+        int deltaX = 0, deltay = 0;
+        int xdirection = alliance == 1 ? -1 : 1;
+
+        if (rows == 4 || rows == 16) {
+            deltaX = speed * xdirection;
+            deltay = 0;
+            // skin.move(speed * xdirection, 0);
+        }
+
+        else if (rows <= 19){
+            deltaX = 0;
+            deltay = speed * -1;
+            
+        }
+        else {
+            deltaX = 0;
+            deltay = speed;
+        }
+
+        skin.move(deltaX, deltay);
+        std:: cout << "Unit is moving with alliance : " << alliance << std:: endl;
+        
+        
+    }
+
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 void Unit::draw(sf::RenderWindow *window)
 {
     window->draw(skin);

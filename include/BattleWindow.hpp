@@ -18,14 +18,14 @@ class BattleWindow : public Window
         std::vector <Unit*> active_units; // units that are spawned currently
         sf::Clock gameClock;
        
-	User user2;
-	int num_deployed[2] = {0, 0};
+        User user2;
+        int num_deployed[2] = {0, 0};
 
-	std::vector<Unit *> user1_units;
-	std::vector<Unit *> user2_units;
-	void loadDecks();
-	void deploye(sf::Event);
-	void selectUnit(sf::Event);
+        std::vector<Unit *> user1_units;
+        std::vector<Unit *> user2_units;
+        void loadDecks();
+        void deploye(sf::Event);
+        void selectUnit(sf::Event);
 //void deploy(int index, sf::Vector2i d_loc);
 
     public:
