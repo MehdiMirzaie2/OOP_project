@@ -132,7 +132,9 @@ void Unit::update() // Handles Unit Animations
 
 void Unit::update(std::vector<std::vector<int>> & map) // Handles Unit Animations
 {
-    if (!isActive) return;
+	std::cout << "hello world hello world\n";
+    (void)map;
+	if (!isActive) return;
 
     if (isDead)
     {
@@ -162,17 +164,19 @@ void Unit::update(std::vector<std::vector<int>> & map) // Handles Unit Animation
     // Movement Logic
     if (isMovingForward)
     {
-        int rows = (skin.getPosition().x - 100) / 30, cols = skin.getPosition().y / 30;
-        int deltaX = 0, deltay = 0;
+        int cols  = (skin.getPosition().x - 100) / 30, rows = skin.getPosition().y / 30;
+	std::cout << "rows : " << rows << std::endl;
+	(void)cols;
+        float deltaX = 0, deltay = 0;
         int xdirection = alliance == 1 ? -1 : 1;
 
-        if (rows == 4 || rows == 16) {
+        if ((rows >= 2 && rows <= 4) || (rows >= 14 and rows <= 16)) {
             deltaX = speed * xdirection;
             deltay = 0;
             // skin.move(speed * xdirection, 0);
         }
 
-        else if (rows <= 19){
+        else if (rows <= 9){
             deltaX = 0;
             deltay = speed * -1;
             
@@ -183,7 +187,7 @@ void Unit::update(std::vector<std::vector<int>> & map) // Handles Unit Animation
         }
 
         skin.move(deltaX, deltay);
-        std:: cout << "Unit is moving with alliance : " << alliance << std:: endl;
+        std:: cout << deltaX << " " << deltay << std::endl;
         
         
     }
