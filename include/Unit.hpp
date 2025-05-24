@@ -7,8 +7,12 @@
 #include <SFML/System/Time.hpp>
 #include <vector>
 #include "map.hpp"
+#include <stack>
 
 const sf::Vector2f UNITSIZE(0.06, 0.06);
+typedef std::pair<int, int> Pair;
+typedef std::pair<double, std::pair<int, int>> pPair;
+
 
 class Unit : public Entity
 {
@@ -81,7 +85,7 @@ class Unit : public Entity
 		void setDeckPosition(sf::Vector2f);
 		//bool unitSellected(
 
-		Pair Unit::getClosestTower();
+		Pair getClosestTower();
 
 		void setPath(std::stack<Pair> path);
 };

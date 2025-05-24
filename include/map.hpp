@@ -17,6 +17,9 @@ const int TOWER_HEIGHT = 60;
 #include <utility>
 #include <set>
 #include <stack>
+#include "cmath"
+#include <cstring>
+
 typedef std::pair<int, int> Pair;
 typedef std::pair<double, std::pair<int, int>> pPair;
 typedef std::pair<std::string, sf::RectangleShape> element;

@@ -108,7 +108,7 @@ bool Map::isDestination(int row, int col, Pair dest)
 double Map::calculateHValue(int row, int col, Pair dest)
 {
 	// Return using the distance formula
-	return ((double)sqrt(
+	return ((double)sqrtf(
 		(row - dest.first) * (row - dest.first) + (col - dest.second) * (col - dest.second)));
 }
 
@@ -150,7 +150,7 @@ std::stack<Pair> Map::tracePath(cell cellDetails[][COL], Pair dest)
         Path.pop();
         printf("-> (%d,%d) ", p.first, p.second);
     }
-
+	exit(1);
     return {};
 }
 
@@ -159,13 +159,13 @@ std::stack<Pair> Map::aStarSearch(Pair src, Pair dst)
 	if (isValid(src.first, src.second) == false)
 	{
 		printf("source is invalid\n");
-		return;
+		return {};
 	}
 
 	if (isValid(dst.first, dst.second) == false)
 	{
 		printf("dst is invalid\n");
-		return;
+		return {};
 	}
 
 	// if (isUnBlocked(src.first, src.second) == false)
@@ -173,7 +173,7 @@ std::stack<Pair> Map::aStarSearch(Pair src, Pair dst)
 	if (isDestination(src.first, src.second, dst))
 	{
 		printf("we are already at the destination\n");
-		return;
+		return {};
 	}
 
 	bool closedList[ROW][COL];

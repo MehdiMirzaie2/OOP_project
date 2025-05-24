@@ -337,23 +337,26 @@ void Unit::setDydx(sf::Vector2i _dydx)
 
 Pair Unit::getClosestTower()
 {
-    int row = skin.getPosition().x, col = skin.getPosition().y;
-    std::array<std::array<int, 2>, 4> targets =
-        (alliance == 1) ? std::array<std::array<int, 2>, 4>{{{3, 7}, {8, 4}, {9, 4}, {13, 7}}}
-                        : std::array<std::array<int, 2>, 4>{{{3, 24}, {8, 27}, {9, 27}, {13, 24}}};
+	std::cout << "alience == " << alliance << "\n";
+    int col = skin.getPosition().x / 30, row = skin.getPosition().y / 30;
+    std::vector<Pair> targets =
+        (alliance == 1) ? std::vector<Pair>{std::make_pair(3, 7), std::make_pair(8, 4), std::make_pair(9, 4), std::make_pair(14, 7)}
+                        : std::vector<Pair>{std::make_pair(3, 24), std::make_pair(8, 27), std::make_pair(9, 27),std::make_pair(14, 24)};
 
     float min = __FLT_MAX__;
     int index = 0;
     for (int i = 0; i < 4; i++)
     {
-        double distance = ((row - 3) * (row - 3)) + ((col - 7) * (col - 7)) * (((row - 3) * (row - 3)) + ((col - 7) * (col - 7)));
+        double distance = ((row - targets[i].first) * (row - targets[i].first)) + ((col - targets[i].second) * (col - targets[i].second));
+	distance *= distance;
         if (distance < min)
         {
             min = distance;
             index = i;
         }
     }
-    return std::make_pair(targets[index][0], targets[index][1]);
+    std::cout << targets[index].first << " " << targets[index].second << "\n"; 
+    return targets[index];
 }
 
 void Unit::setPath(std::stack<Pair> _path) {
