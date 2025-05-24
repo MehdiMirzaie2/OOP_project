@@ -3,7 +3,7 @@
 
 int MainMenu::runWindow()
 {
-    window = new sf::RenderWindow(sf::VideoMode(menu_display_width, menu_display_height), "Main Menu");
+    window = new sf::RenderWindow(sf::VideoMode(WINDOW_WIDTH, WINDOW_HEIGHT), "Main Menu");
     while(window->isOpen()){
         sf::Event event;
         while(window->pollEvent(event)){
@@ -29,9 +29,11 @@ int MainMenu::runWindow()
 }
 
 void MainMenu::draw_all(sf::RenderWindow* window){
+    window->draw(menuBG);
     for(int i = 0; i < menu_options; i++){
         window->draw(menuTexts[i]);
     }
+    window->draw(title);
 }
 
 MainMenu::MainMenu()
@@ -40,11 +42,19 @@ MainMenu::MainMenu()
     if(!font.loadFromFile("./src/Fonts/Quicksand-Bold.ttf")){
         std::cout << "Unable to load font!\n";
     }
+    if (!menuBGTexture.loadFromFile("src/Textures/main-menu-bg.png")){
+        std::cout << "Unable to load Main menu Texture\n";
+    }
+    menuBG.setOrigin(menuBGTexture.getSize().x/2.f, menuBGTexture.getSize().y/2.f);
+    menuBG.setTexture(menuBGTexture);
+    menuBG.setPosition(WINDOW_WIDTH/2.f, WINDOW_HEIGHT/2.f);
+
+    
     menuTexts = new sf::Text[menu_options];
     menuTexts[0].setString("Play");
     menuTexts[1].setString("Units");
     menuTexts[2].setString("Exit");
-    sf::Vector2f start = sf::Vector2f(menu_display_width/2.f, menu_display_height/2.f - 240); // Starting position for first option - play
+    sf::Vector2f start = sf::Vector2f(WINDOW_WIDTH/2.f - 30, WINDOW_HEIGHT/2.f); // Starting position for first option - play
     sf::Vector2f padding_y(0, 40); // Padding between successive options , eg between play and options
 
     for(int i = 0; i < menu_options; i++){
@@ -59,5 +69,12 @@ MainMenu::MainMenu()
         start = menuTexts[i].getPosition();
     }
 
-    
+    // Set the title of the game:
+   if(!titleTexture.loadFromFile("src/Textures/title.png")){
+        std::cout << "Unable to load title texture\n";
+   }
+   title.setOrigin(titleTexture.getSize().x/2.f, titleTexture.getSize().y/2.f);
+   title.setTexture(titleTexture);
+   title.setPosition(WINDOW_WIDTH/2.f, 110);
+   title.setScale(0.8, 0.8);
 }

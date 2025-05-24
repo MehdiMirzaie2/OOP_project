@@ -13,7 +13,7 @@ class BattleWindow : public Window
     private:
         Map gameMap;
         Director director;
-	int m_turn;
+	    int m_turn;
         User user1; // bad design, must be passed from the game class, currently here for demo deployment
         std::vector <Unit*> active_units; // units that are spawned currently
         sf::Clock gameClock;
@@ -33,8 +33,9 @@ class BattleWindow : public Window
         void draw_all(sf::RenderWindow* window);
         int runWindow();
         void checkCollisions();
-        void updateUnits(sf::Time time_passed);
+        void updateUnits();
         void updateAttacks();
+        void startUnitAttack(Unit* attacker);
 };
 
 

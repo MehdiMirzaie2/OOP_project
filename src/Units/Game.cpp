@@ -16,7 +16,9 @@ void Game::runGame(){
             customizeWindow.runWindow();
         }
         else{
+            std:: cout << "Playing is false!\n";
             playing = false;
+            break;
         }
     }
 }

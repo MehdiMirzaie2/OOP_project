@@ -4,12 +4,15 @@
 #include "Window.hpp"
 #include <SFML/Graphics.hpp>
 const int menu_options = 3;
-const int menu_display_height = 480;
-const int menu_display_width = 620;
+
 
 class MainMenu : public Window{
 
     private:
+        sf::Sprite title;
+        sf::Texture titleTexture;
+        sf::Sprite menuBG;
+        sf::Texture menuBGTexture;
         sf::Text* menuTexts;
         sf::Font font;
 

@@ -7,7 +7,7 @@
 #include <SFML/System/Time.hpp>
 #include <vector>
 
-const sf::Vector2f UNITSIZE(-(30.f / 130.f), 30.f / 135.f);
+const sf::Vector2f UNITSIZE(0.06, 0.06);
 
 class Unit : public Entity
 {
@@ -16,17 +16,21 @@ class Unit : public Entity
 		sf::Texture unitTextureIdle;
 		sf::Texture unitTextureAttacking;
 		std:: string projectileTextureName;
-		sf::Sprite skin;
+		int alliance;
 		bool isPicked;
-		std::vector<Attack> attacks;
+		// std::vector<Attack*> attacks;
+		Unit* current_target;
 		bool isAttacking;
 		sf::Clock attackClock;
 		sf::Time attackCooldown;
 		bool isDead; 
 		sf::Texture deadTexture;
 		bool isMovingForward;
-		sf::Vector2i deckPos;
+		sf::Vector2f m_deckPos;
 		sf::Vector2i dydx;
+		sf::Clock timeSinceDeath;
+
+		// sf::Clock attackAnimationHoldTime;
 		
        // Weapon* weapon; // to be implemente
 
@@ -34,19 +38,21 @@ class Unit : public Entity
 		static std::vector<Attack*> active_attacks;
 		// initialisers
 		Unit();
-		Unit(float dmg, float loc_x, float loc_y, float spd, float radius_atk, int cst, int hp, std::string idleTextureName, std:: string attackingTextureName, std:: string projectileTextureName); //unit builder has the values for the unit
+		Unit(float dmg, float spd, sf::Vector2f location ,float radius_atk, int cst, int hp, std::string idleTextureName, std:: string attackingTextureName, std:: string projectileTextureName, int alliance); //unit builder has the values for the unit
 		
 
 		// getters
         float getHP();
 		bool getisDead();
 		sf::Sprite getSkin();
-		std::vector<Attack> getAttacks();
+		Unit* getTarget();
 
+		sf::Vector2f getDeckPosition();
 		// setters
         void setHP(float newHP);
-		void updateSpriteLoc();
-		void useAttack();
+		
+		
+		void useAttack(Unit* hunted);
 		void attemptShooting();
 		void startMovingForward();
 
@@ -54,15 +60,21 @@ class Unit : public Entity
 		void dying_animation();
 		void takeDamage(Attack attack);
 
-		void update(sf::Time time_passed);
 		void updateLocation(sf::Vector2f);
 		bool getIsPicked();
+		void updateSpriteLoc();
+		//have to change the name of these two fucntinos at some stage
+		void update(sf::Time time_passed);
+		void update();
+		
 		void draw(sf::RenderWindow* window);
 		sf::Sprite getSprite();
 
 		void setDydx(sf::Vector2i);
 		void setIsPicked(bool);
 		void moveIfPicked(sf::Vector2i);
+		void setDeckPosition(sf::Vector2f);
+		void updateAttackAnimation();
 		//bool unitSellected(
 };
 

@@ -10,9 +10,10 @@ class Director
 // also a swordsman
     public:
 
-        Unit* buildSwords();
-        // Unit* buildTank(std:: string customization);
-        // Unit* buildMelee(std::string customization);
+        Unit* buildSwords(int alliance);
+        Unit* buildShooter(int alliance);
+        Unit* buildTank(int alliance);
+        Unit* buildMage(int alliance);
 
 };
 

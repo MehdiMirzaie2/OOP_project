@@ -16,10 +16,11 @@ class Attack : public Drawable
         bool isActive;
         int damage;
         Unit* owner;
+        Unit* target;
 
     public:
-        Attack(std::string attackTextureName);
-        Attack(Unit* owner, std::string attackTextureName);
+      
+        Attack(Unit* owner, std::string attackTextureName, Unit* target);
         void move();
         bool getisActive();
         void draw(sf::RenderWindow* window);
