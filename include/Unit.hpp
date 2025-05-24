@@ -6,6 +6,7 @@
 #include <SFML/System/Clock.hpp>
 #include <SFML/System/Time.hpp>
 #include <vector>
+#include "map.hpp"
 
 const sf::Vector2f UNITSIZE(0.06, 0.06);
 
@@ -31,6 +32,9 @@ class Unit : public Entity
 		sf::Clock timeSinceDeath;
 
 		sf::Clock attackAnimationHoldTime;
+
+		// the path the unit will follow until their is distruption, then new path will be computed.
+		std::stack<Pair> path;
 		
        // Weapon* weapon; // to be implemente
 
@@ -76,6 +80,10 @@ class Unit : public Entity
 		void moveIfPicked(sf::Vector2i);
 		void setDeckPosition(sf::Vector2f);
 		//bool unitSellected(
+
+		Pair Unit::getClosestTower();
+
+		void setPath(std::stack<Pair> path);
 };
 
 #endif

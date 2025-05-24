@@ -9,14 +9,15 @@
 
 Unit::Unit() : Entity() {};
 
-Unit::Unit(float dmg, float spd, sf::Vector2f location, float radius_atk, int cst, int hp, std::string idleTextureName, std:: string attackingTextureName, std:: string projectileTextureName, int alliance) : Entity(dmg, location, spd, radius_atk, cst), HP(hp), isPicked(false)
+Unit::Unit(float dmg, float spd, sf::Vector2f location, float radius_atk, int cst, int hp, std::string idleTextureName, std::string attackingTextureName, std::string projectileTextureName, int alliance) : Entity(dmg, location, spd, radius_atk, cst), HP(hp), isPicked(false)
 { // Sync sprite & user pos
     if (!unitTextureIdle.loadFromFile("src/Textures/" + std::string(idleTextureName)))
     {
         std::cout << "Unable to load Idle texture!\n";
     }
 
-    if (!unitTextureAttacking.loadFromFile("src/Textures/" + std::string(attackingTextureName))){
+    if (!unitTextureAttacking.loadFromFile("src/Textures/" + std::string(attackingTextureName)))
+    {
         std::cout << "Unable to load attacking texture!\n";
     }
     this->projectileTextureName = projectileTextureName;
@@ -24,33 +25,37 @@ Unit::Unit(float dmg, float spd, sf::Vector2f location, float radius_atk, int cs
     // for (int i = 0; i < 5; i++){
     //     attacks.push_back(new Attack(this, projectileTextureName));
     // }
-    
-    if (!deadTexture.loadFromFile("src/Textures/death.png")){
-        std:: cout << "Couldnt load death soul\n";
+
+    if (!deadTexture.loadFromFile("src/Textures/death.png"))
+    {
+        std::cout << "Couldnt load death soul\n";
     }
-    skin.setOrigin(unitTextureIdle.getSize().x/2.f, unitTextureIdle.getSize().y/2.f);
+    skin.setOrigin(unitTextureIdle.getSize().x / 2.f, unitTextureIdle.getSize().y / 2.f);
     skin.setTexture(unitTextureIdle);
-    skin.setScale(0.06f, 0.06f); 
+    skin.setScale(0.06f, 0.06f);
     isAttacking = false;
     attackCooldown = sf::seconds(1);
     isDead = false;
     current_target = nullptr;
     timeSinceDeath.restart();
     this->alliance = alliance;
-
-    
 };
 
-std::vector<Attack*> Unit::active_attacks = {};
+std::vector<Attack *> Unit::active_attacks = {};
 
-void Unit::useAttack(Unit* hunted_target)
+void Unit::useAttack(Unit *hunted_target)
 { // Use all attack sprites
     current_target = hunted_target;
     isAttacking = true;
     isMovingForward = false;
 }
 
-void Unit::startMovingForward(){ isMovingForward = true; isAttacking = false; current_target = nullptr;}
+void Unit::startMovingForward()
+{
+    isMovingForward = true;
+    isAttacking = false;
+    current_target = nullptr;
+}
 
 float Unit::getHP()
 {
@@ -62,16 +67,19 @@ void Unit::setHP(float newHP)
     HP = newHP;
 }
 
-void Unit::updateLocation(sf::Vector2f location) {
-	skin.setPosition(location);
+void Unit::updateLocation(sf::Vector2f location)
+{
+    skin.setPosition(location);
 }
 
-void Unit::setDeckPosition(sf::Vector2f location) {
-	m_deckPos = location;
+void Unit::setDeckPosition(sf::Vector2f location)
+{
+    m_deckPos = location;
 }
 
-sf::Vector2f Unit::getDeckPosition() {
-	return m_deckPos;
+sf::Vector2f Unit::getDeckPosition()
+{
+    return m_deckPos;
 }
 
 void Unit::updateSpriteLoc()
@@ -86,7 +94,8 @@ bool Unit::getisDead()
 
 void Unit::update() // Handles Unit Animations
 {
-    if (!isActive) return;
+    if (!isActive)
+        return;
 
     if (isDead)
     {
@@ -96,19 +105,23 @@ void Unit::update() // Handles Unit Animations
 
     if (isAttacking) // Attacking textures/Animations
     {
-        if (skin.getTexture() != &unitTextureAttacking){
+        if (skin.getTexture() != &unitTextureAttacking)
+        {
             skin.setTexture(unitTextureAttacking);
         }
-        if (!current_target->getisDead()){
+        if (!current_target->getisDead())
+        {
             attemptShooting(); // Handles cooldown and firing
         }
-        else{
+        else
+        {
             startMovingForward(); // Handles disabling of attacks and starts movement
         }
-        
     }
-    else{
-        if (skin.getTexture() != &unitTextureIdle) {
+    else
+    {
+        if (skin.getTexture() != &unitTextureIdle)
+        {
             skin.setTexture(unitTextureIdle);
         }
     }
@@ -116,25 +129,24 @@ void Unit::update() // Handles Unit Animations
     // Movement Logic
     if (isMovingForward)
     {
-        std:: cout << "Unit is moving with alliance : " << alliance << std:: endl;
-        if (alliance == 0){ // 0 means move right
+        std::cout << "Unit is moving with alliance : " << alliance << std::endl;
+        if (alliance == 0)
+        { // 0 means move right
             skin.move(speed, 0);
         }
-        else{ // else move left
+        else
+        { // else move left
             skin.move(-speed, 0);
         }
-        
     }
-
 }
 
-
-
-void Unit::update(std::vector<std::vector<int>> & map) // Handles Unit Animations
+void Unit::update(std::vector<std::vector<int>> &map) // Handles Unit Animations
 {
-	std::cout << "hello world hello world\n";
+    std::cout << "hello world hello world\n";
     (void)map;
-	if (!isActive) return;
+    if (!isActive)
+        return;
 
     if (isDead)
     {
@@ -144,19 +156,23 @@ void Unit::update(std::vector<std::vector<int>> & map) // Handles Unit Animation
 
     if (isAttacking) // Attacking textures/Animations
     {
-        if (skin.getTexture() != &unitTextureAttacking){
+        if (skin.getTexture() != &unitTextureAttacking)
+        {
             skin.setTexture(unitTextureAttacking);
         }
-        if (!current_target->getisDead()){
+        if (!current_target->getisDead())
+        {
             attemptShooting(); // Handles cooldown and firing
         }
-        else{
+        else
+        {
             startMovingForward(); // Handles disabling of attacks and starts movement
         }
-        
     }
-    else{
-        if (skin.getTexture() != &unitTextureIdle) {
+    else
+    {
+        if (skin.getTexture() != &unitTextureIdle)
+        {
             skin.setTexture(unitTextureIdle);
         }
     }
@@ -164,72 +180,54 @@ void Unit::update(std::vector<std::vector<int>> & map) // Handles Unit Animation
     // Movement Logic
     if (isMovingForward)
     {
-        int cols  = (skin.getPosition().x - 100) / 30, rows = skin.getPosition().y / 30;
-	std::cout << "rows : " << rows << std::endl;
-	(void)cols;
+        int cols = (skin.getPosition().x - 100) / 30, rows = skin.getPosition().y / 30;
+        std::cout << "rows : " << rows << std::endl;
+        (void)cols;
         float deltaX = 0, deltay = 0;
         int xdirection = alliance == 1 ? -1 : 1;
 
-        if ((rows >= 2 && rows <= 4) || (rows >= 14 and rows <= 16)) {
+        if ((rows >= 2 && rows <= 4) || (rows >= 14 and rows <= 16))
+        {
             deltaX = speed * xdirection;
             deltay = 0;
             // skin.move(speed * xdirection, 0);
         }
 
-        else if (rows <= 9){
+        else if (rows <= 9)
+        {
             deltaX = 0;
             deltay = speed * -1;
-            
         }
-        else {
+        else
+        {
             deltaX = 0;
             deltay = speed;
         }
 
         skin.move(deltaX, deltay);
-        std:: cout << deltaX << " " << deltay << std::endl;
-        
-        
+        std::cout << deltaX << " " << deltay << std::endl;
     }
-
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 void Unit::draw(sf::RenderWindow *window)
 {
     window->draw(skin);
 
-    if (isAttacking){
-       attemptShooting();
+    if (isAttacking)
+    {
+        attemptShooting();
     }
-
 }
 
-Unit* Unit::getTarget(){
+Unit *Unit::getTarget()
+{
     return current_target;
 }
 
-sf::Sprite Unit::getSkin(){return skin;}
+sf::Sprite Unit::getSkin() { return skin; }
 
 void Unit::attemptShooting()
-{   
+{
     //  if (attackClock.getElapsedTime() >= attackCooldown){
     //      for (int i = 0; i < 5; i++)
     //     {
@@ -242,22 +240,23 @@ void Unit::attemptShooting()
     //         }
     //     }
     //  }
-    if (attackClock.getElapsedTime() >= attackCooldown){ // if the cooldown has passed                                                          
-                                                                       
-        Attack* projectile = new Attack(this, projectileTextureName, current_target);
+    if (attackClock.getElapsedTime() >= attackCooldown)
+    { // if the cooldown has passed
+
+        Attack *projectile = new Attack(this, projectileTextureName, current_target);
         projectile->shoot(this->getLocation());
         active_attacks.push_back(projectile);
         attackClock.restart();
     }
-    
 }
 
-void Unit::dead(){
-    
-    skin.setOrigin(deadTexture.getSize().x/2.f, deadTexture.getSize().y/2.f);
+void Unit::dead()
+{
+
+    skin.setOrigin(deadTexture.getSize().x / 2.f, deadTexture.getSize().y / 2.f);
     skin.setTextureRect(sf::IntRect(0, 0, deadTexture.getSize().x, deadTexture.getSize().y));
     skin.setTexture(deadTexture);
-    
+
     isDead = true;
     isAttacking = false;
     isMovingForward = false;
@@ -271,62 +270,92 @@ void Unit::dying_animation()
 
     if (isDead)
     {
-        if (skin.getTexture() != &deadTexture){
+        if (skin.getTexture() != &deadTexture)
+        {
             skin.setTexture(deadTexture);
         }
         sf::Color current_color = skin.getColor();
-        //std:: cout << "time passed since death: " << timeSinceDeath.getElapsedTime().asSeconds() << std:: endl;
-        sf::Color newColor(current_color.r, current_color.g, current_color.b, 255/(timeSinceDeath.getElapsedTime().asSeconds()*SOUL_SPEED));
+        // std:: cout << "time passed since death: " << timeSinceDeath.getElapsedTime().asSeconds() << std:: endl;
+        sf::Color newColor(current_color.r, current_color.g, current_color.b, 255 / (timeSinceDeath.getElapsedTime().asSeconds() * SOUL_SPEED));
         skin.setColor(newColor); // Based on the amount of time since death, change opacity
-        if (skin.getColor().a <= 0.01){
-            std:: cout << "Enough time has passed...\n";
+        if (skin.getColor().a <= 0.01)
+        {
+            std::cout << "Enough time has passed...\n";
             isActive = false;
         }
     }
-
-
 }
 
 void Unit::takeDamage(Attack attack)
 {
 
-    if (HP <= 0 && !isDead){
+    if (HP <= 0 && !isDead)
+    {
         dead();
         return;
     }
 
-    if (isDead){
+    if (isDead)
+    {
         return;
     }
-    std:: cout << "Original HP: " << HP << std:: endl;
+    std::cout << "Original HP: " << HP << std::endl;
     this->HP -= attack.getDamage();
-    std:: cout << "Remaining HP: " << HP << std:: endl;
-
-    
+    std::cout << "Remaining HP: " << HP << std::endl;
 }
 
-sf::Sprite Unit::getSprite() {
-	return skin;
+sf::Sprite Unit::getSprite()
+{
+    return skin;
 }
 
-void Unit::moveIfPicked(sf::Vector2i mouse_pos) {
-	if (isPicked) {
-		sf::Vector2f location(
-			mouse_pos.x - dydx.x,					
-			mouse_pos.y - dydx.y
-		);
-		setLocation(location);
-	}
+void Unit::moveIfPicked(sf::Vector2i mouse_pos)
+{
+    if (isPicked)
+    {
+        sf::Vector2f location(
+            mouse_pos.x - dydx.x,
+            mouse_pos.y - dydx.y);
+        setLocation(location);
+    }
 }
 
-void Unit::setIsPicked(bool status) {
-	isPicked = status;
+void Unit::setIsPicked(bool status)
+{
+    isPicked = status;
 }
 
-bool Unit::getIsPicked() {
-	return isPicked;
+bool Unit::getIsPicked()
+{
+    return isPicked;
 }
 
-void Unit::setDydx(sf::Vector2i _dydx) {
-	dydx = _dydx;
+void Unit::setDydx(sf::Vector2i _dydx)
+{
+    dydx = _dydx;
+}
+
+Pair Unit::getClosestTower()
+{
+    int row = skin.getPosition().x, col = skin.getPosition().y;
+    std::array<std::array<int, 2>, 4> targets =
+        (alliance == 1) ? std::array<std::array<int, 2>, 4>{{{3, 7}, {8, 4}, {9, 4}, {13, 7}}}
+                        : std::array<std::array<int, 2>, 4>{{{3, 24}, {8, 27}, {9, 27}, {13, 24}}};
+
+    float min = __FLT_MAX__;
+    int index = 0;
+    for (int i = 0; i < 4; i++)
+    {
+        double distance = ((row - 3) * (row - 3)) + ((col - 7) * (col - 7)) * (((row - 3) * (row - 3)) + ((col - 7) * (col - 7)));
+        if (distance < min)
+        {
+            min = distance;
+            index = i;
+        }
+    }
+    return std::make_pair(targets[index][0], targets[index][1]);
+}
+
+void Unit::setPath(std::stack<Pair> _path) {
+    path = _path;
 }

@@ -43,6 +43,9 @@ void BattleWindow::deploye(sf::Event event)
 		{
 			sf::Vector2f a = sf::Vector2f((col * 30) + 100, row * 30);
 			unitToDeploy->setLocation(a);
+
+			unitToDeploy->setPath(gameMap.aStarSearch(std::make_pair(row, col), unitToDeploy->getClosestTower()));
+
 			unitToDeploy->setisActive(true);
 			m_turn = (m_turn == 0) ? 1 : 0;
 			num_deployed[m_turn]++;

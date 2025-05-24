@@ -1,13 +1,28 @@
-#include "../../include/map.hpp"
+#include <vector>
+#include <iostream>
+#include <utility>
+#include <set>
+using namespace std;
 
-// background image width = 960
-// background image height = 540
-// cells 30 x 30
+typedef pair<int, int> Pair;
+typedef pair<double, pair<int, int>> pPair;
 
-Map::Map()
+struct cell
 {
-    this->map_grid = {
-        //     {0,  1,  2,  3,  4,  5,  6,  7,  8,  9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27, 28, 29, 30, 31} 
+	// Row and Column index of its parent
+	// Note that 0 <= i <= ROW-1 & 0 <= j <= COL-1
+	int parent_i, parent_j;
+	// f = g + h
+	double f, g, h;
+};
+
+vector<Pair> directions = {make_pair(0, 1), make_pair(0, -1), make_pair(1, 0), make_pair(-1, 0), make_pair(1, 1), make_pair(1, -1), make_pair(-1, 1), make_pair(-1, -1)};
+
+#define ROW 18
+#define COL 32
+
+int grid[ROW][COL] = {
+	    //     {0,  1,  2,  3,  4,  5,  6,  7,  8,  9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27, 28, 29, 30, 31} 
         /*0*/  {0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  2,  2,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0},
 		/*1*/  {0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  2,  2,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0},
 		/*2*/  {0,  0,  0,  0,  0,  1,  1,  1,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  1,  1,  1,  0,  0,  0,  0,  0},
@@ -20,83 +35,21 @@ Map::Map()
 		/*9*/  {0,  1,  1,  1,  1,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  2,  2,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  1,  1,  1,  1,  0},
 		/*10*/ {0,  1,  1,  1,  1,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  2,  2,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  1,  1,  1,  1,  0},
 		/*11*/ {0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  2,  2,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0},
-		/*12*/ {0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  2,  2,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0},
+		/*12*/ {0,  0,  0,  0,  0,  1,  1,  1,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  1,  1,  1,  0,  0,  0,  0,  0},
 		/*13*/ {0,  0,  0,  0,  0,  1,  1,  1,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  1,  1,  1,  0,  0,  0,  0,  0},
-		/*14*/ {0,  0,  0,  0,  0,  1,  1,  1,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  1,  1,  1,  0,  0,  0,  0,  0},
 		/*15*/ {0,  0,  0,  0,  0,  1,  1,  1,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  1,  1,  1,  0,  0,  0,  0,  0},
 		/*16*/ {0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  2,  2,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0},
-        /*17*/ {0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  2,  2,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0},
+		/*17*/ {0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  2,  2,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0},
     };
 
-    directions = {std::make_pair(0, 1), std::make_pair(0, -1), std::make_pair(1, 0), std::make_pair(-1, 0), std::make_pair(1, 1), std::make_pair(1, -1), std::make_pair(-1, 1), std::make_pair(-1, -1)};
-
-    //map background set up
-    map_texture.loadFromFile("src/Textures/background.png");
-    map_sprite.setTexture(map_texture);
-
-    if (map_sprite.getTexture() == NULL)
-        std::cout << map_sprite.getPosition().x << " this is the sprite\n";
-
-    map_sprite.setPosition(100, 0);
-
-
-    // Towers (up to down, in order)
-    auto enemyKing = createTower(WINDOW_WIDTH / 2.9 - TOWER_WIDTH / 1, WINDOW_HEIGHT / 3, sf::Color::Red); // 2
-    auto enemyLeftPrincess = createTower(WINDOW_WIDTH / 3 - 300, 80, sf::Color::Red);                      // 3
-    auto enemyRightPrincess = createTower(WINDOW_WIDTH / 3 + 149, 80, sf::Color::Red);                     // 1
-
-    auto playerKing = createTower(WINDOW_WIDTH / 2.9 - TOWER_WIDTH / 1, WINDOW_HEIGHT + 45, sf::Color::Blue); // 2
-    auto playerLeftPrincess = createTower(WINDOW_WIDTH / 3 - 300, WINDOW_HEIGHT + 232, sf::Color::Blue);      // 3
-    auto playerRightPrincess = createTower(WINDOW_WIDTH / 3 + 149, WINDOW_HEIGHT + 232, sf::Color::Blue);     // 1
-
-    elements.insert(element("playerKing", playerKing));
-    elements.insert(element("playerLeftPrincess", playerLeftPrincess));
-    elements.insert(element("playerRightPrincess", playerRightPrincess));
-    elements.insert(element("enemyKing", enemyKing));
-    elements.insert(element("enemyLeftPrincess", enemyLeftPrincess));
-    elements.insert(element("enemyRightPrincess", enemyRightPrincess));
-}
-
-sf::RectangleShape Map::createTower(float x, float y, sf::Color baseColor)
-{
-    sf::RectangleShape tower(sf::Vector2f(TOWER_WIDTH, TOWER_HEIGHT));
-    tower.setPosition(y, WINDOW_HEIGHT - x - TOWER_WIDTH);
-    tower.setFillColor(baseColor);
-    tower.setOutlineThickness(2);
-    tower.setOutlineColor(sf::Color::Black);
-    return tower;
-}
-
-void Map::draw(sf::RenderWindow *window)
-{
-    // std::cout << "hello world\n";
-    if (map_sprite.getTexture() == NULL)
-        std::cout << "there is no texture " << map_sprite.getPosition().x << std::endl;
-
-    window->draw(map_sprite);
-
-}
-
-// Background
-
-
-std::vector<std::vector<int>> &Map::getMapGrid() {
-    return map_grid;
-}
-
-
-
-
-
-
-bool Map::isValid(int row, int col)
+bool isValid(int row, int col)
 {
 	// Returns true if row number and column number
 	// is in range
 	return (row >= 0) && (row < ROW) && (col >= 0) && (col < COL);
 }
 
-bool Map::isDestination(int row, int col, Pair dest)
+bool isDestination(int row, int col, Pair dest)
 {
 	if (row == dest.first && col == dest.second)
 		return (true);
@@ -105,7 +58,7 @@ bool Map::isDestination(int row, int col, Pair dest)
 }
 
 // A Utility Function to calculate the 'h' heuristics.
-double Map::calculateHValue(int row, int col, Pair dest)
+double calculateHValue(int row, int col, Pair dest)
 {
 	// Return using the distance formula
 	return ((double)sqrt(
@@ -115,10 +68,10 @@ double Map::calculateHValue(int row, int col, Pair dest)
 
 // A Utility Function to check whether the given cell is
 // blocked or not
-bool Map::isUnBlocked(int row, int col)
+bool isUnBlocked(int row, int col)
 {
     // Returns true if the cell is not blocked else false
-    if (map_grid[row][col] == 0)
+    if (grid[row][col] == 0)
         return (true);
     else
         return (false);
@@ -127,34 +80,34 @@ bool Map::isUnBlocked(int row, int col)
 
 // A Utility Function to trace the path from the source
 // to destination
-std::stack<Pair> Map::tracePath(cell cellDetails[][COL], Pair dest)
+void tracePath(cell cellDetails[][COL], Pair dest)
 {
     printf("\nThe Path is ");
     int row = dest.first;
     int col = dest.second;
 
-    std::stack<Pair> Path;
+    stack<Pair> Path;
 
     while (!(cellDetails[row][col].parent_i == row
              && cellDetails[row][col].parent_j == col)) {
-        Path.push(std::make_pair(row, col));
+        Path.push(make_pair(row, col));
         int temp_row = cellDetails[row][col].parent_i;
         int temp_col = cellDetails[row][col].parent_j;
         row = temp_row;
         col = temp_col;
     }
 
-    Path.push(std::make_pair(row, col));
+    Path.push(make_pair(row, col));
     while (!Path.empty()) {
-        Pair p = Path.top();
+        pair<int, int> p = Path.top();
         Path.pop();
         printf("-> (%d,%d) ", p.first, p.second);
     }
 
-    return {};
+    return;
 }
 
-std::stack<Pair> Map::aStarSearch(Pair src, Pair dst)
+void aStarSearch(Pair src, Pair dst)
 {
 	if (isValid(src.first, src.second) == false)
 	{
@@ -202,9 +155,9 @@ std::stack<Pair> Map::aStarSearch(Pair src, Pair dst)
 	cellDetails[i][j].parent_i = i;
 	cellDetails[i][j].parent_j = j;
 
-	std::set<pPair> openList;
+	set<pPair> openList;
 
-	openList.insert(std::make_pair(0.0, std::make_pair(i, j)));
+	openList.insert(make_pair(0.0, make_pair(i, j)));
 
 	bool foundDst = false;
 
@@ -229,9 +182,9 @@ std::stack<Pair> Map::aStarSearch(Pair src, Pair dst)
 					cellDetails[r][c].parent_i = i;
 					cellDetails[r][c].parent_j = j;
 					printf("destination is found\n");
-					
-					// foundDst = true;
-					return tracePath(cellDetails, dst);;
+					tracePath(cellDetails, dst);
+					foundDst = true;
+					return;
 				}
 				else if (closedList[r][c] == false && isUnBlocked(r, c))
 				{
@@ -241,7 +194,7 @@ std::stack<Pair> Map::aStarSearch(Pair src, Pair dst)
 
 					if (cellDetails[r][c].f == __FLT_MAX__ || cellDetails[r][c].f > fNew)
 					{
-						openList.insert(std::make_pair(fNew, std::make_pair(r, c)));
+						openList.insert(make_pair(fNew, make_pair(r, c)));
 
 						cellDetails[r][c].f = fNew;
 						cellDetails[r][c].f = gNew;
@@ -257,5 +210,16 @@ std::stack<Pair> Map::aStarSearch(Pair src, Pair dst)
 	{
 		printf("failed to find the destination cell\n");
 	}
-	return {};
+	return;
+}
+
+int main(void) {
+	Pair src = make_pair(8, 0);
+
+    // Destination is the left-most top-most corner
+    Pair dest = make_pair(0, 0);
+
+    aStarSearch(src, dest);
+
+	return 0;
 }
