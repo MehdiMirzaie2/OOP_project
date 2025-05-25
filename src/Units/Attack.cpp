@@ -67,21 +67,30 @@ void Attack::update()
     }
 }
 
-bool Attack::isHit(std::vector<Unit*> unitlist)
+bool Attack::isHit(std::vector<std::shared_ptr<Unit>> unitlist)
 {
     sf::FloatRect collision_box = attackSprite.getGlobalBounds();
     for(long unsigned int i = 0; i < unitlist.size(); i++){
-        if (owner == unitlist[i] || unitlist[i]->getisDead()){
+        Unit* unit_ptr = unitlist[i].get();
+        if (owner == unit_ptr || unit_ptr->getisDead()){
             continue;
         }
-        if (collision_box.intersects(unitlist[i]->getSkin().getGlobalBounds())){
+        if (collision_box.intersects(unit_ptr->getSkin().getGlobalBounds())){
             isActive = false;
-            if(unitlist[i]->getisActive()){
-                unitlist[i]->takeDamage(*this);
+            if(unit_ptr->getisActive()){
+                unit_ptr->takeDamage(*this);
                 std:: cout << "HIT!!\n";
-                Unit::active_attacks.erase(std::find(Unit::active_attacks.begin(), Unit::active_attacks.end(), this));
+                auto it = std::find_if(Unit::active_attacks.begin(), Unit::active_attacks.end(),
+                               [this](const std::unique_ptr<Attack>& p_attack) {
+                                   return p_attack.get() == this;
+                               });
+
+                if (it != Unit::active_attacks.end()) {
+                    Unit::active_attacks.erase(it); // Erase the unique_ptr; this will delete the Attack object
+                }
                 return true;
-            }
+                // AI USED: GPT 4o : PROMPT : Error at line 82 in attack.cpp, explain why
+            }   
         }
     }
     return false;

@@ -11,10 +11,10 @@ class User{
         int wins;
         int losses;
         std:: string name;
-	Elixir *m_elixir;       
-        Unit** towers;
-        Unit** king;
-        Deck* unitDeck;
+        std::unique_ptr<Elixir> m_elixir;     
+        Unit* towers;
+        Unit* king;
+        std::unique_ptr<Deck> unitDeck;
         
     public:
         //initializers
@@ -27,8 +27,8 @@ class User{
         std:: string getName();
         //int getElixir();
         Deck* getDeck();
-        Unit** getTowers();
-        Unit** getKing();
+        Unit* getTowers();
+        Unit* getKing();
 
 	Elixir* getElixir();	
         //setters

@@ -1,9 +1,10 @@
 #include "../../include/MainMenu.hpp"
 #include <iostream>
 
+
 int MainMenu::runWindow()
 {
-    window = new sf::RenderWindow(sf::VideoMode(WINDOW_WIDTH, WINDOW_HEIGHT), "Main Menu");
+    window = std::make_unique<sf::RenderWindow>(sf::VideoMode(WINDOW_WIDTH, WINDOW_HEIGHT), "Main Menu");
     while(window->isOpen()){
         sf::Event event;
         while(window->pollEvent(event)){
@@ -22,7 +23,7 @@ int MainMenu::runWindow()
             }
         }
         window->clear();
-        draw_all(window);
+        draw_all(window.get());
         window->display();
     }
     return 0;
@@ -49,8 +50,6 @@ MainMenu::MainMenu()
     menuBG.setTexture(menuBGTexture);
     menuBG.setPosition(WINDOW_WIDTH/2.f, WINDOW_HEIGHT/2.f);
 
-    
-    menuTexts = new sf::Text[menu_options];
     menuTexts[0].setString("Play");
     menuTexts[1].setString("Units");
     menuTexts[2].setString("Exit");
@@ -58,11 +57,12 @@ MainMenu::MainMenu()
     sf::Vector2f padding_y(0, 40); // Padding between successive options , eg between play and options
 
     for(int i = 0; i < menu_options; i++){
+        menuTexts[i].setFont(font);
         sf::FloatRect textBounds = menuTexts[i].getLocalBounds();
         float centerX = textBounds.left + textBounds.width / 2.0f;
         float centerY = textBounds.top + textBounds.height / 2.0f;
         menuTexts[i].setOrigin(centerX, centerY);
-        menuTexts[i].setFont(font);
+        
         menuTexts[i].setFillColor(sf::Color::White);
         menuTexts[i].setOutlineColor(sf::Color(220, 220, 220, 1));
         menuTexts[i].setPosition(start + padding_y);

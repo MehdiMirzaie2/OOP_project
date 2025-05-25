@@ -13,7 +13,7 @@ class Deck : public Drawable{
         sf::VertexArray inner_recs;
 
 	Director director;
-	std::vector<Unit *> units;
+	std::vector<std::shared_ptr<Unit>> units;
 	//Unit** units; 
         int current_no_units;
         //bool* isPicked;
@@ -24,9 +24,9 @@ class Deck : public Drawable{
 
         //bool* getIsPicked();
         //void setIsPicked(int pick);
-	std::vector<Unit *> getUnits();
-        void addUnit(Unit* unit);
-        void replaceUnit(Unit* unit, Unit* to_be_replaced);
+        std::vector<std::shared_ptr<Unit>>& getUnits();
+        // void addUnit(Unit* unit);
+        // void replaceUnit(Unit* unit, Unit* to_be_replaced);
         void draw(sf::RenderWindow* window);
        	Unit *getPickedUnit(); 
 };

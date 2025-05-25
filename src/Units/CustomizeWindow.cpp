@@ -5,7 +5,7 @@ CustomizeWindow::CustomizeWindow(){
 }
 
 int CustomizeWindow::runWindow(){
-    this->window = new sf::RenderWindow(sf::VideoMode(WINDOW_WIDTH,WINDOW_HEIGHT), "CustomizeWindow");
+    this->window = std::make_unique<sf::RenderWindow>(sf::VideoMode(WINDOW_WIDTH,WINDOW_HEIGHT), "CustomizeWindow");
     while(window->isOpen()){
         std:: cout << "Window is open for customization\n";
         sf::Event event;

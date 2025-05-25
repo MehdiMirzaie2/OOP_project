@@ -31,7 +31,6 @@ BattleWindow::BattleWindow(){
     user1 = User("Adi", 0);
     user2 = User("Mehdi", 1);
     window = nullptr;
-    active_units = {};
     m_turn = 0;
 }
 
@@ -39,8 +38,8 @@ void BattleWindow::deploye(sf::Event event) {
 	std::cout << "this is user " << m_turn << "\n";
 	
 	User *user = (m_turn == 0) ? &user1 : &user2;
-	Deck* unitDeck = user->getDeck();
-	Unit* unitToDeploy = unitDeck->getPickedUnit();
+	Deck* unitDeck = user->getDeck(); // ownership with the unit
+	Unit* unitToDeploy = unitDeck->getPickedUnit(); // ownership with the unitDeck
 
 	if (unitToDeploy == nullptr) {
 		std::cout << "could not find picked\n";
@@ -66,7 +65,7 @@ void BattleWindow::deploye(sf::Event event) {
 				board[row][col] = 2; // should be enums 
 				user->getElixir()->decreaseElixir(3);
 
-		                active_units.push_back(unitToDeploy);
+		                Unit::active_units.push_back(std::shared_ptr<Unit> (unitToDeploy));
                 		unitsDeployedCount++;
                 		unitToDeploy->startMovingForward();
                 // unitToDeploy->useAttack();
@@ -92,7 +91,7 @@ void BattleWindow::selectUnit(sf::Event event) {
 	std::cout << "sellecting units\n";
 
 	std::cout << event.mouseButton.x << " " << event.mouseButton.y << std::endl;
-	for (auto unit: deck->getUnits()) {
+	for (const auto& unit: deck->getUnits()) {
 		//std::cout << "checking if sprte was slected\n";
 		sf::Sprite sprite = unit->getSprite();
 		std::cout << sprite.getPosition().x << " " << sprite.getPosition().y << std::endl;
@@ -121,7 +120,7 @@ int BattleWindow:: runWindow()
 
     
 	//this->window = new sf::RenderWindow(sf::VideoMode(910,560), "BattleWindow");
-	this->window = new sf::RenderWindow(sf::VideoMode(WINDOW_WIDTH, WINDOW_HEIGHT), "BattleWindow");
+	this->window = std::make_unique<sf::RenderWindow>(sf::VideoMode(WINDOW_WIDTH, WINDOW_HEIGHT), "BattleWindow");
 	while(window->isOpen()){
         gameClock.restart();
 		sf::Vector2i mouse_pos = sf::Mouse::getPosition(*(this->window));
@@ -150,7 +149,7 @@ int BattleWindow:: runWindow()
         updateAttacks();
         checkCollisions();
 
-		draw_all(window);
+		draw_all(window.get());
 		user1.update(mouse_pos);
 		user2.update(mouse_pos);
     	}
@@ -159,16 +158,16 @@ int BattleWindow:: runWindow()
 
 void BattleWindow::updateUnits()
 {
-    for(long unsigned int i = 0; i < active_units.size(); i++){ // Updates all active units
+    for(long unsigned int i = 0; i < Unit::active_units.size(); i++){ // Updates all active units
 
-        if (active_units[i]->getisActive()){
+        if (Unit::active_units[i]->getisActive()){
         
-            startUnitAttack(active_units[i]);
-            active_units[i]->update();
+            startUnitAttack(Unit::active_units[i].get());
+            Unit::active_units[i]->update();
         }
         else
         {
-            active_units.erase(active_units.begin() + i);
+            Unit::active_units.erase(Unit::active_units.begin() + i);
             i--;
         }
         
@@ -177,25 +176,26 @@ void BattleWindow::updateUnits()
 
 void BattleWindow::startUnitAttack(Unit* attacker)
 {
-    for(Unit* unit : active_units)
+    for(auto& unit : Unit::active_units)
     {
-        if (unit == attacker || attacker->getisDead() || unit->getisDead() || attacker->getTarget() == unit){
+		auto unit_ptr = unit.get();
+        if (unit_ptr == attacker || attacker->getisDead() || unit_ptr->getisDead() || attacker->getTarget() == unit_ptr){
 																				// They are already fighting
             continue;
         }
         sf::Vector2f attacker_loc = attacker->getLocation();
-        sf::Vector2f target_loc = unit->getLocation();
+        sf::Vector2f target_loc = unit_ptr->getLocation();
         float distance = std::sqrt((attacker_loc.x - target_loc.x)*(attacker_loc.x - target_loc.x) + (attacker_loc.y - target_loc.y)*(attacker_loc.y - target_loc.y));
         
         if (abs(distance) <= attacker->getRadius_of_attack()){
-            attacker->useAttack(unit);
+            attacker->useAttack(unit_ptr);
         }
     }
 }
 
 void BattleWindow::updateAttacks()
 {
-    for(Attack* attack : Unit::active_attacks){
+    for(auto& attack : Unit::active_attacks){
         attack->update();
     }
 }
@@ -206,7 +206,7 @@ void BattleWindow::draw_all(sf::RenderWindow* window){
     
     user1.draw(window);   
     user2.draw(window);
-    for (Attack* attack_projectile : Unit::active_attacks) {
+    for (auto& attack_projectile : Unit::active_attacks) {
         
         if (attack_projectile != nullptr && attack_projectile->getisActive()) {
             attack_projectile->update();
@@ -221,7 +221,7 @@ void BattleWindow::checkCollisions()
     for(long unsigned int i = 0; i < Unit::active_attacks.size(); i++)
     {
         
-        if (Unit::active_attacks[i]->isHit(active_units)){
+        if (Unit::active_attacks[i]->isHit(Unit::active_units)){
             std:: cout << "Attack hit detected\n";
         };
     }

@@ -47,11 +47,13 @@ Unit::Unit(float dmg, float spd, sf::Vector2f location, float radius_atk, int cs
     
 };
 
-std::vector<Attack*> Unit::active_attacks = {};
+std::vector<std::unique_ptr<Attack>> Unit::active_attacks = {};
+std::vector<std::shared_ptr<Unit>> Unit::active_units = {};
+
 
 void Unit::useAttack(Unit* hunted_target)
 { // Use all attack sprites
-    current_target = hunted_target;
+    current_target = (hunted_target);
     isAttacking = true;
     isMovingForward = false;
 }
@@ -186,10 +188,9 @@ void Unit::attemptShooting()
     //     }
     //  }
     if (attackClock.getElapsedTime() >= attackCooldown){ // if the cooldown has passed                                                          
-                                                                       
-        Attack* projectile = new Attack(this, projectileTextureName, current_target);
+        std::unique_ptr<Attack> projectile = std::make_unique<Attack>(this, projectileTextureName, current_target);
         projectile->shoot(this->getLocation());
-        active_attacks.push_back(projectile);
+        active_attacks.push_back(std::move(projectile)); //Move ownership to active attacks for the attack.
         attackClock.restart();
     }
     

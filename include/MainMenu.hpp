@@ -3,6 +3,7 @@
 
 #include "Window.hpp"
 #include <SFML/Graphics.hpp>
+#include <array>
 const int menu_options = 3;
 
 
@@ -13,7 +14,7 @@ class MainMenu : public Window{
         sf::Texture titleTexture;
         sf::Sprite menuBG;
         sf::Texture menuBGTexture;
-        sf::Text* menuTexts;
+        std::array<sf::Text, menu_options> menuTexts;
         sf::Font font;
 
     public:

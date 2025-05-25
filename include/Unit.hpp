@@ -35,7 +35,9 @@ class Unit : public Entity
        // Weapon* weapon; // to be implemente
 
 	public:
-		static std::vector<Attack*> active_attacks;
+		// static std::vector<Attack*> active_attacks;
+		static std::vector<std::unique_ptr<Attack>> active_attacks;
+		static std::vector<std::shared_ptr<Unit>> active_units;
 		// initialisers
 		Unit();
 		Unit(float dmg, float spd, sf::Vector2f location ,float radius_atk, int cst, int hp, std::string idleTextureName, std:: string attackingTextureName, std:: string projectileTextureName, int alliance); //unit builder has the values for the unit

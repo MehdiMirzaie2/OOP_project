@@ -8,8 +8,8 @@ User::User(std:: string name){
     losses = 0;
     towers = nullptr;
     king = nullptr;
-    m_elixir = new Elixir();
-    unitDeck = new Deck();
+    m_elixir = std::make_unique<Elixir>();
+    unitDeck = std::make_unique<Deck>();
 }
 
 User::User(std:: string name, int left_or_right){
@@ -18,18 +18,18 @@ User::User(std:: string name, int left_or_right){
     losses = 0;
     towers = nullptr;
     king = nullptr;
-    m_elixir = new Elixir();
-    unitDeck = new Deck(left_or_right);
+    m_elixir = std::make_unique<Elixir>();
+    unitDeck = std::make_unique<Deck>(left_or_right);
 }
 
 Elixir* User::getElixir() {
-	return m_elixir;
+	return m_elixir.get();
 }
 
 void User::update(sf::Vector2i mouse_pos) {
 	m_elixir->update();
 
-	for (auto unit: unitDeck->getUnits()) {
+	for (const auto& unit: unitDeck->getUnits()) {
 		unit->moveIfPicked(mouse_pos);
 	}
 }
@@ -64,22 +64,22 @@ int User::getElixir(){
 //     // to be done
 // };
 
-Unit** User::getTowers(){return towers;}
-Unit** User::getKing(){return king;}
+Unit* User::getTowers(){return towers;}
+Unit* User::getKing(){return king;}
 
 void User::draw(sf::RenderWindow* window){
     unitDeck->draw(window);
 }
 
 Deck* User::getDeck(){
-    return unitDeck;
+    return unitDeck.get();
 }
 
 void User::deploy(int index, sf::Vector2f dep_loc)
 {   
     int col = dep_loc.x / 30, row = dep_loc.y / 30;
     std::cout << row << " " << col << std::endl;
-	Unit* unit = unitDeck->getUnits()[index];
+	Unit* unit = unitDeck->getUnits()[index].get();
     //sf::Vector2i screen_pos = sf::Vector2i(30 * dep_loc.x, 30 * dep_loc * 30);
     //dep_loc.x *= 30;
     //dep_loc.y *= 30;

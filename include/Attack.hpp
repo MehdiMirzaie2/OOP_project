@@ -2,6 +2,7 @@
 #define ATTACK_HPP_
 
 #include "Drawable.hpp"
+#include <memory>
 
 class Unit;
 
@@ -28,7 +29,7 @@ class Attack : public Drawable
         void shoot(sf::Vector2f shooting_location);
         void update();
         int getDamage();
-        bool isHit(std::vector<Unit*> unitlist);
+        bool isHit(std::vector<std::shared_ptr<Unit>> unitlist);
         std:: string describe();
 };
 
