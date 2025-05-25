@@ -1,5 +1,7 @@
-#include "../../include/BattleWindow.hpp"
+#include "BattleWindow.hpp"
 #include <cmath>
+#include "ElixirBar.hpp"
+#include <iostream>
 
 int unitsDeployedCount = 0;
 
@@ -27,13 +29,19 @@ int board[18][30]  = {
 /*need to change the background png, made a mistake, some rows are narrower than others*/ 
 
 
-BattleWindow::BattleWindow(){
+BattleWindow::BattleWindow()
+    : elixirBar1(8, 30.f, 24.f),
+      elixirBar2(8, 30.f, 24.f)
+{
     user1 = User("Adi", 0);
     user2 = User("Mehdi", 1);
     window = nullptr;
     active_units = {};
     m_turn = 0;
 }
+
+
+
 
 void BattleWindow::deploye(sf::Event event) {
 	std::cout << "this is user " << m_turn << "\n";
@@ -77,11 +85,10 @@ void BattleWindow::deploye(sf::Event event) {
 			
 			
        	}
-		
-		
-
 
 }
+
+
 
 void BattleWindow::selectUnit(sf::Event event) {
 	//(void)event;
@@ -113,49 +120,67 @@ void BattleWindow::selectUnit(sf::Event event) {
 	std::cout << "\n\n";
 }
 
-int BattleWindow:: runWindow() 
+
+
+int BattleWindow::runWindow() 
 {
+    std::cout << "Populating deck initially..." << std::endl;
+    this->window = new sf::RenderWindow(sf::VideoMode(WINDOW_WIDTH, WINDOW_HEIGHT), "BattleWindow");
 
-	std::cout << "Populating deck initially..." << std::endl;
-	//loadDecks();
-
-    
-	//this->window = new sf::RenderWindow(sf::VideoMode(910,560), "BattleWindow");
-	this->window = new sf::RenderWindow(sf::VideoMode(WINDOW_WIDTH, WINDOW_HEIGHT), "BattleWindow");
-	while(window->isOpen()){
+    while(window->isOpen()){
         gameClock.restart();
-		sf::Vector2i mouse_pos = sf::Mouse::getPosition(*(this->window));
+        sf::Vector2i mouse_pos = sf::Mouse::getPosition(*(this->window));
         sf::Event event;
 
-		while(window->pollEvent(event)){
+        while(window->pollEvent(event)){
             if (event.type == sf::Event::Closed)
-				window->close();
+                window->close();
 
-			if (event.type == sf::Event::MouseButtonPressed) {
-				if (event.mouseButton.button == sf::Mouse::Left) {
-					selectUnit(event);
-				}
-			}
+            if (event.type == sf::Event::MouseButtonPressed) {
+                if (event.mouseButton.button == sf::Mouse::Left) {
+                    selectUnit(event);
+                }
+            }
 
-            		if (event.type == sf::Event::MouseButtonReleased){
-                		if (event.mouseButton.button == sf::Mouse::Left){
-					deploye(event);
-						
-            			}
-        		}
-    		}
+            if (event.type == sf::Event::MouseButtonReleased){
+                if (event.mouseButton.button == sf::Mouse::Left){
+                    deploye(event);
+                }
+            }
+        }
 
-        // updateUnits(gameClock.getElapsedTime());
+        // Update elixir bars using user elixir values
+        updateElixirBars();
+
         updateUnits();
         updateAttacks();
         checkCollisions();
 
-		draw_all(window);
-		user1.update(mouse_pos);
-		user2.update(mouse_pos);
-    	}
+        draw_all(window);
+
+        // Draw elixir bars at top-left and top-right corners
+        drawElixirBars(*window);
+
+        user1.update(mouse_pos);
+        user2.update(mouse_pos);
+    }
     return 0;
 }
+
+
+void BattleWindow::updateElixirBars() {
+    elixirBar1.update(user1.getElixir()->getElixir());
+    elixirBar2.update(user2.getElixir()->getElixir());
+}
+
+
+void BattleWindow::drawElixirBars(sf::RenderWindow& window) {
+    elixirBar1.draw(window, 20.f, 10.f);                   // Top-left for user1
+    elixirBar2.draw(window, WINDOW_WIDTH - 20.f - 8*30.f, 10.f);  // Top-right for user2 (8 units * unit width = bar width)
+}
+
+
+
 
 void BattleWindow::updateUnits()
 {
@@ -175,6 +200,8 @@ void BattleWindow::updateUnits()
     }
 }
 
+
+
 void BattleWindow::startUnitAttack(Unit* attacker)
 {
     for(Unit* unit : active_units)
@@ -193,12 +220,16 @@ void BattleWindow::startUnitAttack(Unit* attacker)
     }
 }
 
+
+
 void BattleWindow::updateAttacks()
 {
     for(Attack* attack : Unit::active_attacks){
         attack->update();
     }
 }
+
+
 
 void BattleWindow::draw_all(sf::RenderWindow* window){
     window->clear();    
@@ -216,6 +247,9 @@ void BattleWindow::draw_all(sf::RenderWindow* window){
     window->display();
 }
 
+
+
+
 void BattleWindow::checkCollisions()
 {
     for(long unsigned int i = 0; i < Unit::active_attacks.size(); i++)
@@ -226,4 +260,3 @@ void BattleWindow::checkCollisions()
         };
     }
 }
-

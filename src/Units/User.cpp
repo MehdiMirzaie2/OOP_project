@@ -1,37 +1,23 @@
-#include "../../include/User.hpp"
+#include "User.hpp"
+#include <iostream> // Add this line
 
-User::User(){};
+User::User() : wins(0), losses(0), name(""), m_elixir(new Elixir()), towers(nullptr), king(nullptr), unitDeck(new Deck()), elixirBar(8, 40, 30) {}
 
-User::User(std:: string name){
-    this->name = name;
-    wins = 0;
-    losses = 0;
-    towers = nullptr;
-    king = nullptr;
-    m_elixir = new Elixir();
-    unitDeck = new Deck();
-}
+User::User(std::string name) : wins(0), losses(0), name(name), m_elixir(new Elixir()), towers(nullptr), king(nullptr), unitDeck(new Deck()), elixirBar(8, 40, 30) {}
 
-User::User(std:: string name, int left_or_right){
-    this->name = name;
-    wins = 0;
-    losses = 0;
-    towers = nullptr;
-    king = nullptr;
-    m_elixir = new Elixir();
-    unitDeck = new Deck(left_or_right);
-}
+User::User(std::string name, int left_or_right) : wins(0), losses(0), name(name), m_elixir(new Elixir()), towers(nullptr), king(nullptr), unitDeck(new Deck(left_or_right)), elixirBar(8, 40, 30) {}
 
 Elixir* User::getElixir() {
 	return m_elixir;
 }
 
 void User::update(sf::Vector2i mouse_pos) {
-	m_elixir->update();
+    m_elixir->update();
+    elixirBar.update(m_elixir->getElixir()); // Use correct getter
 
-	for (auto unit: unitDeck->getUnits()) {
-		unit->moveIfPicked(mouse_pos);
-	}
+    for (auto unit : unitDeck->getUnits()) {
+        unit->moveIfPicked(mouse_pos);
+    }
 }
 
 void User::setLosses(int l){
@@ -67,25 +53,23 @@ int User::getElixir(){
 Unit** User::getTowers(){return towers;}
 Unit** User::getKing(){return king;}
 
-void User::draw(sf::RenderWindow* window){
+void User::draw(sf::RenderWindow& window) { // Change signature to reference
     unitDeck->draw(window);
+    elixirBar.draw(window, 10.f, 10.f); // Pass x and y as required by ElixirBar
 }
 
 Deck* User::getDeck(){
     return unitDeck;
 }
 
-void User::deploy(int index, sf::Vector2f dep_loc)
+void User::deploy(int index, sf::Vector2i dep_loc)
 {   
     int col = dep_loc.x / 30, row = dep_loc.y / 30;
     std::cout << row << " " << col << std::endl;
-	Unit* unit = unitDeck->getUnits()[index];
-    //sf::Vector2i screen_pos = sf::Vector2i(30 * dep_loc.x, 30 * dep_loc * 30);
-    //dep_loc.x *= 30;
-    //dep_loc.y *= 30;
-	sf::Vector2f a = sf::Vector2f(col * 30, row * 30);
+    Unit* unit = unitDeck->getUnits()[index];
+    sf::Vector2i a = sf::Vector2i(col * 30, row * 30);
     unit->setLocation(a);
-    std:: cout << "UNITS LOCATION: " << unit->getLocation().x << std::endl;
+    std::cout << "UNITS LOCATION: " << unit->getLocation().x << std::endl;
     unit->setisActive(true);
 }
 
