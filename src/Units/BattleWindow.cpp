@@ -29,17 +29,19 @@ void BattleWindow::deploye(sf::Event event)
 
 	if (unitToDeploy != nullptr)
 	{
-		int col = (event.mouseButton.x - 100) / 30, row = event.mouseButton.y / 30;
-
+		sf::Vector2f p = sf::Vector2f(event.mouseButton.x, event.mouseButton.y) + sf::Vector2f(15.f - 100.f, 15.f);
+		int col = int(p.x/30), row = int(p.y / 30);
+		//int col = (event.mouseButton.x - 100) / 30, row = event.mouseButton.y / 30;
+		std::cout << "current pos = " << row << " " << col << "\n";
 		unitToDeploy->setIsPicked(false);
-		if (gameMap.getMapGrid()[row][col] != 0 || user->getElixir()->getElixir() < 2)
+		if (gameMap.getMapGrid()[row][col] != 0 || user->getElixir()->getElixir() < 1)
 		{
 			std::cout << "did not deploy, because not enought\n";
 			unitToDeploy->setLocation(unitToDeploy->getDeckPosition());
 			return;
 		}
 
-		if (gameMap.getMapGrid()[row][col] == 0 && ((m_turn == 0 && col < 14) || (m_turn == 1 && col > 15)) && user->getElixir()->getElixir() > 2)
+		if (gameMap.getMapGrid()[row][col] == 0 && ((m_turn == 0 && col < 14) || (m_turn == 1 && col > 15)) && user->getElixir()->getElixir() > 0)
 		{
 			sf::Vector2f a = sf::Vector2f((col * 30) + 100, row * 30);
 			unitToDeploy->setLocation(a);

@@ -13,6 +13,7 @@ const sf::Vector2f UNITSIZE(0.06, 0.06);
 typedef std::pair<int, int> Pair;
 typedef std::pair<double, std::pair<int, int>> pPair;
 
+class Map;
 
 class Unit : public Entity
 {
@@ -36,6 +37,8 @@ class Unit : public Entity
 		sf::Clock timeSinceDeath;
 
 		sf::Clock attackAnimationHoldTime;
+
+		sf::Clock MoveClock;
 
 		// the path the unit will follow until their is distruption, then new path will be computed.
 		std::stack<Pair> path;

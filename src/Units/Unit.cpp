@@ -32,7 +32,9 @@ Unit::Unit(float dmg, float spd, sf::Vector2f location, float radius_atk, int cs
     }
     skin.setOrigin(unitTextureIdle.getSize().x / 2.f, unitTextureIdle.getSize().y / 2.f);
     skin.setTexture(unitTextureIdle);
-    skin.setScale(0.06f, 0.06f);
+    //skin.setScale(0.06f, 0.06f);
+    std::cout << "texture size = " << unitTextureIdle.getSize().x << " " << unitTextureIdle.getSize().y << "\n";
+    skin.setScale(30.0f / unitTextureIdle.getSize().x, 30.0f / unitTextureIdle.getSize().y);
     isAttacking = false;
     attackCooldown = sf::seconds(1);
     isDead = false;
@@ -55,6 +57,7 @@ void Unit::startMovingForward()
     isMovingForward = true;
     isAttacking = false;
     current_target = nullptr;
+    MoveClock.restart();
 }
 
 float Unit::getHP()
@@ -143,8 +146,8 @@ void Unit::update() // Handles Unit Animations
 
 void Unit::update(Map &map) // Handles Unit Animations
 {
-    std::cout << "hello world hello world\n";
-    (void)map;
+    //std::cout << "hello world hello world\n";
+    //(void)miap;
     if (!isActive)
         return;
 
@@ -180,16 +183,20 @@ void Unit::update(Map &map) // Handles Unit Animations
     }
 
     // Movement Logic
-    if (isMovingForward)
+    if (isMovingForward && MoveClock.getElapsedTime() >= sf::seconds(speed))
     {
         if (!path.empty()) {
             Pair p = path.top();
+	    path.pop();
             std::cout << p.first << " " << p.second << "\n";
-            skin.move(p.first, p.second);
+            //skin.move((p.second * 30), (p.first + 30));
+	    skin.setPosition((p.second * 30) + 100, p.first * 30);
         }
         else {
             std::cout << "path is empty\n";
         }
+	MoveClock.restart();
+
         // int cols = (skin.getPosition().x - 100) / 30, rows = skin.getPosition().y / 30;
         // std::cout << "rows : " << rows << std::endl;
         // (void)cols;

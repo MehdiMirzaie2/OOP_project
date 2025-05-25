@@ -28,8 +28,9 @@ Map::Map()
         /*17*/ {0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  2,  2,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0},
     };
 
-    directions = {std::make_pair(0, 1), std::make_pair(0, -1), std::make_pair(1, 0), std::make_pair(-1, 0), std::make_pair(1, 1), std::make_pair(1, -1), std::make_pair(-1, 1), std::make_pair(-1, -1)};
 
+    //directions = {std::make_pair(0, -1), std::make_pair(1, 0), std::make_pair(0, 1), std::make_pair(-1, 0)};
+    directions = {std::make_pair(0, 1), std::make_pair(0, -1), std::make_pair(1, 0), std::make_pair(-1, 0), std::make_pair(1, 1), std::make_pair(1, -1), std::make_pair(-1, 1), std::make_pair(-1, -1)};
     //map background set up
     map_texture.loadFromFile("src/Textures/background.png");
     map_sprite.setTexture(map_texture);
@@ -107,6 +108,7 @@ bool Map::isDestination(int row, int col, Pair dest)
 // A Utility Function to calculate the 'h' heuristics.
 double Map::calculateHValue(int row, int col, Pair dest)
 {
+	//return abs(row - dest.first) + abs(col - dest.second);
 	// Return using the distance formula
 	return ((double)sqrtf(
 		(row - dest.first) * (row - dest.first) + (col - dest.second) * (col - dest.second)));
@@ -145,13 +147,13 @@ std::stack<Pair> Map::tracePath(cell cellDetails[][COL], Pair dest)
     }
 
     Path.push(std::make_pair(row, col));
-    // while (!Path.empty()) {
-    //     Pair p = Path.top();
-    //     Path.pop();
-    //     printf("-> (%d,%d) ", p.first, p.second);
-    // }
-	// exit(1);
-    return {};
+    std::stack<Pair> temp = Path;
+    while (!temp.empty()) {
+         Pair p = temp.top();
+         temp.pop();
+         printf("-> (%d,%d) ", p.first, p.second);
+     }
+    return Path;
 }
 
 std::stack<Pair> Map::aStarSearch(Pair src, Pair dst)
@@ -168,7 +170,10 @@ std::stack<Pair> Map::aStarSearch(Pair src, Pair dst)
 		return {};
 	}
 
-	// if (isUnBlocked(src.first, src.second) == false)
+	if (isUnBlocked(src.first, src.second) == false 
+		|| isUnBlocked(dst.first, dst.second) == false) {
+		printf("source or dest is blocked\n");
+	}
 
 	if (isDestination(src.first, src.second, dst))
 	{
@@ -236,7 +241,7 @@ std::stack<Pair> Map::aStarSearch(Pair src, Pair dst)
 				else if (closedList[r][c] == false && isUnBlocked(r, c))
 				{
 					gNew = cellDetails[i][j].g + 1.0;
-					hNew = calculateHValue(i - 1, j, dst);
+					hNew = calculateHValue(r, c, dst);
 					fNew = gNew + hNew;
 
 					if (cellDetails[r][c].f == __FLT_MAX__ || cellDetails[r][c].f > fNew)
@@ -244,8 +249,8 @@ std::stack<Pair> Map::aStarSearch(Pair src, Pair dst)
 						openList.insert(std::make_pair(fNew, std::make_pair(r, c)));
 
 						cellDetails[r][c].f = fNew;
-						cellDetails[r][c].f = gNew;
-						cellDetails[r][c].f = hNew;
+						cellDetails[r][c].g = gNew;
+						cellDetails[r][c].h = hNew;
 						cellDetails[r][c].parent_i = i;
 						cellDetails[r][c].parent_j = j;
 					}
