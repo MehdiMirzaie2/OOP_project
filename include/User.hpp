@@ -11,16 +11,17 @@ class User{
         int wins;
         int losses;
         std:: string name;
-	Elixir *m_elixir;       
+        Elixir *m_elixir;       
         Unit** towers;
         Unit** king;
         Deck* unitDeck;
+        ElixirBar elixirBar; // Add ElixirBar member
         
     public:
         //initializers
         User();
         User(std:: string name);    
-	User(std::string name, int left_or_right);
+        User(std::string name, int left_or_right);
         //getters
         int getWins();
         int getLosses();
@@ -30,19 +31,18 @@ class User{
         Unit** getTowers();
         Unit** getKing();
 
-	Elixir* getElixir();	
+        Elixir* getElixir();    
         //setters
         void setWins(int w);
         void setLosses(int l);
         void setName(std:: string new_name);
         void setElixir(int new_elixir);
        
-       	void update(sf::Vector2i);	
-        void draw(sf::RenderWindow* window);
-
+        void update(sf::Vector2i mouse_pos); // Use explicit parameter name
+        void draw(sf::RenderWindow& window);
 
         //void fight_user(User other);
-        void deploy(int index, sf::Vector2f d_loc); //abstract class
+        void deploy(int index, sf::Vector2i d_loc); //abstract class
 
 };
 
