@@ -1,7 +1,5 @@
 royal_clash
 obj
-<<<<<<< HEAD
 *.o
-=======
->>>>>>> main
 test
+*.DS_STORE

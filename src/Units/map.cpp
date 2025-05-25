@@ -145,12 +145,12 @@ std::stack<Pair> Map::tracePath(cell cellDetails[][COL], Pair dest)
     }
 
     Path.push(std::make_pair(row, col));
-    while (!Path.empty()) {
-        Pair p = Path.top();
-        Path.pop();
-        printf("-> (%d,%d) ", p.first, p.second);
-    }
-	exit(1);
+    // while (!Path.empty()) {
+    //     Pair p = Path.top();
+    //     Path.pop();
+    //     printf("-> (%d,%d) ", p.first, p.second);
+    // }
+	// exit(1);
     return {};
 }
 

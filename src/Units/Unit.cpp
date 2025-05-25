@@ -141,7 +141,7 @@ void Unit::update() // Handles Unit Animations
     }
 }
 
-void Unit::update(std::vector<std::vector<int>> &map) // Handles Unit Animations
+void Unit::update(Map &map) // Handles Unit Animations
 {
     std::cout << "hello world hello world\n";
     (void)map;
@@ -166,6 +166,8 @@ void Unit::update(std::vector<std::vector<int>> &map) // Handles Unit Animations
         }
         else
         {
+            int col = (skin.getPosition().x - 100) / 30, row = skin.getPosition().y / 30;
+            setPath(map.aStarSearch(std::make_pair(row, col), getClosestTower()));
             startMovingForward(); // Handles disabling of attacks and starts movement
         }
     }
@@ -180,32 +182,40 @@ void Unit::update(std::vector<std::vector<int>> &map) // Handles Unit Animations
     // Movement Logic
     if (isMovingForward)
     {
-        int cols = (skin.getPosition().x - 100) / 30, rows = skin.getPosition().y / 30;
-        std::cout << "rows : " << rows << std::endl;
-        (void)cols;
-        float deltaX = 0, deltay = 0;
-        int xdirection = alliance == 1 ? -1 : 1;
-
-        if ((rows >= 2 && rows <= 4) || (rows >= 14 and rows <= 16))
-        {
-            deltaX = speed * xdirection;
-            deltay = 0;
-            // skin.move(speed * xdirection, 0);
+        if (!path.empty()) {
+            Pair p = path.top();
+            std::cout << p.first << " " << p.second << "\n";
+            skin.move(p.first, p.second);
         }
-
-        else if (rows <= 9)
-        {
-            deltaX = 0;
-            deltay = speed * -1;
+        else {
+            std::cout << "path is empty\n";
         }
-        else
-        {
-            deltaX = 0;
-            deltay = speed;
-        }
+        // int cols = (skin.getPosition().x - 100) / 30, rows = skin.getPosition().y / 30;
+        // std::cout << "rows : " << rows << std::endl;
+        // (void)cols;
+        // float deltaX = 0, deltay = 0;
+        // int xdirection = alliance == 1 ? -1 : 1;
 
-        skin.move(deltaX, deltay);
-        std::cout << deltaX << " " << deltay << std::endl;
+        // if ((rows >= 2 && rows <= 4) || (rows >= 14 and rows <= 16))
+        // {
+        //     deltaX = speed * xdirection;
+        //     deltay = 0;
+        //     // skin.move(speed * xdirection, 0);
+        // }
+
+        // else if (rows <= 9)
+        // {
+        //     deltaX = 0;
+        //     deltay = speed * -1;
+        // }
+        // else
+        // {
+        //     deltaX = 0;
+        //     deltay = speed;
+        // }
+
+        // skin.move(deltaX, deltay);
+        // std::cout << deltaX << " " << deltay << std::endl;
     }
 }
 

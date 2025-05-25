@@ -149,7 +149,7 @@ void BattleWindow::updateUnits()
 		{
 
 			startUnitAttack(active_units[i]);
-			active_units[i]->update(gameMap.getMapGrid());
+			active_units[i]->update(gameMap);
 		}
 		else
 		{
