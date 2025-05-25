@@ -91,6 +91,7 @@ class Unit : public Entity
 		Pair getClosestTower();
 
 		void setPath(std::stack<Pair> path);
+		int getAlliance();
 };
 
 #endif

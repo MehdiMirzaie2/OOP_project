@@ -10,7 +10,8 @@
 Unit::Unit() : Entity() {};
 
 Unit::Unit(float dmg, float spd, sf::Vector2f location, float radius_atk, int cst, int hp, std::string idleTextureName, std::string attackingTextureName, std::string projectileTextureName, int alliance) : Entity(dmg, location, spd, radius_atk, cst), HP(hp), isPicked(false)
-{ // Sync sprite & user pos
+{ // Sync sprite & user posi
+  int flip = alliance == 0 ? 1 : -1;
     if (!unitTextureIdle.loadFromFile("src/Textures/" + std::string(idleTextureName)))
     {
         std::cout << "Unable to load Idle texture!\n";
@@ -30,11 +31,11 @@ Unit::Unit(float dmg, float spd, sf::Vector2f location, float radius_atk, int cs
     {
         std::cout << "Couldnt load death soul\n";
     }
-    skin.setOrigin(unitTextureIdle.getSize().x / 2.f, unitTextureIdle.getSize().y / 2.f);
+    //skin.setOrigin(unitTextureIdle.getSize().x / 2.f, unitTextureIdle.getSize().y / 2.f);
     skin.setTexture(unitTextureIdle);
     //skin.setScale(0.06f, 0.06f);
     std::cout << "texture size = " << unitTextureIdle.getSize().x << " " << unitTextureIdle.getSize().y << "\n";
-    skin.setScale(30.0f / unitTextureIdle.getSize().x, 30.0f / unitTextureIdle.getSize().y);
+    skin.setScale(flip * (30.0f / unitTextureIdle.getSize().x), 30.0f / unitTextureIdle.getSize().y);
     isAttacking = false;
     attackCooldown = sf::seconds(1);
     isDead = false;
@@ -378,4 +379,8 @@ Pair Unit::getClosestTower()
 
 void Unit::setPath(std::stack<Pair> _path) {
     path = _path;
+}
+
+int Unit::getAlliance() {
+	return alliance;
 }

@@ -17,7 +17,7 @@ BattleWindow::BattleWindow()
 void BattleWindow::deploye(sf::Event event)
 {
 	std::cout << "this is user " << m_turn << "\n";
-
+(void)event;
 	User *user = (m_turn == 0) ? &user1 : &user2;
 	Deck *unitDeck = user->getDeck();
 	Unit *unitToDeploy = unitDeck->getPickedUnit();
@@ -29,7 +29,8 @@ void BattleWindow::deploye(sf::Event event)
 
 	if (unitToDeploy != nullptr)
 	{
-		sf::Vector2f p = sf::Vector2f(event.mouseButton.x, event.mouseButton.y) + sf::Vector2f(15.f - 100.f, 15.f);
+		//sf::Vector2f p = sf::Vector2f(event.mouseButton.x, event.mouseButton.y) + sf::Vector2f(15.f - 100.f, 15.f);
+		sf::Vector2f p = unitToDeploy->getLocation() + sf::Vector2f(-85.f, 15.f);
 		int col = int(p.x/30), row = int(p.y / 30);
 		//int col = (event.mouseButton.x - 100) / 30, row = event.mouseButton.y / 30;
 		std::cout << "current pos = " << row << " " << col << "\n";
@@ -101,7 +102,7 @@ int BattleWindow::runWindow()
 	// loadDecks();
 
 	// this->window = new sf::RenderWindow(sf::VideoMode(910,560), "BattleWindow");
-	this->window = new sf::RenderWindow(sf::VideoMode(1110, 560), "BattleWindow");
+	this->window = new sf::RenderWindow(sf::VideoMode(1160, 540), "BattleWindow");
 	while (window->isOpen())
 	{
 		gameClock.restart();
@@ -165,7 +166,7 @@ void BattleWindow::startUnitAttack(Unit *attacker)
 {
 	for (Unit *unit : active_units)
 	{
-		if (unit == attacker || attacker->getisDead() || unit->getisDead())
+		if (unit == attacker || attacker->getisDead() || unit->getisDead() || unit->getAlliance() == attacker->getAlliance())
 		{
 			continue;
 		}
