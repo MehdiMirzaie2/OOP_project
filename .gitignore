@@ -1,7 +1,6 @@
 royal_clash
 obj
-<<<<<<< HEAD
 *.o
-=======
->>>>>>> main
 test
+.vscode
+
