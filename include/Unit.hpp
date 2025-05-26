@@ -21,24 +21,25 @@ protected:
 	float HP;
 	sf::Texture unitTextureIdle;
 	sf::Texture unitTextureAttacking;
-	std::string projectileTextureName;
-	int alliance;
-	bool isPicked;
-	// std::vector<Attack*> attacks;
-	Unit *current_target;
-	bool isAttacking;
-	sf::Clock attackClock;
-	sf::Time attackCooldown;
-	bool isDead;
 	sf::Texture deadTexture;
-	bool isMovingForward;
 	sf::Vector2f m_deckPos;
 	sf::Vector2i dydx;
 	sf::Clock timeSinceDeath;
 	sf::Clock MoveClock;
+	sf::Clock attackClock;
+	sf::Time attackCooldown;
+	
+	std::string projectileTextureName;
+	std::string unitTextureIdleName;
+	std::string unitTextureAttackingName;
+	
+	int alliance;
+	bool isPicked;
+	Unit *current_target;
+	bool isAttacking;
+	bool isDead;
+	bool isMovingForward;
 	std::stack<Pair> path; // the path the unit will follow until their is distruption, then new path will be computed.
-
-	// Weapon* weapon; // to be implemente
 
 public:
 	// static std::vector<Attack*> active_attacks;
@@ -47,6 +48,7 @@ public:
 	// initialisers
 	Unit();
 	Unit(float dmg, float spd, sf::Vector2f location, float radius_atk, int cst, int hp, std::string idleTextureName, std::string attackingTextureName, std::string projectileTextureName, int alliance); // unit builder has the values for the unit
+	Unit(const Unit &src); //copy constructor
 
 	// getters
 	float getHP();
@@ -88,6 +90,7 @@ public:
 
 	void setPath(std::stack<Pair> path);
 	int getAlliance();
+	void bringToLife(sf::Vector2f pos, Map &gameMap);
 };
 
 #endif

@@ -1,7 +1,7 @@
 #include "../../include/BattleWindow.hpp"
 #include <cmath>
 
-int unitsDeployedCount = 0;
+// int unitsDeployedCount = 0;
 
 /*need to change the background png, made a mistake, some rows are narrower than others*/
 
@@ -26,46 +26,42 @@ void BattleWindow::deploye(sf::Event event)
 	if (unitToDeploy == nullptr)
 	{
 		std::cout << "could not find picked\n";
+		return;
 	}
 
-	if (unitToDeploy != nullptr)
+	sf::Vector2f p = unitToDeploy->getLocation() + sf::Vector2f(-85.f, 15.f);
+	int col = int(p.x / 30), row = int(p.y / 30);
+
+	if (gameMap.getMapGrid()[row][col] != 0 || user->getElixir()->getElixir() < unitToDeploy->getCost())
 	{
-		// sf::Vector2f p = sf::Vector2f(event.mouseButton.x, event.mouseButton.y) + sf::Vector2f(15.f - 100.f, 15.f);
-		sf::Vector2f p = unitToDeploy->getLocation() + sf::Vector2f(-85.f, 15.f);
-		int col = int(p.x / 30), row = int(p.y / 30);
-		// int col = (event.mouseButton.x - 100) / 30, row = event.mouseButton.y / 30;
-		std::cout << "current pos = " << row << " " << col << "\n";
+		std::cout << "did not deploy, because not enought elixir\n";
+		unitToDeploy->setLocation(unitToDeploy->getDeckPosition());
 		unitToDeploy->setIsPicked(false);
-		if (gameMap.getMapGrid()[row][col] != 0 || user->getElixir()->getElixir() < 1)
-		{
-			std::cout << "did not deploy, because not enought\n";
-			unitToDeploy->setLocation(unitToDeploy->getDeckPosition());
-			return;
-		}
+		return;
+	}
 
-		if (gameMap.getMapGrid()[row][col] == 0 && ((m_turn == 0 && col < 14) || (m_turn == 1 && col > 15)) && user->getElixir()->getElixir() > 0)
-		{
-			sf::Vector2f a = sf::Vector2f((col * 30) + 100, row * 30);
-			unitToDeploy->setLocation(a);
+	if (gameMap.getMapGrid()[row][col] == 0 && ((m_turn == 0 && col < 14) || (m_turn == 1 && col > 15)) && user->getElixir()->getElixir() > unitToDeploy->getCost())
+	{
+		sf::Vector2f pos = sf::Vector2f((col * 30) + 100, row * 30);
+		
+		unitDeck->swapDeployedUnit();
+		unitToDeploy->bringToLife(pos, gameMap);
+		user->getElixir()->decreaseElixir(unitToDeploy->getCost());
+		unitToDeploy->setIsPicked(false);
+		m_turn = (m_turn == 0) ? 1 : 0;
+		// unitToDeploy->setLocation(a);
 
-			Unit::active_units.push_back(std::shared_ptr<Unit>(unitToDeploy));
-			unitsDeployedCount++;
-			unitToDeploy->startMovingForward();
-			unitToDeploy->setPath(gameMap.aStarSearch(std::make_pair(row, col), unitToDeploy->getClosestTower()));
+		// Unit::active_units.push_back(std::shared_ptr<Unit>(unitToDeploy));
+		// unitToDeploy->startMovingForward();
+		// unitToDeploy->setPath(gameMap.aStarSearch(std::make_pair(row, col), unitToDeploy->getClosestTower()));
 
-			unitToDeploy->setisActive(true);
-			m_turn = (m_turn == 0) ? 1 : 0;
-			num_deployed[m_turn]++;
-			gameMap.getMapGrid()[row][col] = 2; // should be enums
-			user->getElixir()->decreaseElixir(3);
+		// unitToDeploy->setisActive(true);
+		// m_turn = (m_turn == 0) ? 1 : 0;
+		// user->getElixir()->decreaseElixir(3);
 
-			// active_units.push_back(unitToDeploy);
-			unitsDeployedCount++;
-			unitToDeploy->startMovingForward();
-			// unitToDeploy->useAttack();
+		// unitToDeploy->startMovingForward();
 
-			std::cout << "\n\n\ndepoyed unit\n\n\n\n";
-		}
+		// std::cout << "\n\n\ndepoyed unit\n\n\n\n";
 	}
 }
 

@@ -9,7 +9,13 @@
 
 Unit::Unit() : Entity() {};
 
-Unit::Unit(float dmg, float spd, sf::Vector2f location, float radius_atk, int cst, int hp, std::string idleTextureName, std::string attackingTextureName, std::string projectileTextureName, int alliance) : Entity(dmg, location, spd, radius_atk, cst), HP(hp), isPicked(false)
+Unit::Unit(float dmg, float spd, sf::Vector2f location, float radius_atk, int cst, int hp, std::string idleTextureName, std::string attackingTextureName, std::string projectileTextureName, int alliance)
+    : Entity(dmg, location, spd, radius_atk, cst),
+      HP(hp),
+      isPicked(false),
+      projectileTextureName(projectileTextureName),
+      unitTextureIdleName(idleTextureName),
+      unitTextureAttackingName(attackingTextureName)
 { // Sync sprite & user posi
     int flip = alliance == 0 ? 1 : -1;
     if (!unitTextureIdle.loadFromFile("src/Textures/" + std::string(idleTextureName)))
@@ -27,9 +33,8 @@ Unit::Unit(float dmg, float spd, sf::Vector2f location, float radius_atk, int cs
     {
         std::cout << "Couldnt load death soul\n";
     }
-    // skin.setOrigin(unitTextureIdle.getSize().x / 2.f, unitTextureIdle.getSize().y / 2.f);
+
     skin.setTexture(unitTextureIdle);
-    // skin.setScale(0.06f, 0.06f);
     std::cout << "texture size = " << unitTextureIdle.getSize().x << " " << unitTextureIdle.getSize().y << "\n";
     skin.setScale(flip * (30.0f / unitTextureIdle.getSize().x), 30.0f / unitTextureIdle.getSize().y);
     isAttacking = false;
@@ -39,6 +44,44 @@ Unit::Unit(float dmg, float spd, sf::Vector2f location, float radius_atk, int cs
     timeSinceDeath.restart();
     this->alliance = alliance;
 };
+
+Unit::Unit(const Unit &src)
+    : Entity(src), // call the base class copy constructor
+      HP(src.HP),
+      isPicked(src.isPicked),
+      projectileTextureName(src.projectileTextureName),
+      unitTextureIdleName(src.unitTextureIdleName),
+      unitTextureAttackingName(src.unitTextureAttackingName),
+      isAttacking(false),
+      attackCooldown(src.attackCooldown),
+      isDead(src.isDead),
+      alliance(src.alliance),
+      current_target(nullptr) // You probably don't want to copy the pointer as-is
+{
+    int flip = alliance == 0 ? 1 : -1;
+
+    if (!unitTextureIdle.loadFromFile("src/Textures/" + src.projectileTextureName))
+    {
+        std::cout << "Unable to load Idle texture!\n";
+    }
+
+    if (!unitTextureAttacking.loadFromFile("src/Textures/" + src.unitTextureAttackingName))
+    {
+        std::cout << "Unable to load attacking texture!\n";
+    }
+
+    if (!deadTexture.loadFromFile("src/Textures/death.png"))
+    {
+        std::cout << "Couldnt load death texture\n";
+    }
+
+    // Setup sprite
+    skin.setTexture(unitTextureIdle);
+    skin.setScale(flip * (30.0f / unitTextureIdle.getSize().x), 30.0f / unitTextureIdle.getSize().y);
+
+    // Reset clock/timers
+    timeSinceDeath.restart();
+}
 
 std::vector<std::unique_ptr<Attack>> Unit::active_attacks = {};
 std::vector<std::shared_ptr<Unit>> Unit::active_units = {};
@@ -360,4 +403,17 @@ void Unit::setPath(std::stack<Pair> _path)
 int Unit::getAlliance()
 {
     return alliance;
+}
+
+void Unit::bringToLife(sf::Vector2f pos, Map &gameMap)
+{
+    setLocation(pos);
+
+    Unit::active_units.push_back(std::shared_ptr<Unit>(this));
+    startMovingForward();
+    setPath(gameMap.aStarSearch(std::make_pair(pos.x, pos.y), getClosestTower()));
+    setisActive(true);
+    startMovingForward();
+
+    std::cout << "\n\n\ndepoyed unit\n\n\n\n";
 }

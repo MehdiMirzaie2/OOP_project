@@ -2,21 +2,19 @@
 
 Deck::Deck(int left_or_right)
 {
-	current_no_units = 0;
-	//isPicked = false;
-
-	int left_pos;
+    int left_pos;
     int alliance;
     if (left_or_right == 0)
     {
         left_pos = 50;
         alliance = 0;
     }
-    else{
+    else
+    {
         left_pos = 1090;
         alliance = 1;
     }
-    std::vector<Unit*> initialized_units;
+    std::vector<Unit *> initialized_units;
     Unit *u1 = director.buildSwords(alliance);
     Unit *u2 = director.buildMage(alliance);
     Unit *u3 = director.buildShooter(alliance);
@@ -28,28 +26,27 @@ Deck::Deck(int left_or_right)
     initialized_units.push_back(u4);
     initialized_units.push_back(u5);
 
-
-    for(long unsigned int i = 0; i < initialized_units.size(); i++){
-        if (initialized_units[i]) {
-			std::cout << "pushing unit\n";
-			sf::Vector2f location(left_pos, (50 * i) + 100);
-			initialized_units[i]->setLocation(location);
-			initialized_units[i]->setDeckPosition(location);
-			units.push_back(std::shared_ptr<Unit> (initialized_units[i])); 
-		}
-		else
-			std::cerr << "failed to build unit\n";
+    for (long unsigned int i = 0; i < initialized_units.size(); i++)
+    {
+        if (initialized_units[i])
+        {
+            std::cout << "pushing unit\n";
+            sf::Vector2f location(left_pos, (50 * i) + 100);
+            initialized_units[i]->setLocation(location);
+            initialized_units[i]->setDeckPosition(location);
+            units.push_back(std::shared_ptr<Unit>(initialized_units[i]));
+        }
+        else
+            std::cerr << "failed to build unit\n";
     }
 
-	std::cout << "built deck\n";
+    std::cout << "built deck\n";
 }
 
 Deck::Deck()
 {
-	current_no_units = 0;
-	//isPicked = false;
     int alliance = 1;
-    std::vector<Unit*> initialized_units;
+    std::vector<Unit *> initialized_units;
     Unit *u1 = director.buildSwords(alliance);
     Unit *u2 = director.buildMage(alliance);
     Unit *u3 = director.buildShooter(alliance);
@@ -61,60 +58,53 @@ Deck::Deck()
     initialized_units.push_back(u4);
     initialized_units.push_back(u5);
 
-	for (long unsigned int i = 0; i < initialized_units.size(); ++i) {
-		/* not sure how to use builder */
-		if (initialized_units[i]) {
-			std::cout << "pushing unit\n";
-			sf::Vector2f location(50, (50 * i) + 100);
-			initialized_units[i]->setLocation(location);
-			units.push_back(std::shared_ptr<Unit> (initialized_units[i])); 
-		}
-		else
-			std::cerr << "failed to build unit\n";
-	}
-	std::cout << "built deck\n";
+    for (long unsigned int i = 0; i < initialized_units.size(); ++i)
+    {
+        /* not sure how to use builder */
+        if (initialized_units[i])
+        {
+            std::cout << "pushing unit\n";
+            sf::Vector2f location(50, (50 * i) + 100);
+            initialized_units[i]->setLocation(location);
+            units.push_back(std::shared_ptr<Unit>(initialized_units[i]));
+        }
+        else
+            std::cerr << "failed to build unit\n";
+    }
+    std::cout << "built deck\n";
 }
 
-void Deck::draw(sf::RenderWindow* window){
+void Deck::draw(sf::RenderWindow *window)
+{
 
-    for(int i = 0; i < MAX_UNITS; i++){
-        //if (units[i]->getisActive()){
-            units[i]->draw(window);
+    for (int i = 0; i < MAX_UNITS; i++)
+    {
+        // if (units[i]->getisActive()){
+        units[i]->draw(window);
         //}
     }
 }
 
-std::vector<std::shared_ptr<Unit>>& Deck::getUnits(){
+std::vector<std::shared_ptr<Unit>> &Deck::getUnits()
+{
     return units;
 }
 
-// void Deck::addUnit(Unit* unit){
-//     if (current_no_units < 5){
-//         units.push_back(unit);
-//         current_no_units++;
-//         std:: cout << "Unit added successfully\n";
-//         return;
-//     }
-
-//     std:: cout << "List full, please replace a unit to continue\n";
-// }
-
-// void Deck::replaceUnit(Unit* unit, Unit* to_be_replaced){
-//     for(int i = 0; i < current_no_units; i++){
-//         if (units[i] == to_be_replaced){
-//             units[i] = unit;
-//             std:: cout << "Unit successfully found and replaced\n";
-//             return;
-//         }
-//     }
-//     std:: cout << "Unit to be replaced not found\n";
-// }
-
-Unit* Deck::getPickedUnit() {
-	for (const auto& unit: units) {
-		if (unit->getIsPicked())
-			return unit.get();
-	}
-	return nullptr;
+Unit *Deck::getPickedUnit()
+{
+    for (const auto &unit : units)
+    {
+        if (unit->getIsPicked())
+            return unit.get();
+    }
+    return nullptr;
 }
 
+void Deck::swapDeployedUnit()
+{
+    for (int i = 0; i < units.size(); i++)
+    {
+        if (units[i]->getIsPicked())
+            units[i] = std::shared_ptr<Unit>(&Unit(*units[i].get()));
+    }
+}
