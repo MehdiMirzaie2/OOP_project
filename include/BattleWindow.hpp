@@ -21,8 +21,8 @@ private:
     sf::Clock gameClock;
 
     // Initialize ElixirBars with maxElixir=8, unitWidth=20.f, height=30.f
-    ElixirBar elixirBar1{8, 20.f, 30.f};
-    ElixirBar elixirBar2{8, 20.f, 30.f};
+    ElixirBar elixirBar1;
+    ElixirBar elixirBar2;
 
     void loadDecks();
     void deploye(sf::Event);
@@ -32,12 +32,15 @@ private:
     void updateElixirBars();
     void drawElixirBars(sf::RenderWindow& window);
 
+
 public:
     BattleWindow();
     int runWindow();
     void checkCollisions();
     void updateUnits(sf::Time time_passed);
     void updateAttacks();
+
+    void updateUnits();
 
     // Override base class draw method or add one to draw UI
     void draw(sf::RenderWindow& window);
