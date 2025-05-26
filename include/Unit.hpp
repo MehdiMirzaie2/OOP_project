@@ -64,7 +64,6 @@ public:
 	bool getisTower();
 	sf::Sprite getSprite();
 	int getAlliance();
-
 	
 	// setters
 	void setHP(float newHP);

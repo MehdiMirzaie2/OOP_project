@@ -29,6 +29,7 @@ public:
         int getLosses();
         std::string getName();
         Deck *getDeck();
+        Unit* getKing();
         Elixir *getElixir();
         
         // setters

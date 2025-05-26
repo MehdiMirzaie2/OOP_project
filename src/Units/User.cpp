@@ -77,7 +77,7 @@ User::User(std::string name, int left_or_right)
 
     Unit::active_units.push_back(m_towers[0]);
     Unit::active_units.push_back(m_towers[1]);
-    Unit::active_units.push_back(m_king);
+    // Unit::active_units.push_back(m_king);
     m_elixir = std::make_unique<Elixir>();
 }
 
@@ -94,6 +94,11 @@ void User::update(sf::Vector2i mouse_pos)
     {
         unit->moveIfPicked(mouse_pos);
     }
+}
+
+Unit* User::getKing()
+{
+    return m_king.get();
 }
 
 void User::setLosses(int l)

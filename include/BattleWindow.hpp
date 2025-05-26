@@ -14,20 +14,22 @@ private:
     Map m_gameMap;
     Director m_director;
     int m_turn;
-    User m_user1; 
-    User m_user2;
+    User* m_user1;
+    User* m_user2;
     sf::Clock m_gameClock;
 
     void deploye(sf::Event);
     void selectUnit(sf::Event);
 
 public:
-    BattleWindow();
+    static int winner;
+    BattleWindow(User* user1, User* user2);
     void draw_all(sf::RenderWindow *window);
     int runWindow();
     void checkCollisions();
     void updateUnits();
     void updateAttacks();
+    void checkWinner();
     void startUnitAttack(Unit *attacker);
 };
 

@@ -113,6 +113,9 @@ void Unit::useAttack(Unit *hunted_target)
 void Unit::startMovingForward()
 {
     if (m_isTower){
+        m_isAttacking = false;
+        m_current_target = nullptr;
+        m_MoveClock.restart();
         return;
     }
     m_isMovingForward = true;
@@ -177,11 +180,10 @@ void Unit::update() // Handles Unit Animations
         }
         else
         {
-            if (!m_isTower){
-                startMovingForward(); // Handles disabling of attacks and starts movement
+            startMovingForward(); // Handles disabling of attacks and starts movement
 
-            }   
-        }
+        }   
+        
     }
     else
     {
@@ -224,6 +226,7 @@ void Unit::update(Map &map) // Handles Unit Animations
         }
         if (!m_current_target->getisDead())
         {
+            updateAttackAnimation();
             attemptShooting(); // Handles cooldown and firing
         }
         else
@@ -271,14 +274,12 @@ void Unit::updateAttackAnimation()
     first_half_after_attack = first_half_after_attack * early_factor;
     if (elapsed_seconds <= first_half_after_attack && m_skin.getTexture() != &m_unitTextureAttacking)
     {
-        std::cout << "First half!!\n";
         std::cout << m_attackClock.getElapsedTime().asSeconds() << std::endl;
         m_skin.setTexture(m_unitTextureAttacking);
     }
     // for the second half, IdleTexture, which changes just when it becomes attack time
     else if (elapsed_seconds > first_half_after_attack && elapsed_seconds < first_half_after_attack * 2 && m_skin.getTexture() != &m_unitTextureIdle)
     {
-        std::cout << "Second half\n";
         m_skin.setTexture(m_unitTextureIdle);
     }
 }
@@ -388,6 +389,7 @@ sf::Sprite Unit::getSprite()
     return m_skin;
 }
 
+
 void Unit::moveIfPicked(sf::Vector2i mouse_pos)
 {
     if (m_isPicked)
@@ -420,10 +422,10 @@ Pair Unit::getClosestTower()
     int col = m_skin.getPosition().x / 30, row = m_skin.getPosition().y / 30;
     std::vector<Pair> targets =
         (m_alliance == 1) ? std::vector<Pair>{std::make_pair(3, 7), std::make_pair(8, 4), std::make_pair(9, 4), std::make_pair(14, 7)}
-                        : std::vector<Pair>{std::make_pair(3, 24), std::make_pair(8, 27), std::make_pair(9, 27), std::make_pair(14, 24)};
+                        : std::vector<Pair>{std::make_pair(3, 25), std::make_pair(8, 27), std::make_pair(9, 27), std::make_pair(14, 25)};
 
     float min = __FLT_MAX__;
-    int index = 0;
+    int index = 0;                                                                 
     for (int i = 0; i < 4; i++)
     {
         double distance = ((row - targets[i].first) * (row - targets[i].first)) + ((col - targets[i].second) * (col - targets[i].second));

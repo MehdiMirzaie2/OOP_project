@@ -73,7 +73,7 @@ bool Attack::isHit(std::vector<std::shared_ptr<Unit>> unitlist)
     for (long unsigned int i = 0; i < unitlist.size(); i++)
     {
         Unit *unit_ptr = unitlist[i].get();
-        if (m_owner == unit_ptr || unit_ptr->getisDead())
+        if (m_owner == unit_ptr || unit_ptr->getisDead() || unit_ptr->getAlliance() == m_owner->getAlliance())
         {
             continue;
         }

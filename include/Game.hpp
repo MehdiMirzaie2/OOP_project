@@ -12,10 +12,14 @@ private:
     BattleWindow m_battleWindow;
     CustomizeWindow m_customizeWindow;
     MainMenu m_menuWindow;
+    std::string statsFile;
+    User m_user1; 
+    User m_user2;
 
 public:
     Game();
     void runGame();
+    void registerWinner(int winner);
 };
 
 #endif // UNITS_HEADER_GAME_HPP_

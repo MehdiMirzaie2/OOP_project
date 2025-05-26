@@ -5,18 +5,21 @@
 
 /*need to change the background png, made a mistake, some rows are narrower than others*/
 
-BattleWindow::BattleWindow()
+BattleWindow::BattleWindow(User* user1, User* user2)
 {
-	m_user1 = User("Adi", 0);
-	m_user2 = User("Mehdi", 1);
+	m_user1 = user1;
+	m_user2 = user2;
+	
 	m_window = nullptr;
 	m_turn = 0;
 }
 
+static bool BattleWindow::winner = 0;
+
 void BattleWindow::deploye(sf::Event event)
 {
 	(void)event;
-	User *user = (m_turn == 0) ? &m_user1 : &m_user2;
+	User *user = (m_turn == 0) ? m_user1 : m_user2;
 	Deck *unitDeck = user->getDeck();								// ownership with the unit
 	std::shared_ptr<Unit> unitToDeploy = unitDeck->getPickedUnit(); // ownership with the unitDeck
 
@@ -59,7 +62,7 @@ void BattleWindow::deploye(sf::Event event)
 
 void BattleWindow::selectUnit(sf::Event event)
 {
-	User *user = (m_turn == 0) ? &m_user1 : &m_user2;
+	User *user = (m_turn == 0) ? m_user1 : m_user2;
 	Deck *deck = user->getDeck();
 
 	for (auto unit : deck->getUnits())
@@ -91,7 +94,7 @@ int BattleWindow::runWindow()
 		sf::Vector2i mouse_pos = sf::Mouse::getPosition(*(m_window));
 		sf::Event event;
 
-		while (m_window->pollEvent(event))
+		while (m_window->pollEvent(event) && BattleWindow::winner == 0)
 		{
 			if (event.type == sf::Event::Closed)
 				m_window->close();
@@ -116,12 +119,31 @@ int BattleWindow::runWindow()
 		updateUnits();
 		updateAttacks();
 		checkCollisions();
+		checkWinner();
 
 		draw_all(m_window.get());
-		m_user1.update(mouse_pos);
-		m_user2.update(mouse_pos);
+		m_user1->update(mouse_pos);
+		m_user2->update(mouse_pos);
 	}
-	return 0;
+	return winner;
+}
+
+void BattleWindow::checkWinner()
+// checks if anybody has won, if they have then increments their win counter and increments losser's loss counter.
+{
+	if (m_user1->getKing()->getisDead()){
+		BattleWindow::winner = 2;
+		m_user2->setWins(m_user2->getWins() + 1);
+		m_user1->setLosses(m_user1->getLosses() + 1);
+		std:: cout << "winner: p2\n";
+	}
+	else if(m_user2->getKing()->getisDead()){
+		BattleWindow::winner = 1;
+		m_user1->setWins(m_user1->getWins() + 1);
+		m_user2->setLosses(m_user2->getLosses() + 1);
+
+		std:: cout << "winner: p1\n";
+	}
 }
 
 void BattleWindow::updateUnits()
@@ -176,8 +198,8 @@ void BattleWindow::draw_all(sf::RenderWindow *window)
 	window->clear();
 	m_gameMap.draw(window);
 
-	m_user1.draw(window);
-	m_user2.draw(window);
+	m_user1->draw(window);
+	m_user2->draw(window);
 	for (auto &attack_projectile : Unit::active_attacks)
 	{
 
