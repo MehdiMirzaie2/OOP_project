@@ -43,7 +43,7 @@ Unit::Unit(float dmg, float spd, sf::Vector2f location, float radius_atk, int cs
     m_isDead = false;
     m_current_target = nullptr;
     m_timeSinceDeath.restart();
-    alliance = alliance;
+    this->m_alliance = alliance;
 }
 
 /*
@@ -104,6 +104,7 @@ std::vector<std::shared_ptr<Unit>> Unit::active_units = {};
 
 void Unit::useAttack(Unit *hunted_target)
 { // Use all attack sprites
+
     m_current_target = (hunted_target);
     m_isAttacking = true;
     m_isMovingForward = false;
@@ -111,6 +112,9 @@ void Unit::useAttack(Unit *hunted_target)
 
 void Unit::startMovingForward()
 {
+    if (m_isTower){
+        return;
+    }
     m_isMovingForward = true;
     m_isAttacking = false;
     m_current_target = nullptr;
@@ -173,7 +177,10 @@ void Unit::update() // Handles Unit Animations
         }
         else
         {
-            startMovingForward(); // Handles disabling of attacks and starts movement
+            if (!m_isTower){
+                startMovingForward(); // Handles disabling of attacks and starts movement
+
+            }   
         }
     }
     else

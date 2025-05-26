@@ -5,8 +5,6 @@
 
 /*need to change the background png, made a mistake, some rows are narrower than others*/
 
-/*need to change the background png, made a mistake, some rows are narrower than others*/
-
 BattleWindow::BattleWindow()
 {
 	m_user1 = User("Adi", 0);
@@ -151,7 +149,7 @@ void BattleWindow::startUnitAttack(Unit *attacker)
 		auto unit_ptr = unit.get();
 		if (unit_ptr == attacker || attacker->getisDead() || unit_ptr->getisDead() || attacker->getTarget() == unit_ptr || unit_ptr->getAlliance() == attacker->getAlliance())
 		{
-			// They are already fighting
+			// They are already fighting or are same alliance
 			continue;
 		}
 		sf::Vector2f attacker_loc = attacker->getLocation();

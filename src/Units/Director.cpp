@@ -51,9 +51,9 @@ std::shared_ptr<Unit> Director::buildKing(int alliance)
     sf::Vector2f king_loc;
 
     if (alliance == 0) // 0 is left king
-        king_loc = sf::Vector2f(WINDOW_WIDTH / 6, WINDOW_HEIGHT / 2);
+        king_loc = sf::Vector2f(WINDOW_WIDTH / 6 - 80, WINDOW_HEIGHT / 2 - 80);
     else if (alliance == 1) // 1 is right king
-        king_loc = sf::Vector2f(WINDOW_WIDTH - WINDOW_WIDTH / 6, WINDOW_HEIGHT / 2);
+        king_loc = sf::Vector2f(WINDOW_WIDTH - WINDOW_WIDTH / 6 - 80, WINDOW_HEIGHT / 2 - 80);
 
     return m_unitBuilder.withIdleTexture(std::to_string(alliance) + "king.png")
         .withAttackingTexture(std::to_string(alliance) + "king.png")
@@ -69,6 +69,10 @@ std::shared_ptr<Unit> Director::buildKing(int alliance)
 
 std::shared_ptr<Unit> Director::buildTower(int alliance)
 {
+    if (alliance != 0 && alliance != 1){
+        std::cout << "Invalid alliance\n";
+        return nullptr;
+    }
     return m_unitBuilder.withIdleTexture(std::to_string(alliance) + "tower.png")
         .withAttackingTexture((std::to_string(alliance) + "tower.png"))
         .withProjectileTexture("bullet.png")

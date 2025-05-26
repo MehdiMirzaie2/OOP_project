@@ -42,6 +42,10 @@ User::User(std::string name, int left_or_right)
 
     m_king->describe();
 
+    if (left_or_right == 0){
+        std:: cout << "Left king alliance: " << m_king->getAlliance() << std::endl;
+    }
+
     for (int i = 0; i < 2; i++)
     {
         m_towers[i] = std::shared_ptr<Unit>(m_unitDeck->generateTowers(left_or_right));
@@ -52,16 +56,18 @@ User::User(std::string name, int left_or_right)
         m_towers[i]->setisActive(true);
         m_towers[i]->setisTower(true);
     }
-    float offset = 35;
-    sf::Vector2f top_left(WINDOW_WIDTH / 4.5 + offset, WINDOW_HEIGHT / 6 + offset);
-    sf::Vector2f top_right(WINDOW_WIDTH - WINDOW_WIDTH / 4.5 - offset, WINDOW_HEIGHT / 6 + offset);
-    sf::Vector2f bottom_left(WINDOW_WIDTH / 4.5 + offset, WINDOW_HEIGHT - WINDOW_HEIGHT / 6 - offset);
-    sf::Vector2f bottom_right(WINDOW_WIDTH - WINDOW_WIDTH / 4.5 - offset, WINDOW_HEIGHT - WINDOW_HEIGHT / 6 - offset);
+    float offset = 8;
+    sf::Vector2f top_left(WINDOW_WIDTH / 4.5 - offset, WINDOW_HEIGHT / 6 - 3*offset);
+    sf::Vector2f top_right(WINDOW_WIDTH - WINDOW_WIDTH / 4.5 + offset, WINDOW_HEIGHT / 6 - 3*offset);
+    sf::Vector2f bottom_left(WINDOW_WIDTH / 4.5 - offset, WINDOW_HEIGHT - WINDOW_HEIGHT / 6 - 7*offset);
+    sf::Vector2f bottom_right(WINDOW_WIDTH - WINDOW_WIDTH / 4.5 + offset, WINDOW_HEIGHT - WINDOW_HEIGHT / 6 - 7*offset);
 
     if (left_or_right == 0)
     {
         m_towers[0]->setLocation(top_left);
         m_towers[1]->setLocation(bottom_left);
+        
+        std::cout << "Left tower alliance: " << m_towers[0]->getAlliance() << " " << m_towers[1]->getAlliance() << std::endl;
     }
     else
     {
