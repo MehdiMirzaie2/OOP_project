@@ -39,32 +39,32 @@ Deck::Deck(int left_or_right)
     std::cout << "built deck\n";
 }
 
-// Deck::Deck()
-// {
-//     int alliance = 1;
-//     // std::vector<Unit *> initialized_units;
-//     units.insert(director.buildSwords(alliance));
-//     units.insert(director.buildMage(alliance));
-//     units.insert(director.buildShooter(alliance));
-//     units.insert(director.buildTank(alliance));
-//     units.insert(director.buildSwords(alliance));
+ Deck::Deck()
+ {
+     int alliance = 1;
+     // std::vector<Unit *> initialized_units;
+     units.insert(director.buildSwords(alliance));
+     units.insert(director.buildMage(alliance));
+     units.insert(director.buildShooter(alliance));
+     units.insert(director.buildTank(alliance));
+          units.insert(director.buildSwords(alliance));
 
-//     int i = 0;
-//     for (auto unit: units)
-//     {
-//         /* not sure how to use builder */
-//         if (unit)
-//         {
-//             std::cout << "pushing unit\n";
-//             sf::Vector2f location(50, (50 * i) + 100);
-//             unit->setLocation(location);
-//         }
-//         else
-//             std::cerr << "failed to build unit\n";
-//         i++;
-//     }
-//     std::cout << "built deck\n";
-// }
+     int i = 0;
+     for (auto unit: units)
+     {
+         /* not sure how to use builder */
+         if (unit)
+         {
+             std::cout << "pushing unit\n";
+             sf::Vector2f location(50, (50 * i) + 100);
+             unit->setLocation(location);
+         }
+         else
+             std::cerr << "failed to build unit\n";
+         i++;
+     }
+     std::cout << "built deck\n";
+}
 
 void Deck::draw(sf::RenderWindow *window)
 {
@@ -96,7 +96,7 @@ void Deck::swapDeployedUnit(const std::shared_ptr<Unit> &unit)
     	    std::shared_ptr<Unit> newUnit = director.buildSwords(unit->getAlliance());
 		    
             newUnit->setLocation(unit->getDeckPosition());
-            units.erase(unit);
+            //units.erase(unit);
 		    units.insert(newUnit);
 	}
     }

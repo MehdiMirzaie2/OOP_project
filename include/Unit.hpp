@@ -48,11 +48,11 @@ public:
 	// initialisers
 	Unit();
 	Unit(float dmg, float spd, sf::Vector2f location, float radius_atk, int cst, int hp, std::string idleTextureName, std::string attackingTextureName, std::string projectileTextureName, int alliance); // unit builder has the values for the unit
-	Unit(const Unit &src); //copy constructor
+	//Unit(const Unit &src); //copy constructor
 			       //
-	virtual std::shared_ptr<Unit> clone() const {
-		return std::make_shared<Unit>(*this);
-	}
+	//virtual std::shared_ptr<Unit> clone() const {
+	//	return std::make_shared<Unit>(*this);
+	//}
 
 	// getters
 	float getHP();

@@ -15,9 +15,11 @@ Unit::Unit(float dmg, float spd, sf::Vector2f location, float radius_atk, int cs
       projectileTextureName(projectileTextureName),
       unitTextureIdleName(idleTextureName),
       unitTextureAttackingName(attackingTextureName),
-      isPicked(false)
+      isPicked(false),
+	isAttacking(false)
 { // Sync sprite & user posi
     int flip = alliance == 0 ? 1 : -1;
+    std::cout << idleTextureName << std::endl;
     if (!unitTextureIdle.loadFromFile("src/Textures/" + std::string(idleTextureName)))
     {
         std::cout << "Unable to load Idle texture!\n";
@@ -44,7 +46,7 @@ Unit::Unit(float dmg, float spd, sf::Vector2f location, float radius_atk, int cs
     timeSinceDeath.restart();
     this->alliance = alliance;
 };
-
+/*
 Unit::Unit(const Unit &src)
     : Entity(src), // call the base class copy constructor
       HP(src.HP),
@@ -82,7 +84,7 @@ Unit::Unit(const Unit &src)
     // Reset clock/timers
     timeSinceDeath.restart();
 }
-
+*/
 std::vector<std::unique_ptr<Attack>> Unit::active_attacks = {};
 std::vector<std::shared_ptr<Unit>> Unit::active_units = {};
 

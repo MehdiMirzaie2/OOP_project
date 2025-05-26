@@ -15,7 +15,7 @@ private:
     std::set<std::shared_ptr<Unit>> units;
 
 public:
-    // Deck();
+    Deck();
     Deck(int);
 
     std::set<std::shared_ptr<Unit>> &getUnits();

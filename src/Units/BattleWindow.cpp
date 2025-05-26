@@ -170,7 +170,7 @@ void BattleWindow::startUnitAttack(Unit *attacker)
 	for (auto &unit : Unit::active_units)
 	{
 		auto unit_ptr = unit.get();
-		if (unit_ptr == attacker || attacker->getisDead() || unit_ptr->getisDead() || attacker->getTarget() == unit_ptr)
+		if (unit_ptr == attacker || attacker->getisDead() || unit_ptr->getisDead() || attacker->getTarget() == unit_ptr || unit->getAlliance() == attacker->getAlliance())
 		{
 			// They are already fighting
 			continue;
@@ -210,6 +210,9 @@ void BattleWindow::draw_all(sf::RenderWindow *window)
 			attack_projectile->draw(window);
 		}
 	}
+
+	for (auto active_unit: Unit::active_units)
+		active_unit->draw(window);
 	window->display();
 }
 

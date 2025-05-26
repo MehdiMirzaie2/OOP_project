@@ -57,6 +57,6 @@ UnitBuilder &UnitBuilder::withAlliance(int alliance)
 
 std::shared_ptr<Unit> UnitBuilder::build()
 {
-    std::shared_ptr<Unit> unit = std::make_shared<Unit>(Unit(damage,speed, location,radius_of_attack, cost, HP, textureIdle, textureAttacking, projectileTextureName, alliance));
+    std::shared_ptr<Unit> unit = std::make_shared<Unit>(damage,speed, location,radius_of_attack, cost, HP, textureIdle, textureAttacking, projectileTextureName, alliance);
     return unit;
 }
