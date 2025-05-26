@@ -16,7 +16,7 @@ Unit::Unit(float dmg, float spd, sf::Vector2f location, float radius_atk, int cs
       unitTextureIdleName(idleTextureName),
       unitTextureAttackingName(attackingTextureName),
       isPicked(false),
-	isAttacking(false)
+      isAttacking(false)
 { // Sync sprite & user posi
     int flip = alliance == 0 ? 1 : -1;
     std::cout << idleTextureName << std::endl;
@@ -36,7 +36,8 @@ Unit::Unit(float dmg, float spd, sf::Vector2f location, float radius_atk, int cs
         std::cout << "Couldnt load death soul\n";
     }
 
-    ;skin.setTexture(unitTextureIdle);
+    ;
+    skin.setTexture(unitTextureIdle);
     std::cout << "texture size = " << unitTextureIdle.getSize().x << " " << unitTextureIdle.getSize().y << "\n";
     skin.setScale(flip * (30.0f / unitTextureIdle.getSize().x), 30.0f / unitTextureIdle.getSize().y);
     isAttacking = false;
@@ -45,7 +46,7 @@ Unit::Unit(float dmg, float spd, sf::Vector2f location, float radius_atk, int cs
     current_target = nullptr;
     timeSinceDeath.restart();
     this->alliance = alliance;
-   }
+}
 
 /*
 Unit::Unit(const std::shared_ptr<Unit> &src)
@@ -61,7 +62,7 @@ Unit::Unit(const std::shared_ptr<Unit> &src)
       isAttacking(false),
       isDead(src.isDead)
 {
-	std::cout << "whats good\n";
+    std::cout << "whats good\n";
     int flip = alliance == 0 ? 1 : -1;
 
     if (!unitTextureIdle.loadFromFile("src/Textures/" + src.unitTextureIdleName))
@@ -236,15 +237,15 @@ void Unit::update(Map &map) // Handles Unit Animations
     }
 
     // Movement Logic
-    if (isMovingForward && MoveClock.getElapsedTime() >= sf::seconds(speed) && !isTower )
+    if (isMovingForward && MoveClock.getElapsedTime() >= sf::seconds(speed) && !isTower)
     {
-	    std::cout << "speed = " << speed << std::endl;
+        std::cout << "speed = " << speed << std::endl;
         if (!path.empty())
         {
             Pair p = path.top();
             path.pop();
-            //std::cout << p.first << " " << p.second << "\n";
-            // skin.move((p.second * 30), (p.first + 30));
+            // std::cout << p.first << " " << p.second << "\n";
+            //  skin.move((p.second * 30), (p.first + 30));
             skin.setPosition((p.second * 30) + 100, p.first * 30);
         }
         else
@@ -340,21 +341,24 @@ void Unit::dying_animation()
     }
 }
 
-void Unit::setSkin(sf::Sprite _skin) {
-	skin = _skin;
+void Unit::setSkin(sf::Sprite _skin)
+{
+    skin = _skin;
 }
 
-bool Unit::getisTower() {
-	return isTower;
+bool Unit::getisTower()
+{
+    return isTower;
 }
 
-
-void Unit::describe() {
-	std::cout << "hello\n";
+void Unit::describe()
+{
+    std::cout << "hello\n";
 }
 
-void Unit::setisTower(bool istower) {
-	isTower = istower;
+void Unit::setisTower(bool istower)
+{
+    isTower = istower;
 }
 void Unit::takeDamage(Attack attack)
 {

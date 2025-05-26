@@ -7,20 +7,17 @@
 #include "MainMenu.hpp"
 #include "GameDataManager.hpp"
 
-class Game{
+class Game
+{
+private:
+    BattleWindow battleWindow;
+    CustomizeWindow customizeWindow;
+    MainMenu menuWindow;
+    GameDataManager userData;
 
-    private:
-        BattleWindow battleWindow;
-        CustomizeWindow customizeWindow;
-        MainMenu menuWindow;
-        GameDataManager userData;
-       
-    public:
-        Game();
-        void runGame();
-        
-        
+public:
+    Game();
+    void runGame();
 };
-
 
 #endif // UNITS_HEADER_GAME_HPP_

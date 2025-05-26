@@ -4,20 +4,20 @@
 #include <iostream>
 #include <algorithm>
 
-Attack::Attack(Unit* owner, std:: string attackTextureName, Unit* target)
+Attack::Attack(Unit *owner, std::string attackTextureName, Unit *target)
 {
     if (!attackTexture.loadFromFile("src/Textures/" + attackTextureName))
     {
         std::cout << "Unable to load attack texture: src/Textures/" << attackTextureName << std::endl;
-        
     }
-    else{
-        std::cout << "Loaded attack texture : src/Textures/" << attackTextureName << std:: endl;
+    else
+    {
+        std::cout << "Loaded attack texture : src/Textures/" << attackTextureName << std::endl;
     }
     isActive = false;
     damage = 20;
     speed = 0.5;
-    attackSprite.setOrigin(attackTexture.getSize().x/2.f, attackTexture.getSize().y/2.f);
+    attackSprite.setOrigin(attackTexture.getSize().x / 2.f, attackTexture.getSize().y / 2.f);
     attackSprite.setTexture(attackTexture);
     attackSprite.setScale(0.06f, 0.06f);
     this->owner = owner;
@@ -38,31 +38,31 @@ void Attack::move()
 
     // To calculate the unit vector for direction, as the above vector is not a unit vector, we divide by distance
 
-    float distance = std::sqrt((displacement_x*displacement_x) + (displacement_y*displacement_y));
-    float normalized_displacement_x = displacement_x/distance;
-    float normalized_displacement_y = displacement_y/distance;
+    float distance = std::sqrt((displacement_x * displacement_x) + (displacement_y * displacement_y));
+    float normalized_displacement_x = displacement_x / distance;
+    float normalized_displacement_y = displacement_y / distance;
 
-    
-    attackSprite.move(sf::Vector2f(normalized_displacement_x*speed, normalized_displacement_y*speed));
+    attackSprite.move(sf::Vector2f(normalized_displacement_x * speed, normalized_displacement_y * speed));
 }
 
-bool Attack::getisActive(){return isActive;};
+bool Attack::getisActive() { return isActive; };
 
-int Attack::getDamage(){return damage;};
+int Attack::getDamage() { return damage; };
 
 void Attack::updateLocation(sf::Vector2f new_loc)
 {
     attackSprite.setPosition(new_loc);
 }
 
-void Attack::draw(sf::RenderWindow* window)
-{  
+void Attack::draw(sf::RenderWindow *window)
+{
     window->draw(attackSprite);
 }
 
 void Attack::update()
 {
-    if (getisActive()){
+    if (getisActive())
+    {
         move();
     }
 }
@@ -70,33 +70,39 @@ void Attack::update()
 bool Attack::isHit(std::vector<std::shared_ptr<Unit>> unitlist)
 {
     sf::FloatRect collision_box = attackSprite.getGlobalBounds();
-    for(long unsigned int i = 0; i < unitlist.size(); i++){
-        Unit* unit_ptr = unitlist[i].get();
-        if (owner == unit_ptr || unit_ptr->getisDead()){
+    for (long unsigned int i = 0; i < unitlist.size(); i++)
+    {
+        Unit *unit_ptr = unitlist[i].get();
+        if (owner == unit_ptr || unit_ptr->getisDead())
+        {
             continue;
         }
-        if (collision_box.intersects(unit_ptr->getSkin().getGlobalBounds())){
+        if (collision_box.intersects(unit_ptr->getSkin().getGlobalBounds()))
+        {
             isActive = false;
-            if(unit_ptr->getisActive()){
+            if (unit_ptr->getisActive())
+            {
                 unit_ptr->takeDamage(*this);
-                std:: cout << "HIT!!\n";
+                std::cout << "HIT!!\n";
                 auto it = std::find_if(Unit::active_attacks.begin(), Unit::active_attacks.end(),
-                               [this](const std::unique_ptr<Attack>& p_attack) {
-                                   return p_attack.get() == this;
-                               });
+                                       [this](const std::unique_ptr<Attack> &p_attack)
+                                       {
+                                           return p_attack.get() == this;
+                                       });
 
-                if (it != Unit::active_attacks.end()) {
+                if (it != Unit::active_attacks.end())
+                {
                     Unit::active_attacks.erase(it); // Erase the unique_ptr; this will delete the Attack object
                 }
                 return true;
-                // AI USED: GPT 4o : PROMPT : Error at line 82 in attack.cpp, explain why
-            }   
+            }
         }
     }
     return false;
 }
 
-std:: string Attack::describe(){
-    std:: string exist = "The attack is exist!\n";
+std::string Attack::describe()
+{
+    std::string exist = "The attack is exist!\n";
     return exist;
 }

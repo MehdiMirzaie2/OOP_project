@@ -17,7 +17,6 @@ BattleWindow::BattleWindow()
 
 void BattleWindow::deploye(sf::Event event)
 {
-	std::cout << "this is user " << m_turn << "\n";
 	(void)event;
 	User *user = (m_turn == 0) ? &user1 : &user2;
 	Deck *unitDeck = user->getDeck();								// ownership with the unit
@@ -42,17 +41,6 @@ void BattleWindow::deploye(sf::Event event)
 
 	if (gameMap.getMapGrid()[row][col] == 0 && ((m_turn == 0 && col < 14) || (m_turn == 1 && col > 15)) && user->getElixir()->getElixir() > unitToDeploy->getCost())
 	{
-		// sf::Vector2f pos = sf::Vector2f((col * 30) + 100, row * 30);
-
-		// std::cout << "before " <<unitToDeploy << std::endl;
-		// unitToDeploy->bringToLife(pos, gameMap);
-		// user->getElixir()->decreaseElixir(unitToDeploy->getCost());
-		// m_turn = (m_turn == 0) ? 1 : 0;
-
-		// unitToDeploy->setLocation(a);
-		// std::cout << "after " << unitToDeploy->getLocation().x << " " <<unitDeck->getPickedUnit() << std::endl;
-		// unitToDeploy->setIsPicked(false);
-
 		sf::Vector2f a = sf::Vector2f((col * 30) + 100, row * 30);
 		unitToDeploy->setLocation(a);
 
@@ -67,21 +55,15 @@ void BattleWindow::deploye(sf::Event event)
 		unitToDeploy->startMovingForward();
 
 		unitDeck->swapDeployedUnit(unitToDeploy);
-		std::cout << "\n\n\ndepoyed unit\n\n\n\n";
 	}
 	unitToDeploy->setIsPicked(false);
 }
 
 void BattleWindow::selectUnit(sf::Event event)
 {
-	//(void)event;
 	User *user = (m_turn == 0) ? &user1 : &user2;
 	Deck *deck = user->getDeck();
 
-	// sf::Vector2i mouse_pos = sf::Mouse::getPosition(thiswindow);
-	std::cout << "sellecting units\n";
-
-	std::cout << event.mouseButton.x << " " << event.mouseButton.y << std::endl;
 	for (auto unit : deck->getUnits())
 	{
 		// std::cout << "checking if sprte was slected\n";
@@ -99,7 +81,6 @@ void BattleWindow::selectUnit(sf::Event event)
 			break;
 		}
 	}
-	std::cout << "\n\n";
 }
 
 int BattleWindow::runWindow()
@@ -133,8 +114,7 @@ int BattleWindow::runWindow()
 				}
 			}
 		}
-		// printf("drawing all\n");
-		//  updateUnits(gameClock.getElapsedTime());
+
 		updateUnits();
 		updateAttacks();
 		checkCollisions();
@@ -153,7 +133,6 @@ void BattleWindow::updateUnits()
 
 		if (Unit::active_units[i]->getisActive())
 		{
-
 			startUnitAttack(Unit::active_units[i].get());
 			Unit::active_units[i]->update(gameMap);
 		}
@@ -211,7 +190,7 @@ void BattleWindow::draw_all(sf::RenderWindow *window)
 		}
 	}
 
-	for (auto active_unit: Unit::active_units)
+	for (auto active_unit : Unit::active_units)
 		active_unit->draw(window);
 	window->display();
 }

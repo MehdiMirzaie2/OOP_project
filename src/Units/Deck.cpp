@@ -2,18 +2,8 @@
 
 Deck::Deck(int left_or_right)
 {
-    int left_pos;
-    int alliance;
-    if (left_or_right == 0)
-    {
-        left_pos = 50;
-        alliance = 0;
-    }
-    else
-    {
-        left_pos = 1090;
-        alliance = 1;
-    }
+    int left_pos = left_or_right == 0 ? 50 : 1090;
+    int alliance = left_or_right == 0 ? 0 : 1;
 
     units.insert(director.buildSwords(alliance));
     units.insert(director.buildMage(alliance));
@@ -22,7 +12,7 @@ Deck::Deck(int left_or_right)
     units.insert(director.buildSwords(alliance));
 
     int i = 0;
-    for (auto unit: units)
+    for (auto unit : units)
     {
         if (unit)
         {
@@ -39,36 +29,36 @@ Deck::Deck(int left_or_right)
     std::cout << "built deck\n";
 }
 
- Deck::Deck()
- {
-     int alliance = 1;
-     // std::vector<Unit *> initialized_units;
-     units.insert(director.buildSwords(alliance));
-     units.insert(director.buildMage(alliance));
-     units.insert(director.buildShooter(alliance));
-     units.insert(director.buildTank(alliance));
-          units.insert(director.buildSwords(alliance));
+Deck::Deck()
+{
+    int alliance = 1;
+    // std::vector<Unit *> initialized_units;
+    units.insert(director.buildSwords(alliance));
+    units.insert(director.buildMage(alliance));
+    units.insert(director.buildShooter(alliance));
+    units.insert(director.buildTank(alliance));
+    units.insert(director.buildSwords(alliance));
 
-     int i = 0;
-     for (auto unit: units)
-     {
-         /* not sure how to use builder */
-         if (unit)
-         {
-             std::cout << "pushing unit\n";
-             sf::Vector2f location(50, (50 * i) + 100);
-             unit->setLocation(location);
-         }
-         else
-             std::cerr << "failed to build unit\n";
-         i++;
-     }
-     std::cout << "built deck\n";
+    int i = 0;
+    for (auto unit : units)
+    {
+        /* not sure how to use builder */
+        if (unit)
+        {
+            std::cout << "pushing unit\n";
+            sf::Vector2f location(50, (50 * i) + 100);
+            unit->setLocation(location);
+        }
+        else
+            std::cerr << "failed to build unit\n";
+        i++;
+    }
+    std::cout << "built deck\n";
 }
 
 void Deck::draw(sf::RenderWindow *window)
 {
-    for (auto unit: units)
+    for (auto unit : units)
         unit->draw(window);
 }
 
@@ -99,16 +89,15 @@ std::shared_ptr<Unit> Deck::getPickedUnit()
 
 void Deck::swapDeployedUnit(const std::shared_ptr<Unit> &unit)
 {
-    for (auto m_unit: units)
+    for (auto m_unit : units)
     {
-        if (m_unit == unit) {
-		    std::cout << "hello world found\n";
-    	    std::shared_ptr<Unit> newUnit = director.buildSwords(unit->getAlliance());
-	    std::cout << "\n\n\n\ndeck positno = " << unit->getDeckPosition().x << " " << unit->getDeckPosition().y << "\n\n\n" ;
+        if (m_unit == unit)
+        {
+            std::shared_ptr<Unit> newUnit = director.buildSwords(unit->getAlliance());
             newUnit->setLocation(unit->getDeckPosition());
             newUnit->setDeckPosition(unit->getDeckPosition());
-            //units.erase(unit);
-		    units.insert(newUnit);
-	}
+            units.erase(unit);
+            units.insert(newUnit);
+        }
     }
 }

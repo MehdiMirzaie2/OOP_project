@@ -9,12 +9,11 @@ const int WINDOW_HEIGHT = 540;
 
 class Window
 {
-    protected:
-        std::unique_ptr<sf::RenderWindow> window;
+protected:
+    std::unique_ptr<sf::RenderWindow> window;
 
-    public:
-        virtual int runWindow() = 0;
-
+public:
+    virtual int runWindow() = 0;
 };
 
 #endif // WINDOW_HPP_

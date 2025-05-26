@@ -28,11 +28,11 @@ protected:
 	sf::Clock MoveClock;
 	sf::Clock attackClock;
 	sf::Time attackCooldown;
-	
+
 	std::string projectileTextureName;
 	std::string unitTextureIdleName;
 	std::string unitTextureAttackingName;
-	
+
 	bool isTower = false;
 	int alliance;
 	bool isPicked;
@@ -43,62 +43,56 @@ protected:
 	std::stack<Pair> path; // the path the unit will follow until their is distruption, then new path will be computed.
 
 public:
-	// static std::vector<Attack*> active_attacks;
+	
 	static std::vector<std::unique_ptr<Attack>> active_attacks;
 	static std::vector<std::shared_ptr<Unit>> active_units;
 	// initialisers
 	Unit();
 	Unit(float dmg, float spd, sf::Vector2f location, float radius_atk, int cst, int hp, std::string idleTextureName, std::string attackingTextureName, std::string projectileTextureName, int alliance); // unit builder has the values for the unit
-	//Unit(const Unit &src); //copy constructor
-			       //
-	//virtual std::shared_ptr<Unit> clone() const {
+	// Unit(const Unit &src); //copy constructor
+	//
+	// virtual std::shared_ptr<Unit> clone() const {
 	//	return std::make_shared<Unit>(*this);
-	//}
+	// }
 
 	// getters
 	float getHP();
 	bool getisDead();
-	sf::Sprite& getSkin();
+	sf::Sprite &getSkin();
 	Unit *getTarget();
+	bool getIsPicked();
+	bool getisTower();
+	sf::Sprite getSprite();
+	int getAlliance();
 
-	sf::Vector2f getDeckPosition();
+	
 	// setters
 	void setHP(float newHP);
-
-	void useAttack(Unit *hunted);
-	void attemptShooting();
-	void startMovingForward();
-
-	void dead();
-	void dying_animation();
-	void takeDamage(Attack attack);
 	void setisTower(bool isittower);
-	bool getisTower();
-
-	void updateLocation(sf::Vector2f);
-	bool getIsPicked();
-	void updateSpriteLoc();
-	// have to change the name of these two fucntinos at some stage
-//	void update(sf::Time time_passed);
-	void update();
-	void update(Map &map); // map is used for path finding
-
-	void draw(sf::RenderWindow *window);
-	sf::Sprite getSprite();
-
+	void setPath(std::stack<Pair> path);
 	void setDydx(sf::Vector2i);
 	void setIsPicked(bool);
 	void setSkin(sf::Sprite new_skin);
-	void moveIfPicked(sf::Vector2i);
 	void setDeckPosition(sf::Vector2f);
+
+	//utils
+	void moveIfPicked(sf::Vector2i);
 	void updateAttackAnimation();
-	// bool unitSellected(
+	void updateSpriteLoc();
+	void update();
+	void update(Map &map); // map is used for path finding
+	void attemptShooting();
+	void startMovingForward();
+	void dead();
+	void dying_animation();
+	void useAttack(Unit *hunted);
+	void updateLocation(sf::Vector2f);
+	void takeDamage(Attack attack);
+	sf::Vector2f getDeckPosition();
 	void describe();
 	Pair getClosestTower();
-
-	void setPath(std::stack<Pair> path);
-	int getAlliance();
-	//void bringToLife(sf::Vector2f pos, Map &gameMap);
+	void draw(sf::RenderWindow *window);
+	// void bringToLife(sf::Vector2f pos, Map &gameMap);
 };
 
 #endif

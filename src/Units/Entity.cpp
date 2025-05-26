@@ -1,8 +1,8 @@
 #include "../../include/Entity.hpp"
 
-Entity::Entity(){}; // does nothing atm because I dont know what to put as the default values yet.
+Entity::Entity() {}; // does nothing atm because I dont know what to put as the default values yet.
 
-Entity::Entity(float dmg, sf::Vector2f location ,float spd, float radius_atk, int cst)
+Entity::Entity(float dmg, sf::Vector2f location, float spd, float radius_atk, int cst)
 {
     damage = dmg;
     skin.setPosition(location);
@@ -12,11 +12,11 @@ Entity::Entity(float dmg, sf::Vector2f location ,float spd, float radius_atk, in
     cost = cst;
 }
 
-void Entity::setisActive(bool active){isActive = active;};
-bool Entity::getisActive(){return isActive;};
+void Entity::setisActive(bool active) { isActive = active; };
+bool Entity::getisActive() { return isActive; };
 
-sf::Vector2f Entity::getLocation() { return skin.getPosition();};
-void Entity::setLocation(sf::Vector2f new_loc){ skin.setPosition(new_loc);};
+sf::Vector2f Entity::getLocation() { return skin.getPosition(); };
+void Entity::setLocation(sf::Vector2f new_loc) { skin.setPosition(new_loc); };
 
 float Entity::getDamage() { return damage; };
 void Entity::setDamage(float new_dmg) { damage = new_dmg; };
