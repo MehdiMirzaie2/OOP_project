@@ -65,13 +65,17 @@ User::User(std::string name, int left_or_right)
     if (left_or_right == 0)
     {
         m_towers[0]->setLocation(top_left);
+        m_towers[0]->dead();
         m_towers[1]->setLocation(bottom_left);
         
+        m_towers[0]->setDeckPosition(sf::Vector2f(3, 7));
+        m_towers[1]->setDeckPosition(sf::Vector2f(14, 7));
         std::cout << "Left tower alliance: " << m_towers[0]->getAlliance() << " " << m_towers[1]->getAlliance() << std::endl;
     }
     else
     {
         m_towers[0]->setLocation(top_right);
+        m_towers[0]->dead();
         m_towers[1]->setLocation(bottom_right);
     }
 

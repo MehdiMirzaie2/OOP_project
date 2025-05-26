@@ -44,6 +44,9 @@ Unit::Unit(float dmg, float spd, sf::Vector2f location, float radius_atk, int cs
     m_current_target = nullptr;
     m_timeSinceDeath.restart();
     this->m_alliance = alliance;
+
+    targets = (m_alliance == 1) ? std::vector<Pair>{std::make_pair(3, 7), std::make_pair(8, 4), std::make_pair(9, 4), std::make_pair(14, 7)}
+                                : std::vector<Pair>{std::make_pair(3, 24), std::make_pair(8, 27), std::make_pair(9, 27), std::make_pair(14, 24)};
 }
 
 /*
@@ -112,7 +115,8 @@ void Unit::useAttack(Unit *hunted_target)
 
 void Unit::startMovingForward()
 {
-    if (m_isTower){
+    if (m_isTower)
+    {
         return;
     }
     m_isMovingForward = true;
@@ -177,10 +181,10 @@ void Unit::update() // Handles Unit Animations
         }
         else
         {
-            if (!m_isTower){
+            if (!m_isTower)
+            {
                 startMovingForward(); // Handles disabling of attacks and starts movement
-
-            }   
+            }
         }
     }
     else
@@ -255,6 +259,9 @@ void Unit::update(Map &map) // Handles Unit Animations
         }
         else
         {
+            int col = (m_skin.getPosition().x - 100) / 30, row = m_skin.getPosition().y / 30;
+            if (dead_towers.find(std::make_pair(row, col)) != dead_towers.end()) 
+                setPath(map.aStarSearch(std::make_pair(row, col), getClosestTower()));
             // need to update, when tower is destroyed move to next tower
             std::cout << "path is empty\n";
         }
@@ -313,7 +320,9 @@ void Unit::attemptShooting()
 
 void Unit::dead()
 {
-
+    if (m_isTower) {
+        dead_towers.insert(getClosestTower());
+    }
     m_skin.setOrigin(m_deadTexture.getSize().x / 2.f, m_deadTexture.getSize().y / 2.f);
     m_skin.setTextureRect(sf::IntRect(0, 0, m_deadTexture.getSize().x, m_deadTexture.getSize().y));
     m_skin.setTexture(m_deadTexture);
@@ -418,20 +427,20 @@ Pair Unit::getClosestTower()
 {
     std::cout << "alience == " << m_alliance << "\n";
     int col = m_skin.getPosition().x / 30, row = m_skin.getPosition().y / 30;
-    std::vector<Pair> targets =
-        (m_alliance == 1) ? std::vector<Pair>{std::make_pair(3, 7), std::make_pair(8, 4), std::make_pair(9, 4), std::make_pair(14, 7)}
-                        : std::vector<Pair>{std::make_pair(3, 24), std::make_pair(8, 27), std::make_pair(9, 27), std::make_pair(14, 24)};
-
     float min = __FLT_MAX__;
     int index = 0;
+
     for (int i = 0; i < 4; i++)
     {
-        double distance = ((row - targets[i].first) * (row - targets[i].first)) + ((col - targets[i].second) * (col - targets[i].second));
-        distance *= distance;
-        if (distance < min)
+        if (dead_towers.find(targets[i]) != dead_towers.end())
         {
-            min = distance;
-            index = i;
+            double distance = ((row - targets[i].first) * (row - targets[i].first)) + ((col - targets[i].second) * (col - targets[i].second));
+            distance *= distance;
+            if (distance < min)
+            {
+                min = distance;
+                index = i;
+            }
         }
     }
     std::cout << targets[index].first << " " << targets[index].second << "\n";

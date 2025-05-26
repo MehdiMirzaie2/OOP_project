@@ -10,11 +10,29 @@
 #include "map.hpp"
 #include <stack>
 #include <string>
+#include <unordered_set>
 
 const sf::Vector2f UNITSIZE(0.06, 0.06); // Standard size for units
 
 typedef std::pair<int, int> Pair; // Grid coordinates pair
 typedef std::pair<double, std::pair<int, int>> pPair; // A* priority queue element
+
+// Custom hash for Pair
+struct pair_hash {
+    std::size_t operator()(const Pair& p) const noexcept {
+        // Combine hashes of the two ints (simple example)
+        return std::hash<int>{}(p.first) ^ (std::hash<int>{}(p.second) << 1);
+    }
+};
+
+// Optionally, if you want custom equality, but std::pair already has operator==
+// So this is optional.
+struct pair_equal {
+    bool operator()(const Pair& lhs, const Pair& rhs) const noexcept {
+        return lhs.first == rhs.first && lhs.second == rhs.second;
+    }
+};
+
 
 class Map;
 
@@ -43,12 +61,13 @@ protected:
     bool m_isAttacking; // Whether the unit is currently attacking
     bool m_isDead; // Whether the unit is dead
     bool m_isMovingForward; // Whether the unit is moving forward
-
+    std::vector<Pair> targets;
     std::stack<Pair> m_path; // Path for unit movement
 
 public:
     static std::vector<std::unique_ptr<Attack>> active_attacks; // List of active attacks in the game
     static std::vector<std::shared_ptr<Unit>> active_units; // List of active units in the game
+    static std::unordered_set<Pair, pair_hash> dead_towers; // Set of dead towers
 
     // Constructors
     Unit(); // Default constructor
