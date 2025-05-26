@@ -40,7 +40,7 @@ std::shared_ptr<Unit> Director::buildTank(int alliance)
                       .build();
 }
 
-Unit* Director::buildKing(int alliance)
+ std::shared_ptr<Unit> Director::buildKing(int alliance)
 {
     if (alliance != 0 && alliance != 1){
         std::cout << "invalid alliance\n";
@@ -71,7 +71,7 @@ Unit* Director::buildKing(int alliance)
                       .build();
 }
 
-Unit* Director::buildTower(int alliance)
+ std::shared_ptr<Unit> Director::buildTower(int alliance)
 {
     return unitBuilder.withIdleTexture(std::to_string(alliance) + "tower.png")
                       .withAttackingTexture((std::to_string(alliance) + "tower.png"))

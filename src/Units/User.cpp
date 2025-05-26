@@ -6,9 +6,9 @@ User::User(std:: string name){
     this->name = name;
     wins = 0;
     losses = 0;
-    towers = {nullptr};
+   // towers = {nullptr};
     unitDeck = std::make_unique<Deck>();
-    king = std::unique_ptr<Unit> (unitDeck->generateKing(0));
+    king = unitDeck->generateKing(0);
     
     sf::Sprite king_sprite = king->getSkin();
     sf::Vector2f current_scale = king_sprite.getScale();
@@ -26,7 +26,7 @@ User::User(std:: string name, int left_or_right){
     this->name = name;
     wins = 0;
     losses = 0;
-    towers = {nullptr};
+    //towers = {nullptr};
     unitDeck = std::make_unique<Deck>(left_or_right);
     
     king = std::shared_ptr<Unit> (unitDeck->generateKing(left_or_right));

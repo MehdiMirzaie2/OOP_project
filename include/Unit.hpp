@@ -8,7 +8,7 @@
 #include <vector>
 #include "map.hpp"
 #include <stack>
-
+#include <string>
 const sf::Vector2f UNITSIZE(0.06, 0.06);
 typedef std::pair<int, int> Pair;
 typedef std::pair<double, std::pair<int, int>> pPair;
@@ -79,7 +79,7 @@ public:
 	bool getIsPicked();
 	void updateSpriteLoc();
 	// have to change the name of these two fucntinos at some stage
-	void update(sf::Time time_passed);
+//	void update(sf::Time time_passed);
 	void update();
 	void update(Map &map); // map is used for path finding
 
@@ -98,7 +98,7 @@ public:
 
 	void setPath(std::stack<Pair> path);
 	int getAlliance();
-	void bringToLife(sf::Vector2f pos, Map &gameMap);
+	//void bringToLife(sf::Vector2f pos, Map &gameMap);
 };
 
 #endif

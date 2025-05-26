@@ -5,6 +5,7 @@
 #include "Unit.hpp"
 #include "Deck.hpp"
 #include "Elixir.hpp"
+#include <array>
 
 class User{
     private:
