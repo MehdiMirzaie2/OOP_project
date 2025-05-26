@@ -12,13 +12,13 @@ private:
     sf::VertexArray rectangle;
     sf::VertexArray inner_recs;
     Director director;
-    std::vector<std::shared_ptr<Unit>> units;
+    std::set<std::shared_ptr<Unit>> units;
 
 public:
-    Deck();
+    // Deck();
     Deck(int);
 
-    std::vector<std::shared_ptr<Unit>> &getUnits();
+    std::set<std::shared_ptr<Unit>> &getUnits();
     void draw(sf::RenderWindow *window);
     std::shared_ptr<Unit> getPickedUnit();
     void swapDeployedUnit(const std::shared_ptr<Unit> &unit);

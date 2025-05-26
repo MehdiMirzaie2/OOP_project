@@ -20,7 +20,7 @@ void BattleWindow::deploye(sf::Event event)
 	std::cout << "this is user " << m_turn << "\n";
 	(void)event;
 	User *user = (m_turn == 0) ? &user1 : &user2;
-	Deck *unitDeck = user->getDeck();				// ownership with the unit
+	Deck *unitDeck = user->getDeck();								// ownership with the unit
 	std::shared_ptr<Unit> unitToDeploy = unitDeck->getPickedUnit(); // ownership with the unitDeck
 
 	if (unitToDeploy == nullptr)
@@ -32,7 +32,7 @@ void BattleWindow::deploye(sf::Event event)
 	sf::Vector2f p = unitToDeploy->getLocation() + sf::Vector2f(-85.f, 15.f);
 	int col = int(p.x / 30), row = int(p.y / 30);
 
-		unitToDeploy->setIsPicked(false);
+	unitToDeploy->setIsPicked(false);
 	if (gameMap.getMapGrid()[row][col] != 0 || user->getElixir()->getElixir() < unitToDeploy->getCost())
 	{
 		std::cout << "did not deploy, because not enought elixir\n";
@@ -42,18 +42,18 @@ void BattleWindow::deploye(sf::Event event)
 
 	if (gameMap.getMapGrid()[row][col] == 0 && ((m_turn == 0 && col < 14) || (m_turn == 1 && col > 15)) && user->getElixir()->getElixir() > unitToDeploy->getCost())
 	{
-		//sf::Vector2f pos = sf::Vector2f((col * 30) + 100, row * 30);
-		
-		//std::cout << "before " <<unitToDeploy << std::endl;
-		//unitToDeploy->bringToLife(pos, gameMap);
-		//user->getElixir()->decreaseElixir(unitToDeploy->getCost());
-		//m_turn = (m_turn == 0) ? 1 : 0;
+		// sf::Vector2f pos = sf::Vector2f((col * 30) + 100, row * 30);
+
+		// std::cout << "before " <<unitToDeploy << std::endl;
+		// unitToDeploy->bringToLife(pos, gameMap);
+		// user->getElixir()->decreaseElixir(unitToDeploy->getCost());
+		// m_turn = (m_turn == 0) ? 1 : 0;
 
 		// unitToDeploy->setLocation(a);
-		//std::cout << "after " << unitToDeploy->getLocation().x << " " <<unitDeck->getPickedUnit() << std::endl;
-		//unitToDeploy->setIsPicked(false);
+		// std::cout << "after " << unitToDeploy->getLocation().x << " " <<unitDeck->getPickedUnit() << std::endl;
+		// unitToDeploy->setIsPicked(false);
 
-   		sf::Vector2f a = sf::Vector2f((col * 30) + 100, row * 30);
+		sf::Vector2f a = sf::Vector2f((col * 30) + 100, row * 30);
 		unitToDeploy->setLocation(a);
 
 		unitToDeploy->setPath(gameMap.aStarSearch(std::make_pair(row, col), unitToDeploy->getClosestTower()));
@@ -66,10 +66,8 @@ void BattleWindow::deploye(sf::Event event)
 
 		unitToDeploy->startMovingForward();
 
-		
 		unitDeck->swapDeployedUnit(unitToDeploy);
 		std::cout << "\n\n\ndepoyed unit\n\n\n\n";
-		
 	}
 	unitToDeploy->setIsPicked(false);
 }
@@ -135,8 +133,8 @@ int BattleWindow::runWindow()
 				}
 			}
 		}
-		//printf("drawing all\n");
-		// updateUnits(gameClock.getElapsedTime());
+		// printf("drawing all\n");
+		//  updateUnits(gameClock.getElapsedTime());
 		updateUnits();
 		updateAttacks();
 		checkCollisions();

@@ -1,6 +1,6 @@
 #include "../../include/Director.hpp"
 
-Unit* Director::buildSwords(int alliance)
+std::shared_ptr<Unit> Director::buildSwords(int alliance)
 {
     return unitBuilder.withIdleTexture("swordm1.png")
                       .withAttackingTexture("swordm2.png")
@@ -10,7 +10,7 @@ Unit* Director::buildSwords(int alliance)
                       .build();
 }
 
-Unit* Director::buildShooter(int alliance)
+std::shared_ptr<Unit> Director::buildShooter(int alliance)
 {
     return unitBuilder.withIdleTexture("gunmo1.png")
                       .withAttackingTexture("gunmo2.png")
@@ -20,7 +20,7 @@ Unit* Director::buildShooter(int alliance)
                       .build();
 }
 
-Unit* Director::buildMage(int alliance)
+std::shared_ptr<Unit> Director::buildMage(int alliance)
 {
     return unitBuilder.withIdleTexture("mage_idle.png")
                        .withAttackingTexture("mage_attacking.png")
@@ -30,7 +30,7 @@ Unit* Director::buildMage(int alliance)
                        .build();
 }
 
-Unit* Director::buildTank(int alliance)
+std::shared_ptr<Unit> Director::buildTank(int alliance)
 {
     return unitBuilder.withIdleTexture("shield_idle.png")
                       .withAttackingTexture("shield_attacking.png")
