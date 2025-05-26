@@ -234,31 +234,19 @@ void BattleWindow::updateAttacks()
 void BattleWindow::draw_all(sf::RenderWindow* window){
     window->clear();    
     gameMap.draw(window);
-
-    // Draw deck background for both users
-    sf::RectangleShape deckBackground1(sf::Vector2f(8 * 30.f, 40.f));
-    deckBackground1.setPosition(20.f, WINDOW_HEIGHT - 50.f);
-    deckBackground1.setFillColor(sf::Color(50, 50, 50, 180));
-    window->draw(deckBackground1);
-
-    sf::RectangleShape deckBackground2(sf::Vector2f(8 * 30.f, 40.f));
-    deckBackground2.setPosition(WINDOW_WIDTH - (8 * 30.f) - 20.f, 10.f + 30.f + 10.f);
-    deckBackground2.setFillColor(sf::Color(50, 50, 50, 180));
-    window->draw(deckBackground2);
-
+    
     user1.draw(window);   
     user2.draw(window);
-
-    // Draw active attacks
     for (Attack* attack_projectile : Unit::active_attacks) {
+        
         if (attack_projectile != nullptr && attack_projectile->getisActive()) {
             attack_projectile->update();
             attack_projectile->draw(window);
         }
     }
-
     window->display();
 }
+
 
 
 
