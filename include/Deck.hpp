@@ -20,8 +20,9 @@ class Deck : public Drawable{
 
     public:
         Deck();
-	Deck(int);
-
+        Deck(int);
+        Unit* generateKing(int alliance);
+        Unit* generateTowers(int alliance);
         //bool* getIsPicked();
         //void setIsPicked(int pick);
         std::vector<std::shared_ptr<Unit>>& getUnits();

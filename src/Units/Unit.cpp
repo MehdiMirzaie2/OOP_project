@@ -27,7 +27,7 @@ Unit::Unit(float dmg, float spd, sf::Vector2f location, float radius_atk, int cs
     {
         std::cout << "Couldnt load death soul\n";
     }
-    // skin.setOrigin(unitTextureIdle.getSize().x / 2.f, unitTextureIdle.getSize().y / 2.f);
+    skin.setOrigin(unitTextureIdle.getSize().x / 2.f, unitTextureIdle.getSize().y / 2.f);
     skin.setTexture(unitTextureIdle);
     // skin.setScale(0.06f, 0.06f);
     std::cout << "texture size = " << unitTextureIdle.getSize().x << " " << unitTextureIdle.getSize().y << "\n";
@@ -43,11 +43,24 @@ Unit::Unit(float dmg, float spd, sf::Vector2f location, float radius_atk, int cs
 std::vector<std::unique_ptr<Attack>> Unit::active_attacks = {};
 std::vector<std::shared_ptr<Unit>> Unit::active_units = {};
 
+void Unit::setSkin(sf::Sprite new_skin)
+{
+    skin = new_skin;
+}
+
 void Unit::useAttack(Unit *hunted_target)
 { // Use all attack sprites
     current_target = (hunted_target);
     isAttacking = true;
     isMovingForward = false;
+}
+
+bool Unit::getisTower(){
+    return isTower;
+}
+
+void Unit::setisTower(bool isittower){
+    isTower = isittower;
 }
 
 void Unit::startMovingForward()
@@ -95,7 +108,7 @@ bool Unit::getisDead()
 
 void Unit::update() // Handles Unit Animations
 {
-    if (!isActive)
+    if (!isActive || isTower)
         return;
 
     if (isDead)
@@ -141,7 +154,7 @@ void Unit::update() // Handles Unit Animations
 
 void Unit::update(Map &map) // Handles Unit Animations
 {
-    if (!isActive)
+    if (!isActive || isTower)
         return;
 
     if (isDead)
@@ -197,6 +210,9 @@ void Unit::update(Map &map) // Handles Unit Animations
 
 void Unit::updateAttackAnimation()
 {
+    if (isTower){
+        return;
+    }
     // In the first half of the cooldown, the state remains as attacking texture
     float first_half_after_attack = attackCooldown.asSeconds() / 2;
     float elapsed_seconds = attackClock.getElapsedTime().asSeconds();
@@ -231,7 +247,7 @@ Unit *Unit::getTarget()
     return current_target;
 }
 
-sf::Sprite Unit::getSkin() { return skin; }
+sf::Sprite& Unit::getSkin() { return skin; }
 
 void Unit::attemptShooting()
 {
@@ -277,6 +293,11 @@ void Unit::dying_animation()
             isActive = false;
         }
     }
+}
+
+void Unit::describe()
+{
+    std:: cout << "The location: " << this->getLocation().x << " " << this->getLocation().y << " and the texture loaded: " << this->unitTextureIdle.getSize().x << std:: endl;
 }
 
 void Unit::takeDamage(Attack attack)
@@ -361,3 +382,4 @@ int Unit::getAlliance()
 {
     return alliance;
 }
+

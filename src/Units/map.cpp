@@ -34,26 +34,27 @@ Map::Map()
     //map background set up
     map_texture.loadFromFile("src/Textures/background.png");
     map_sprite.setTexture(map_texture);
+	map_sprite.setOrigin(map_texture.getSize().x/2.f, map_texture.getSize().y/2.f);
 
-    if (map_sprite.getTexture() == NULL)
-        std::cout << map_sprite.getPosition().x << " this is the sprite\n";
-
-    map_sprite.setPosition(100, 0);
+    
+	map_sprite.setPosition(WINDOW_WIDTH/2.f, WINDOW_HEIGHT/2.f);
+	// flip the map, colours are opposite in the png
+	map_sprite.setScale(-1.f, 1.f);
 
 
     // Towers (up to down, in order)
-    auto enemyKing = createTower(WINDOW_WIDTH / 2.9 - TOWER_WIDTH / 1, WINDOW_HEIGHT / 3, sf::Color::Red); // 2
+    // auto enemyKing = createTower(WINDOW_WIDTH / 2.9 - TOWER_WIDTH / 1, WINDOW_HEIGHT / 3, sf::Color::Red); // 2
     auto enemyLeftPrincess = createTower(WINDOW_WIDTH / 3 - 300, 80, sf::Color::Red);                      // 3
     auto enemyRightPrincess = createTower(WINDOW_WIDTH / 3 + 149, 80, sf::Color::Red);                     // 1
 
-    auto playerKing = createTower(WINDOW_WIDTH / 2.9 - TOWER_WIDTH / 1, WINDOW_HEIGHT + 45, sf::Color::Blue); // 2
+    // auto playerKing = createTower(WINDOW_WIDTH / 2.9 - TOWER_WIDTH / 1, WINDOW_HEIGHT + 45, sf::Color::Blue); // 2
     auto playerLeftPrincess = createTower(WINDOW_WIDTH / 3 - 300, WINDOW_HEIGHT + 232, sf::Color::Blue);      // 3
     auto playerRightPrincess = createTower(WINDOW_WIDTH / 3 + 149, WINDOW_HEIGHT + 232, sf::Color::Blue);     // 1
 
-    elements.insert(element("playerKing", playerKing));
+    // elements.insert(element("playerKing", playerKing));
     elements.insert(element("playerLeftPrincess", playerLeftPrincess));
     elements.insert(element("playerRightPrincess", playerRightPrincess));
-    elements.insert(element("enemyKing", enemyKing));
+    // elements.insert(element("enemyKing", enemyKing));
     elements.insert(element("enemyLeftPrincess", enemyLeftPrincess));
     elements.insert(element("enemyRightPrincess", enemyRightPrincess));
 }

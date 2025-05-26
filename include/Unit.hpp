@@ -23,6 +23,7 @@ protected:
 	sf::Texture unitTextureAttacking;
 	std::string projectileTextureName;
 	int alliance;
+	bool isTower = false;
 	bool isPicked;
 	// std::vector<Attack*> attacks;
 	Unit *current_target;
@@ -51,7 +52,7 @@ public:
 	// getters
 	float getHP();
 	bool getisDead();
-	sf::Sprite getSkin();
+	sf::Sprite& getSkin();
 	Unit *getTarget();
 
 	sf::Vector2f getDeckPosition();
@@ -65,6 +66,8 @@ public:
 	void dead();
 	void dying_animation();
 	void takeDamage(Attack attack);
+	void setisTower(bool isittower);
+	bool getisTower();
 
 	void updateLocation(sf::Vector2f);
 	bool getIsPicked();
@@ -79,11 +82,12 @@ public:
 
 	void setDydx(sf::Vector2i);
 	void setIsPicked(bool);
+	void setSkin(sf::Sprite new_skin);
 	void moveIfPicked(sf::Vector2i);
 	void setDeckPosition(sf::Vector2f);
 	void updateAttackAnimation();
 	// bool unitSellected(
-
+	void describe();
 	Pair getClosestTower();
 
 	void setPath(std::stack<Pair> path);

@@ -88,6 +88,15 @@ std::vector<std::shared_ptr<Unit>>& Deck::getUnits(){
     return units;
 }
 
+Unit* Deck::generateKing(int alliance)
+{
+    return director.buildKing(alliance);
+}
+
+Unit* Deck::generateTowers(int alliance)
+{
+    return director.buildTower(alliance);
+}
 // void Deck::addUnit(Unit* unit){
 //     if (current_no_units < 5){
 //         units.push_back(unit);

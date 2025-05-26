@@ -14,6 +14,8 @@ class Director
         Unit* buildShooter(int alliance);
         Unit* buildTank(int alliance);
         Unit* buildMage(int alliance);
+        Unit* buildTower(int alliance);
+        Unit* buildKing(int alliance);
 
 };
 

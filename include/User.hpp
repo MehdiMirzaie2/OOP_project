@@ -12,8 +12,8 @@ class User{
         int losses;
         std:: string name;
         std::unique_ptr<Elixir> m_elixir;     
-        Unit* towers;
-        Unit* king;
+        std::array<std::shared_ptr<Unit>, 2> towers;
+        std::shared_ptr<Unit> king;
         std::unique_ptr<Deck> unitDeck;
         
     public:
@@ -27,8 +27,7 @@ class User{
         std:: string getName();
         //int getElixir();
         Deck* getDeck();
-        Unit* getTowers();
-        Unit* getKing();
+        
 
 	Elixir* getElixir();	
         //setters

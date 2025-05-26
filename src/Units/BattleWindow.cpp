@@ -151,7 +151,7 @@ void BattleWindow::updateUnits()
 		{
 
 			startUnitAttack(Unit::active_units[i].get());
-			Unit::active_units[i]->update();
+			Unit::active_units[i]->update(gameMap);
 		}
 		else
 		{
@@ -166,7 +166,7 @@ void BattleWindow::startUnitAttack(Unit *attacker)
 	for (auto &unit : Unit::active_units)
 	{
 		auto unit_ptr = unit.get();
-		if (unit_ptr == attacker || attacker->getisDead() || unit_ptr->getisDead() || attacker->getTarget() == unit_ptr)
+		if (unit_ptr == attacker || attacker->getisDead() || unit_ptr->getisDead() || attacker->getTarget() == unit_ptr || unit_ptr->getAlliance() == attacker->getAlliance())
 		{
 			// They are already fighting
 			continue;
