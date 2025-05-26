@@ -9,16 +9,16 @@
 
 BattleWindow::BattleWindow()
 {
-	user1 = User("Adi", 0);
-	user2 = User("Mehdi", 1);
-	window = nullptr;
+	m_user1 = User("Adi", 0);
+	m_user2 = User("Mehdi", 1);
+	m_window = nullptr;
 	m_turn = 0;
 }
 
 void BattleWindow::deploye(sf::Event event)
 {
 	(void)event;
-	User *user = (m_turn == 0) ? &user1 : &user2;
+	User *user = (m_turn == 0) ? &m_user1 : &m_user2;
 	Deck *unitDeck = user->getDeck();								// ownership with the unit
 	std::shared_ptr<Unit> unitToDeploy = unitDeck->getPickedUnit(); // ownership with the unitDeck
 
@@ -32,19 +32,19 @@ void BattleWindow::deploye(sf::Event event)
 	int col = int(p.x / 30), row = int(p.y / 30);
 
 	unitToDeploy->setIsPicked(false);
-	if (gameMap.getMapGrid()[row][col] != 0 || user->getElixir()->getElixir() < unitToDeploy->getCost())
+	if (m_gameMap.getMapGrid()[row][col] != 0 || user->getElixir()->getElixir() < unitToDeploy->getCost())
 	{
 		std::cout << "did not deploy, because not enought elixir\n";
 		unitToDeploy->setLocation(unitToDeploy->getDeckPosition());
 		return;
 	}
 
-	if (gameMap.getMapGrid()[row][col] == 0 && ((m_turn == 0 && col < 14) || (m_turn == 1 && col > 15)) && user->getElixir()->getElixir() > unitToDeploy->getCost())
+	if (m_gameMap.getMapGrid()[row][col] == 0 && ((m_turn == 0 && col < 14) || (m_turn == 1 && col > 15)) && user->getElixir()->getElixir() > unitToDeploy->getCost())
 	{
 		sf::Vector2f a = sf::Vector2f((col * 30) + 100, row * 30);
 		unitToDeploy->setLocation(a);
 
-		unitToDeploy->setPath(gameMap.aStarSearch(std::make_pair(row, col), unitToDeploy->getClosestTower()));
+		unitToDeploy->setPath(m_gameMap.aStarSearch(std::make_pair(row, col), unitToDeploy->getClosestTower()));
 
 		unitToDeploy->setisActive(true);
 		m_turn = (m_turn == 0) ? 1 : 0;
@@ -61,7 +61,7 @@ void BattleWindow::deploye(sf::Event event)
 
 void BattleWindow::selectUnit(sf::Event event)
 {
-	User *user = (m_turn == 0) ? &user1 : &user2;
+	User *user = (m_turn == 0) ? &m_user1 : &m_user2;
 	Deck *deck = user->getDeck();
 
 	for (auto unit : deck->getUnits())
@@ -85,18 +85,18 @@ void BattleWindow::selectUnit(sf::Event event)
 
 int BattleWindow::runWindow()
 {
-	this->window = std::make_unique<sf::RenderWindow>(sf::VideoMode(WINDOW_WIDTH, WINDOW_HEIGHT), "BattleWindow");
+	this->m_window = std::make_unique<sf::RenderWindow>(sf::VideoMode(WINDOW_WIDTH, WINDOW_HEIGHT), "BattleWindow");
 	printf("running window\n");
-	while (window->isOpen())
+	while (m_window->isOpen())
 	{
-		gameClock.restart();
-		sf::Vector2i mouse_pos = sf::Mouse::getPosition(*(this->window));
+		m_gameClock.restart();
+		sf::Vector2i mouse_pos = sf::Mouse::getPosition(*(m_window));
 		sf::Event event;
 
-		while (window->pollEvent(event))
+		while (m_window->pollEvent(event))
 		{
 			if (event.type == sf::Event::Closed)
-				window->close();
+				m_window->close();
 
 			if (event.type == sf::Event::MouseButtonPressed)
 			{
@@ -119,9 +119,9 @@ int BattleWindow::runWindow()
 		updateAttacks();
 		checkCollisions();
 
-		draw_all(window.get());
-		user1.update(mouse_pos);
-		user2.update(mouse_pos);
+		draw_all(m_window.get());
+		m_user1.update(mouse_pos);
+		m_user2.update(mouse_pos);
 	}
 	return 0;
 }
@@ -134,7 +134,7 @@ void BattleWindow::updateUnits()
 		if (Unit::active_units[i]->getisActive())
 		{
 			startUnitAttack(Unit::active_units[i].get());
-			Unit::active_units[i]->update(gameMap);
+			Unit::active_units[i]->update(m_gameMap);
 		}
 		else
 		{
@@ -176,10 +176,10 @@ void BattleWindow::updateAttacks()
 void BattleWindow::draw_all(sf::RenderWindow *window)
 {
 	window->clear();
-	gameMap.draw(window);
+	m_gameMap.draw(window);
 
-	user1.draw(window);
-	user2.draw(window);
+	m_user1.draw(window);
+	m_user2.draw(window);
 	for (auto &attack_projectile : Unit::active_attacks)
 	{
 

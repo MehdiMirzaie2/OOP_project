@@ -37,13 +37,12 @@ struct cell
 class Map : public Drawable
 {
 private:
-    int rows;
-    int cols;
-    std::unordered_map<std::string, sf::RectangleShape> elements;
-    sf::Sprite map_sprite;
-    sf::Texture map_texture;
-    std::vector<std::vector<int>> map_grid;
-    std::vector<Pair> directions;
+    int m_rows;
+    int m_cols;
+    sf::Sprite m_map_sprite;
+    sf::Texture m_map_texture;
+    std::vector<std::vector<int>> m_map_grid;
+    std::vector<Pair> m_directions;
 
 public:
     Map();

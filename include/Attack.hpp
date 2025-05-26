@@ -10,13 +10,13 @@ class Attack : public Drawable
 // demo class for testing , might use for MVP
 {
 private:
-    sf::Texture attackTexture;
-    sf::Sprite attackSprite;
-    float speed;
-    bool isActive;
-    int damage;
-    Unit *owner;
-    Unit *target;
+    sf::Texture m_attackTexture;
+    sf::Sprite m_attackSprite;
+    float m_speed;
+    bool m_isActive;
+    int m_damage;
+    Unit *m_owner;
+    Unit *m_target;
 
 public:
     Attack(Unit *owner, std::string attackTextureName, Unit *target);

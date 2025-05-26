@@ -6,7 +6,7 @@
 class Director
 {
 private:
-        UnitBuilder unitBuilder;
+        UnitBuilder m_unitBuilder;
         // also a swordsman
 public:
         std::shared_ptr<Unit> buildSwords(int alliance);

@@ -7,7 +7,7 @@
 class CustomizeWindow : public Window
 {
 private:
-    Director director; // for building the customizations
+    Director m_director; // for building the customizations
 
 public:
     CustomizeWindow();

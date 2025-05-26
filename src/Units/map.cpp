@@ -6,7 +6,7 @@
 
 Map::Map()
 {
-    this->map_grid = {
+    m_map_grid = {
         //     {0,  1,  2,  3,  4,  5,  6,  7,  8,  9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27, 28, 29, 30, 31} 
         /*0*/  {0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  2,  2,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0},
 		/*1*/  {0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  2,  2,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0},
@@ -30,16 +30,16 @@ Map::Map()
 
 
     //directions = {std::make_pair(0, -1), std::make_pair(1, 0), std::make_pair(0, 1), std::make_pair(-1, 0)};
-    directions = {std::make_pair(0, 1), std::make_pair(0, -1), std::make_pair(1, 0), std::make_pair(-1, 0), std::make_pair(1, 1), std::make_pair(1, -1), std::make_pair(-1, 1), std::make_pair(-1, -1)};
+    m_directions = {std::make_pair(0, 1), std::make_pair(0, -1), std::make_pair(1, 0), std::make_pair(-1, 0), std::make_pair(1, 1), std::make_pair(1, -1), std::make_pair(-1, 1), std::make_pair(-1, -1)};
     //map background set up
-    map_texture.loadFromFile("src/Textures/background.png");
-    map_sprite.setTexture(map_texture);
-	map_sprite.setOrigin(map_texture.getSize().x/2.f, map_texture.getSize().y/2.f);
+    m_map_texture.loadFromFile("src/Textures/background.png");
+    m_map_sprite.setTexture(m_map_texture);
+	m_map_sprite.setOrigin(m_map_texture.getSize().x/2.f, m_map_texture.getSize().y/2.f);
 
     
-	map_sprite.setPosition(WINDOW_WIDTH/2.f, WINDOW_HEIGHT/2.f);
+	m_map_sprite.setPosition(WINDOW_WIDTH/2.f, WINDOW_HEIGHT/2.f);
 	// flip the map, colours are opposite in the png
-	map_sprite.setScale(-1.f, 1.f);
+	m_map_sprite.setScale(-1.f, 1.f);
 
 
     // Towers (up to down, in order)
@@ -50,13 +50,6 @@ Map::Map()
     // auto playerKing = createTower(WINDOW_WIDTH / 2.9 - TOWER_WIDTH / 1, WINDOW_HEIGHT + 45, sf::Color::Blue); // 2
     auto playerLeftPrincess = createTower(WINDOW_WIDTH / 3 - 300, WINDOW_HEIGHT + 232, sf::Color::Blue);      // 3
     auto playerRightPrincess = createTower(WINDOW_WIDTH / 3 + 149, WINDOW_HEIGHT + 232, sf::Color::Blue);     // 1
-
-    // elements.insert(element("playerKing", playerKing));
-    elements.insert(element("playerLeftPrincess", playerLeftPrincess));
-    elements.insert(element("playerRightPrincess", playerRightPrincess));
-    // elements.insert(element("enemyKing", enemyKing));
-    elements.insert(element("enemyLeftPrincess", enemyLeftPrincess));
-    elements.insert(element("enemyRightPrincess", enemyRightPrincess));
 }
 
 sf::RectangleShape Map::createTower(float x, float y, sf::Color baseColor)
@@ -72,10 +65,10 @@ sf::RectangleShape Map::createTower(float x, float y, sf::Color baseColor)
 void Map::draw(sf::RenderWindow *window)
 {
     // std::cout << "hello world\n";
-    if (map_sprite.getTexture() == NULL)
-        std::cout << "there is no texture " << map_sprite.getPosition().x << std::endl;
+    if (m_map_sprite.getTexture() == NULL)
+        std::cout << "there is no texture " << m_map_sprite.getPosition().x << std::endl;
 
-    window->draw(map_sprite);
+    window->draw(m_map_sprite);
 
 }
 
@@ -83,13 +76,8 @@ void Map::draw(sf::RenderWindow *window)
 
 
 std::vector<std::vector<int>> &Map::getMapGrid() {
-    return map_grid;
+    return m_map_grid;
 }
-
-
-
-
-
 
 bool Map::isValid(int row, int col)
 {
@@ -121,7 +109,7 @@ double Map::calculateHValue(int row, int col, Pair dest)
 bool Map::isUnBlocked(int row, int col)
 {
     // Returns true if the cell is not blocked else false
-    if (map_grid[row][col] == 0)
+    if (m_map_grid[row][col] == 0)
         return (true);
     else
         return (false);
@@ -225,7 +213,7 @@ std::stack<Pair> Map::aStarSearch(Pair src, Pair dst)
 		closedList[i][j] = true;
 		double gNew, hNew, fNew;
 
-		for (Pair cur_dir : directions)
+		for (Pair cur_dir : m_directions)
 		{
 			int r = i + cur_dir.first, c = j + cur_dir.second;
 			if (isValid(r, c))

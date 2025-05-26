@@ -9,12 +9,12 @@ const int menu_options = 3;
 class MainMenu : public Window
 {
 private:
-    sf::Sprite title;
-    sf::Texture titleTexture;
-    sf::Sprite menuBG;
-    sf::Texture menuBGTexture;
-    std::array<sf::Text, menu_options> menuTexts;
-    sf::Font font;
+    sf::Sprite m_title;
+    sf::Texture m_titleTexture;
+    sf::Sprite m_menuBG;
+    sf::Texture m_menuBGTexture;
+    std::array<sf::Text, menu_options> m_menuTexts;
+    sf::Font m_font;
 
 public:
     MainMenu();

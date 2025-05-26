@@ -5,15 +5,13 @@
 #include "BattleWindow.hpp"
 #include "CustomizeWindow.hpp"
 #include "MainMenu.hpp"
-#include "GameDataManager.hpp"
 
 class Game
 {
 private:
-    BattleWindow battleWindow;
-    CustomizeWindow customizeWindow;
-    MainMenu menuWindow;
-    GameDataManager userData;
+    BattleWindow m_battleWindow;
+    CustomizeWindow m_customizeWindow;
+    MainMenu m_menuWindow;
 
 public:
     Game();

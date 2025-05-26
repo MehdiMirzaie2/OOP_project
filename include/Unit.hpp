@@ -18,29 +18,29 @@ class Map;
 class Unit : public Entity
 {
 protected:
-	float HP;
-	sf::Texture unitTextureIdle;
-	sf::Texture unitTextureAttacking;
-	sf::Texture deadTexture;
+	float m_HP;
+	sf::Texture m_unitTextureIdle;
+	sf::Texture m_unitTextureAttacking;
+	sf::Texture m_deadTexture;
 	sf::Vector2f m_deckPos;
-	sf::Vector2i dydx;
-	sf::Clock timeSinceDeath;
-	sf::Clock MoveClock;
-	sf::Clock attackClock;
-	sf::Time attackCooldown;
+	sf::Vector2i m_dydx;
+	sf::Clock m_timeSinceDeath;
+	sf::Clock m_MoveClock;
+	sf::Clock m_attackClock;
+	sf::Time m_attackCooldown;
 
-	std::string projectileTextureName;
-	std::string unitTextureIdleName;
-	std::string unitTextureAttackingName;
+	std::string m_projectileTextureName;
+	std::string m_unitTextureIdleName;
+	std::string m_unitTextureAttackingName;
 
-	bool isTower = false;
-	int alliance;
-	bool isPicked;
-	Unit *current_target;
-	bool isAttacking;
-	bool isDead;
-	bool isMovingForward;
-	std::stack<Pair> path; // the path the unit will follow until their is distruption, then new path will be computed.
+	bool m_isTower = false;
+	int m_alliance;
+	bool m_isPicked;
+	Unit *m_current_target;
+	bool m_isAttacking;
+	bool m_isDead;
+	bool m_isMovingForward;
+	std::stack<Pair> m_path; // the path the unit will follow until their is distruption, then new path will be computed.
 
 public:
 	

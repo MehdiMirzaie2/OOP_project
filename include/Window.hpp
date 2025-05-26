@@ -10,7 +10,7 @@ const int WINDOW_HEIGHT = 540;
 class Window
 {
 protected:
-    std::unique_ptr<sf::RenderWindow> window;
+    std::unique_ptr<sf::RenderWindow> m_window;
 
 public:
     virtual int runWindow() = 0;

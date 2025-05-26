@@ -11,12 +11,12 @@ class Entity : public Drawable
 {
 protected:
     // hp bar if possible
-    float damage; // The viable entities all have these variables
-    sf::Sprite skin;
-    float speed;
-    float radius_of_attack;
-    int cost;
-    bool isActive;
+    float m_damage; // The viable entities all have these variables
+    sf::Sprite m_skin;
+    float m_speed;
+    float m_radius_of_attack;
+    int m_cost;
+    bool m_isActive;
 
 public:
     // initializers

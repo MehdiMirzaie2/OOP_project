@@ -9,10 +9,8 @@ const int MAX_UNITS = 5;
 class Deck : public Drawable
 {
 private:
-    sf::VertexArray rectangle;
-    sf::VertexArray inner_recs;
-    Director director;
-    std::set<std::shared_ptr<Unit>> units;
+    Director m_director;
+    std::set<std::shared_ptr<Unit>> m_units;
 
 public:
     Deck();

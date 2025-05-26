@@ -5,14 +5,14 @@ Deck::Deck(int left_or_right)
     int left_pos = left_or_right == 0 ? 50 : 1090;
     int alliance = left_or_right == 0 ? 0 : 1;
 
-    units.insert(director.buildSwords(alliance));
-    units.insert(director.buildMage(alliance));
-    units.insert(director.buildShooter(alliance));
-    units.insert(director.buildTank(alliance));
-    units.insert(director.buildSwords(alliance));
+    m_units.insert(m_director.buildSwords(alliance));
+    m_units.insert(m_director.buildMage(alliance));
+    m_units.insert(m_director.buildShooter(alliance));
+    m_units.insert(m_director.buildTank(alliance));
+    m_units.insert(m_director.buildSwords(alliance));
 
     int i = 0;
-    for (auto unit : units)
+    for (auto unit : m_units)
     {
         if (unit)
         {
@@ -33,14 +33,14 @@ Deck::Deck()
 {
     int alliance = 1;
     // std::vector<Unit *> initialized_units;
-    units.insert(director.buildSwords(alliance));
-    units.insert(director.buildMage(alliance));
-    units.insert(director.buildShooter(alliance));
-    units.insert(director.buildTank(alliance));
-    units.insert(director.buildSwords(alliance));
+    m_units.insert(m_director.buildSwords(alliance));
+    m_units.insert(m_director.buildMage(alliance));
+    m_units.insert(m_director.buildShooter(alliance));
+    m_units.insert(m_director.buildTank(alliance));
+    m_units.insert(m_director.buildSwords(alliance));
 
     int i = 0;
-    for (auto unit : units)
+    for (auto unit : m_units)
     {
         /* not sure how to use builder */
         if (unit)
@@ -58,28 +58,28 @@ Deck::Deck()
 
 void Deck::draw(sf::RenderWindow *window)
 {
-    for (auto unit : units)
+    for (auto unit : m_units)
         unit->draw(window);
 }
 
 std::set<std::shared_ptr<Unit>> &Deck::getUnits()
 {
-    return units;
+    return m_units;
 }
 
 std::shared_ptr<Unit> Deck::generateKing(int alliance)
 {
-    return director.buildKing(alliance);
+    return m_director.buildKing(alliance);
 }
 
 std::shared_ptr<Unit> Deck::generateTowers(int alliance)
 {
-    return director.buildTower(alliance);
+    return m_director.buildTower(alliance);
 }
 
 std::shared_ptr<Unit> Deck::getPickedUnit()
 {
-    for (const auto &unit : units)
+    for (const auto &unit : m_units)
     {
         if (unit->getIsPicked())
             return unit;
@@ -89,15 +89,16 @@ std::shared_ptr<Unit> Deck::getPickedUnit()
 
 void Deck::swapDeployedUnit(const std::shared_ptr<Unit> &unit)
 {
-    for (auto m_unit : units)
+    for (auto m_unit : m_units)
     {
         if (m_unit == unit)
         {
-            std::shared_ptr<Unit> newUnit = director.buildSwords(unit->getAlliance());
+
+            std::shared_ptr<Unit> newUnit = m_director.buildSwords(unit->getAlliance());
             newUnit->setLocation(unit->getDeckPosition());
             newUnit->setDeckPosition(unit->getDeckPosition());
-            units.erase(unit);
-            units.insert(newUnit);
+            m_units.erase(unit);
+            m_units.insert(newUnit);
         }
     }
 }

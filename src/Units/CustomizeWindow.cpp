@@ -1,17 +1,17 @@
 #include "../../include/CustomizeWindow.hpp"
 
 CustomizeWindow::CustomizeWindow(){
-    window = nullptr;
+    m_window = nullptr;
 }
 
 int CustomizeWindow::runWindow(){
-    this->window = std::make_unique<sf::RenderWindow>(sf::VideoMode(WINDOW_WIDTH,WINDOW_HEIGHT), "CustomizeWindow");
-    while(window->isOpen()){
+    m_window = std::make_unique<sf::RenderWindow>(sf::VideoMode(WINDOW_WIDTH,WINDOW_HEIGHT), "CustomizeWindow");
+    while(m_window->isOpen()){
         std:: cout << "Window is open for customization\n";
         sf::Event event;
-        while(window->pollEvent(event)){
+        while(m_window->pollEvent(event)){
             if (event.type == sf::Event::Closed){
-                window->close();
+                m_window->close();
             }
         }
     }

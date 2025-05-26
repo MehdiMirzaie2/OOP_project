@@ -7,16 +7,16 @@ class UnitBuilder // Provides interface for concrete unit builders
 {
 
 protected:
-    float HP = 100; // 5 Ranged Attacks
-    float damage = 20;
-    sf::Vector2f location;
-    int alliance;
-    float speed = 0.25;
-    float radius_of_attack = 20;
-    int cost = 2;
-    std::string textureIdle;
-    std::string textureAttacking;
-    std::string projectileTextureName;
+    float m_HP = 100; // 5 Ranged Attacks
+    float m_damage = 20;
+    sf::Vector2f m_location;
+    int m_alliance;
+    float m_speed = 0.25;
+    float m_radius_of_attack = 20;
+    int m_cost = 2;
+    std::string m_textureIdle;
+    std::string m_textureAttacking;
+    std::string m_projectileTextureName;
 
 public:
     // Builder Params

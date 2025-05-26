@@ -10,13 +10,13 @@
 class User
 {
 private:
-        int wins;
-        int losses;
-        std::string name;
+        int m_wins;
+        int m_losses;
+        std::string m_name;
         std::unique_ptr<Elixir> m_elixir;
-        std::array<std::shared_ptr<Unit>, 2> towers;
-        std::shared_ptr<Unit> king;
-        std::unique_ptr<Deck> unitDeck;
+        std::array<std::shared_ptr<Unit>, 2> m_towers;
+        std::shared_ptr<Unit> m_king;
+        std::unique_ptr<Deck> m_unitDeck;
 
 public:
         // initializers
@@ -35,7 +35,6 @@ public:
         void setWins(int w);
         void setLosses(int l);
         void setName(std::string new_name);
-        void setElixir(int new_elixir);
 
         //utils
         void update(sf::Vector2i);

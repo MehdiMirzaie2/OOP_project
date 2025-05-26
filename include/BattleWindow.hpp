@@ -11,15 +11,12 @@ class BattleWindow : public Window
 // Renders the battle visuals like the map.
 {
 private:
-    Map gameMap;
-    Director director;
+    Map m_gameMap;
+    Director m_director;
     int m_turn;
-    User user1; // bad design, must be passed from the game class, currently here for demo deployment
-                // units that are spawned currently
-    sf::Clock gameClock;
-
-    User user2;
-    int num_deployed[2] = {0, 0};
+    User m_user1; 
+    User m_user2;
+    sf::Clock m_gameClock;
 
     void deploye(sf::Event);
     void selectUnit(sf::Event);
