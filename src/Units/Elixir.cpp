@@ -1,4 +1,4 @@
-#include "../../include/Elixir.hpp"
+#include "Elixir.hpp"
 #include <iostream>
 
 Elixir::Elixir(): m_amount(0), m_max(8) {}
@@ -17,4 +17,8 @@ int Elixir::getElixir() { return m_amount; }
 
 void Elixir::decreaseElixir(int amount) {
 	m_amount -= amount;
+}
+
+void Elixir::setElixir(int amount) {
+    elixir = amount;
 }
