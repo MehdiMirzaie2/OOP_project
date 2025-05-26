@@ -236,13 +236,14 @@ void Unit::update(Map &map) // Handles Unit Animations
     }
 
     // Movement Logic
-    if (isMovingForward && MoveClock.getElapsedTime() >= sf::seconds(speed))
+    if (isMovingForward && MoveClock.getElapsedTime() >= sf::seconds(speed) && !isTower )
     {
+	    std::cout << "speed = " << speed << std::endl;
         if (!path.empty())
         {
             Pair p = path.top();
             path.pop();
-            std::cout << p.first << " " << p.second << "\n";
+            //std::cout << p.first << " " << p.second << "\n";
             // skin.move((p.second * 30), (p.first + 30));
             skin.setPosition((p.second * 30) + 100, p.first * 30);
         }
@@ -339,6 +340,22 @@ void Unit::dying_animation()
     }
 }
 
+void Unit::setSkin(sf::Sprite _skin) {
+	skin = _skin;
+}
+
+bool Unit::getisTower() {
+	return isTower;
+}
+
+
+void Unit::describe() {
+	std::cout << "hello\n";
+}
+
+void Unit::setisTower(bool istower) {
+	isTower = istower;
+}
 void Unit::takeDamage(Attack attack)
 {
 
