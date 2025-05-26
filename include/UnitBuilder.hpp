@@ -31,7 +31,7 @@ class UnitBuilder // Provides interface for concrete unit builders
         UnitBuilder&  withRadius_of_attack(float radius);
         UnitBuilder&  withCost(int new_c);  
         UnitBuilder& withProjectileTexture(std:: string projectileTexture);
-        Unit* build();
+        std::shared_ptr<Unit> build();
 };
 
 #endif // UNITS_HEADER_UNITBUILDER_HPP_

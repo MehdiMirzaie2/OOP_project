@@ -3,20 +3,18 @@
 
 #include "UnitBuilder.hpp"
 
-class Director 
+class Director
 {
-    private:
+private:
         UnitBuilder unitBuilder;
-// also a swordsman
-    public:
-
-        Unit* buildSwords(int alliance);
-        Unit* buildShooter(int alliance);
-        Unit* buildTank(int alliance);
-        Unit* buildMage(int alliance);
-        Unit* buildTower(int alliance);
-        Unit* buildKing(int alliance);
-
+        // also a swordsman
+public:
+        std::shared_ptr<Unit> buildSwords(int alliance);
+        std::shared_ptr<Unit> buildShooter(int alliance);
+        std::shared_ptr<Unit> buildTank(int alliance);
+        std::shared_ptr<Unit> buildMage(int alliance);
+        std::shared_ptr<Unit> buildTower(int alliance);
+        std::shared_ptr<Unit> buildKing(int alliance);
 };
 
 #endif // DIRECTOR_HPP_

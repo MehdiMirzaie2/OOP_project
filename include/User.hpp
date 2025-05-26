@@ -41,7 +41,7 @@ class User{
 
 
         //void fight_user(User other);
-        void deploy(int index, sf::Vector2f d_loc); //abstract class
+        //void deploy(int index, sf::Vector2f d_loc); //abstract class
 
 };
 

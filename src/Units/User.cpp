@@ -131,7 +131,7 @@ void User::draw(sf::RenderWindow* window){
 Deck* User::getDeck(){
     return unitDeck.get();
 }
-
+/*
 void User::deploy(int index, sf::Vector2f dep_loc)
 {   
     int col = dep_loc.x / 30, row = dep_loc.y / 30;
@@ -146,4 +146,4 @@ void User::deploy(int index, sf::Vector2f dep_loc)
     unit->setisActive(true);
 }
 
-
+*/
