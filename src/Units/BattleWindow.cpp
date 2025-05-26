@@ -102,6 +102,7 @@ void BattleWindow::selectUnit(sf::Event event)
 int BattleWindow::runWindow()
 {
 	this->window = std::make_unique<sf::RenderWindow>(sf::VideoMode(WINDOW_WIDTH, WINDOW_HEIGHT), "BattleWindow");
+	printf("running window\n");
 	while (window->isOpen())
 	{
 		gameClock.restart();
@@ -129,7 +130,7 @@ int BattleWindow::runWindow()
 				}
 			}
 		}
-
+		printf("drawing all\n");
 		// updateUnits(gameClock.getElapsedTime());
 		updateUnits();
 		updateAttacks();
@@ -151,7 +152,7 @@ void BattleWindow::updateUnits()
 		{
 
 			startUnitAttack(Unit::active_units[i].get());
-			Unit::active_units[i]->update();
+			Unit::active_units[i]->update(gameMap);
 		}
 		else
 		{
