@@ -1,11 +1,17 @@
 #include "../../include/Entity.hpp"
 
-Entity::Entity() {}; // does nothing atm because I dont know what to put as the default values yet.
+// Entity::Entity(): Drawable() {}; // does nothing atm because I dont know what to put as the default values yet.
 
-Entity::Entity(float dmg, sf::Vector2f location, float spd, float radius_atk, int cst)
+Entity::Entity(std::string pname, std::string idleName, std::string aName, int hp, float dmg, sf::Vector2f location, float spd, float radius_atk, int cst, int alliance)
+    : Drawable(pname, idleName, aName)
 {
-    m_damage = dmg;
+    int flip = alliance == 0 ? 1 : -1;
+    m_skin.setTexture(m_unitTextureIdle);
+    m_skin.setScale(flip * (30.0f / m_unitTextureIdle.getSize().x), 30.0f / m_unitTextureIdle.getSize().y);
     m_skin.setPosition(location);
+
+    m_HP = hp;
+    m_damage = dmg;
     m_speed = spd;
     m_radius_of_attack = radius_atk;
     m_isActive = false;

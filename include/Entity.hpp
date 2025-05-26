@@ -10,8 +10,8 @@
 class Entity : public Drawable
 {
 protected:
-    // hp bar if possible
-    float m_damage; // The viable entities all have these variables
+    float m_HP;
+    float m_damage;
     sf::Sprite m_skin;
     float m_speed;
     float m_radius_of_attack;
@@ -20,8 +20,10 @@ protected:
 
 public:
     // initializers
-    Entity();
-    Entity(float dmg, sf::Vector2f location, float spd, float radius_atk, int cst);
+    // Entity();
+    Entity(std::string, std::string, std::string, int hp, float dmg, sf::Vector2f location, float spd, float radius_atk, int cst, int alliance);
+
+    virtual void describe() = 0;
 
     // getters
     float getDamage();

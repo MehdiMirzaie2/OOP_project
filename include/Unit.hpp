@@ -18,10 +18,7 @@ class Map;
 class Unit : public Entity
 {
 protected:
-	float m_HP;
-	sf::Texture m_unitTextureIdle;
-	sf::Texture m_unitTextureAttacking;
-	sf::Texture m_deadTexture;
+	
 	sf::Vector2f m_deckPos;
 	sf::Vector2i m_dydx;
 	sf::Clock m_timeSinceDeath;
@@ -29,17 +26,14 @@ protected:
 	sf::Clock m_attackClock;
 	sf::Time m_attackCooldown;
 
-	std::string m_projectileTextureName;
-	std::string m_unitTextureIdleName;
-	std::string m_unitTextureAttackingName;
-
-	bool m_isTower = false;
 	int m_alliance;
+	bool m_isTower = false;
 	bool m_isPicked;
-	Unit *m_current_target;
 	bool m_isAttacking;
 	bool m_isDead;
 	bool m_isMovingForward;
+
+	Unit *m_current_target;
 	std::stack<Pair> m_path; // the path the unit will follow until their is distruption, then new path will be computed.
 
 public:
@@ -47,13 +41,16 @@ public:
 	static std::vector<std::unique_ptr<Attack>> active_attacks;
 	static std::vector<std::shared_ptr<Unit>> active_units;
 	// initialisers
-	Unit();
+	// Unit();
 	Unit(float dmg, float spd, sf::Vector2f location, float radius_atk, int cst, int hp, std::string idleTextureName, std::string attackingTextureName, std::string projectileTextureName, int alliance); // unit builder has the values for the unit
 	// Unit(const Unit &src); //copy constructor
 	//
-	// virtual std::shared_ptr<Unit> clone() const {
-	//	return std::make_shared<Unit>(*this);
-	// }
+	// virtual void describe() = 0;
+	virtual std::shared_ptr<Unit> clone() const {
+		return std::make_shared<Unit>(*this);
+	}
+	virtual ~Unit() = default;
+
 
 	// getters
 	float getHP();

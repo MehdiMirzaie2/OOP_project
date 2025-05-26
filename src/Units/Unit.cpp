@@ -7,43 +7,19 @@
 // How quickly the souls vanish from the battlefield
 #define SOUL_SPEED 10
 
-Unit::Unit() : Entity() {};
+// Unit::Unit() : Entity() {};
 
 Unit::Unit(float dmg, float spd, sf::Vector2f location, float radius_atk, int cst, int hp, std::string idleTextureName, std::string attackingTextureName, std::string projectileTextureName, int alliance)
-    : Entity(dmg, location, spd, radius_atk, cst),
-      m_HP(hp),
-      m_projectileTextureName(projectileTextureName),
-      m_unitTextureIdleName(idleTextureName),
-      m_unitTextureAttackingName(attackingTextureName),
+    : Entity(projectileTextureName,idleTextureName,attackingTextureName, hp, dmg, location, spd, radius_atk, cst, alliance),
       m_isPicked(false),
-      m_isAttacking(false)
+      m_isAttacking(false),
+      m_alliance(alliance)
 { // Sync sprite & user posi
-    int flip = alliance == 0 ? 1 : -1;
-    std::cout << idleTextureName << std::endl;
-    if (!m_unitTextureIdle.loadFromFile("src/Textures/" + std::string(idleTextureName)))
-    {
-        std::cout << "Unable to load Idle texture!\n";
-    }
-
-    if (!m_unitTextureAttacking.loadFromFile("src/Textures/" + std::string(attackingTextureName)))
-    {
-        std::cout << "Unable to load attacking texture!\n";
-    }
-    m_projectileTextureName = projectileTextureName;
-
-    if (!m_deadTexture.loadFromFile("src/Textures/death.png"))
-    {
-        std::cout << "Couldnt load death soul\n";
-    }
-
-    m_skin.setTexture(m_unitTextureIdle);
-    m_skin.setScale(flip * (30.0f / m_unitTextureIdle.getSize().x), 30.0f / m_unitTextureIdle.getSize().y);
     m_isAttacking = false;
     m_attackCooldown = sf::seconds(2);
     m_isDead = false;
     m_current_target = nullptr;
     m_timeSinceDeath.restart();
-    alliance = alliance;
 }
 
 /*
