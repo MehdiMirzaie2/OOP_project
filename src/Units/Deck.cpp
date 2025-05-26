@@ -94,8 +94,9 @@ void Deck::swapDeployedUnit(const std::shared_ptr<Unit> &unit)
         if (m_unit == unit) {
 		    std::cout << "hello world found\n";
     	    std::shared_ptr<Unit> newUnit = director.buildSwords(unit->getAlliance());
-		    
+	    std::cout << "\n\n\n\ndeck positno = " << unit->getDeckPosition().x << " " << unit->getDeckPosition().y << "\n\n\n" ;
             newUnit->setLocation(unit->getDeckPosition());
+            newUnit->setDeckPosition(unit->getDeckPosition());
             //units.erase(unit);
 		    units.insert(newUnit);
 	}
