@@ -3,4 +3,4 @@ obj
 *.o
 test
 .vscode
-
+*.DS_STORE

@@ -1,126 +1,266 @@
 #include "../../include/map.hpp"
 
+// background image width = 960
+// background image height = 540
+// cells 30 x 30
 
-Map::Map(){
-	this->map_grid = {
-        {0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, -1, -1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0},
-        {0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, -1, -1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0},
-{0, 0, 0, 0, 0, -1, -1, -1, 0, 0, 0, 0, 0, 0, -1, -1, 0, 0, 0, 0, 0, 0, -1, -1, -1, 0, 0, 0, 0, 0},
-{0, 0, 0, 0, 0, -1, -1, -1, 0, 0, 0, 0, 0, 0, -1, -1, 0, 0, 0, 0, 0, 0, -1, -1, -1, 0, 0, 0, 0, 0},
-{0, 0, 0, 0, 0, -1, -1, -1, 0, 0, 0, 0, 0, 0, -1, -1, 0, 0, 0, 0, 0, 0, -1, -1, -1, 0, 0, 0, 0, 0},
-{0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, -1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0},
-{0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, -1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0},
-{0, -1, -1, -1, -1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, -1, -1, -1, -1, 0},
-{0, -1, -1, -1, -1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, -1, -1, -1, -1, 0},
-{0, -1, -1, -1, -1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, -1, -1, -1, -1, 0},
-{0, -1, -1, -1, -1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, -1, -1, -1, -1, 0},
-{0, -1, -1, -1, -1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, -1, -1, -1, -1, 0},
-{0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, -1, -1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0},
-{0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, -1, -1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0},
-{0, 0, 0, 0, 0, -1, -1, -1, 0, 0, 0, 0, 0, 0, -1, -1, 0, 0, 0, 0, 0, 0, -1, -1, -1, 0, 0, 0, 0, 0},
-{0, 0, 0, 0, 0, -1, -1, -1, 0, 0, 0, 0, 0, 0, -1, -1, 0, 0, 0, 0, 0, 0, -1, -1, -1, 0, 0, 0, 0, 0},
-{0, 0, 0, 0, 0, -1, -1, -1, 0, 0, 0, 0, 0, 0, -1, -1, 0, 0, 0, 0, 0, 0, -1, -1, -1, 0, 0, 0, 0, 0},
-{0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, -1, -1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0},
-};
-
-		
-		
-		/* 
-//    sf::RectangleShape grass(sf::Vector2f(WINDOW_WIDTH, WINDOW_HEIGHT));
-  //  grass.setFillColor(sf::Color(100, 200, 100));
-
-    //sf::RectangleShape river(sf::Vector2f(120, WINDOW_WIDTH)); // width of the river
-//    river.setPosition(WINDOW_HEIGHT / 2 + 140, 0); // move the river, dont touch pls pls!
- //   river.setFillColor(sf::Color(0, 150, 255));
-
-    sf::RectangleShape laneLeft(sf::Vector2f(20, WINDOW_WIDTH));
-    laneLeft.setPosition(WINDOW_HEIGHT / 2 + 120, 0);
-    laneLeft.setFillColor(sf::Color(160, 140, 110));
-
-    sf::RectangleShape laneRight(sf::Vector2f(20, WINDOW_WIDTH));
-    laneRight.setPosition(WINDOW_HEIGHT / 2 + 260, 0); // pls dont touch......
-    laneRight.setFillColor(sf::Color(160, 140, 110));
-*/
-
-	
-
-	map_texture.loadFromFile("src/Units/b.png");
-std::cout << map_texture.getSize().x << " " << map_texture.getSize().y << " not map texture\n";
-
-	map_sprite.setTexture(map_texture);
-	if (map_sprite.getTexture() == NULL) 
-		std::cout << map_sprite.getPosition().x << " this is the sprite\n";
-	map_sprite.setPosition(100, 0);
-		
- // Towers (up to down, in order)
-    auto enemyKing = createTower(WINDOW_WIDTH / 2.9 - TOWER_WIDTH / 1, WINDOW_HEIGHT / 3, sf::Color::Red); //2 
-    auto enemyLeftPrincess = createTower(WINDOW_WIDTH / 3 - 300, 80, sf::Color::Red); // 3
-    auto enemyRightPrincess = createTower(WINDOW_WIDTH / 3 + 149, 80, sf::Color::Red); // 1
+Map::Map()
+{
+    this->map_grid = {
+        //     {0,  1,  2,  3,  4,  5,  6,  7,  8,  9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27, 28, 29, 30, 31} 
+        /*0*/  {0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  2,  2,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0},
+		/*1*/  {0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  2,  2,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0},
+		/*2*/  {0,  0,  0,  0,  0,  1,  1,  1,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  1,  1,  1,  0,  0,  0,  0,  0},
+		/*3*/  {0,  0,  0,  0,  0,  1,  1,  1,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  1,  1,  1,  0,  0,  0,  0,  0},
+		/*4*/  {0,  0,  0,  0,  0,  1,  1,  1,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  1,  1,  1,  0,  0,  0,  0,  0},
+		/*5*/  {0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  2,  2,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0},
+		/*6*/  {0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  2,  2,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0},
+		/*7*/  {0,  1,  1,  1,  1,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  2,  2,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  1,  1,  1,  1,  0},
+		/*8*/  {0,  1,  1,  1,  1,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  2,  2,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  1,  1,  1,  1,  0},
+		/*9*/  {0,  1,  1,  1,  1,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  2,  2,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  1,  1,  1,  1,  0},
+		/*10*/ {0,  1,  1,  1,  1,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  2,  2,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  1,  1,  1,  1,  0},
+		/*11*/ {0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  2,  2,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0},
+		/*12*/ {0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  2,  2,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0},
+		/*13*/ {0,  0,  0,  0,  0,  1,  1,  1,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  1,  1,  1,  0,  0,  0,  0,  0},
+		/*14*/ {0,  0,  0,  0,  0,  1,  1,  1,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  1,  1,  1,  0,  0,  0,  0,  0},
+		/*15*/ {0,  0,  0,  0,  0,  1,  1,  1,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  1,  1,  1,  0,  0,  0,  0,  0},
+		/*16*/ {0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  2,  2,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0},
+        /*17*/ {0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  2,  2,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0},
+    };
 
 
-    auto playerKing = createTower(WINDOW_WIDTH / 2.9 - TOWER_WIDTH / 1, WINDOW_HEIGHT + 45, sf::Color::Blue); //2
-    auto playerLeftPrincess = createTower(WINDOW_WIDTH / 3 - 300, WINDOW_HEIGHT + 232, sf::Color::Blue); //3
-    auto playerRightPrincess = createTower(WINDOW_WIDTH / 3 + 149, WINDOW_HEIGHT + 232, sf::Color::Blue); //1
+    //directions = {std::make_pair(0, -1), std::make_pair(1, 0), std::make_pair(0, 1), std::make_pair(-1, 0)};
+    directions = {std::make_pair(0, 1), std::make_pair(0, -1), std::make_pair(1, 0), std::make_pair(-1, 0), std::make_pair(1, 1), std::make_pair(1, -1), std::make_pair(-1, 1), std::make_pair(-1, -1)};
+    //map background set up
+    map_texture.loadFromFile("src/Textures/background.png");
+    map_sprite.setTexture(map_texture);
 
-     // bridg/lane
-     /*
-     sf::RectangleShape enemyLane(sf::Vector2f(540, 50));
-     enemyLane.setPosition(328, 166); 
-     enemyLane.setFillColor(sf::Color(160, 140, 110));
- 
-     sf::RectangleShape playerLane(sf::Vector2f(540, 50));
-     playerLane.setPosition(328, 616); 
-     playerLane.setFillColor(sf::Color(160, 140, 110));
+    if (map_sprite.getTexture() == NULL)
+        std::cout << map_sprite.getPosition().x << " this is the sprite\n";
 
-    elements.insert(element("laneleft", laneLeft));
-    elements.insert(element("laneright", laneRight));
-    elements.insert(element("river", river));
-    elements.insert(element("grass", grass));
-    */
+    map_sprite.setPosition(100, 0);
+
+
+    // Towers (up to down, in order)
+    auto enemyKing = createTower(WINDOW_WIDTH / 2.9 - TOWER_WIDTH / 1, WINDOW_HEIGHT / 3, sf::Color::Red); // 2
+    auto enemyLeftPrincess = createTower(WINDOW_WIDTH / 3 - 300, 80, sf::Color::Red);                      // 3
+    auto enemyRightPrincess = createTower(WINDOW_WIDTH / 3 + 149, 80, sf::Color::Red);                     // 1
+
+    auto playerKing = createTower(WINDOW_WIDTH / 2.9 - TOWER_WIDTH / 1, WINDOW_HEIGHT + 45, sf::Color::Blue); // 2
+    auto playerLeftPrincess = createTower(WINDOW_WIDTH / 3 - 300, WINDOW_HEIGHT + 232, sf::Color::Blue);      // 3
+    auto playerRightPrincess = createTower(WINDOW_WIDTH / 3 + 149, WINDOW_HEIGHT + 232, sf::Color::Blue);     // 1
+
     elements.insert(element("playerKing", playerKing));
     elements.insert(element("playerLeftPrincess", playerLeftPrincess));
     elements.insert(element("playerRightPrincess", playerRightPrincess));
     elements.insert(element("enemyKing", enemyKing));
     elements.insert(element("enemyLeftPrincess", enemyLeftPrincess));
     elements.insert(element("enemyRightPrincess", enemyRightPrincess));
-    //elements.insert(element("enemyLane", enemyLane));
-    //elements.insert(element("playerLane", playerLane));
 }
 
-
-sf::RectangleShape Map::createTower(float x, float y, sf::Color baseColor) {
-    sf::RectangleShape tower(sf::Vector2f(TOWER_WIDTH, TOWER_HEIGHT)); 
-    tower.setPosition(y, WINDOW_HEIGHT - x - TOWER_WIDTH); 
+sf::RectangleShape Map::createTower(float x, float y, sf::Color baseColor)
+{
+    sf::RectangleShape tower(sf::Vector2f(TOWER_WIDTH, TOWER_HEIGHT));
+    tower.setPosition(y, WINDOW_HEIGHT - x - TOWER_WIDTH);
     tower.setFillColor(baseColor);
     tower.setOutlineThickness(2);
     tower.setOutlineColor(sf::Color::Black);
     return tower;
 }
 
-void Map::draw(sf::RenderWindow* window){
-	//std::cout << "hello world\n";
-	if (map_sprite.getTexture() == NULL) 
-		std::cout << "there is no texture " << map_sprite.getPosition().x << std::endl;
-	window->draw(map_sprite);
-    
-	/*
-    window->draw(elements["grass"]);
-    window->draw(elements["river"]);
-    window->draw(elements["laneLeft"]);
-    window->draw(elements["laneRight"]);
-    window->draw(elements["enemyKing"]);
-    window->draw(elements["enemyLeftPrincess"]);
-      
-    window->draw(elements["enemyRightPrincess"]);
-    window->draw(elements["playerKing"]);
-    window->draw(elements["playerLeftPrincess"]);
-    window->draw(elements["playerRightPrincess"]);
+void Map::draw(sf::RenderWindow *window)
+{
+    // std::cout << "hello world\n";
+    if (map_sprite.getTexture() == NULL)
+        std::cout << "there is no texture " << map_sprite.getPosition().x << std::endl;
 
-    window->draw(elements["playerLane"]);
-    window->draw(elements["enemyLane"]);
-*/
+    window->draw(map_sprite);
+
+}
+
+// Background
+
+
+std::vector<std::vector<int>> &Map::getMapGrid() {
+    return map_grid;
 }
 
 
- // Background
- 
+
+
+
+
+bool Map::isValid(int row, int col)
+{
+	// Returns true if row number and column number
+	// is in range
+	return (row >= 0) && (row < ROW) && (col >= 0) && (col < COL);
+}
+
+bool Map::isDestination(int row, int col, Pair dest)
+{
+	if (row == dest.first && col == dest.second)
+		return (true);
+	else
+		return (false);
+}
+
+// A Utility Function to calculate the 'h' heuristics.
+double Map::calculateHValue(int row, int col, Pair dest)
+{
+	//return abs(row - dest.first) + abs(col - dest.second);
+	// Return using the distance formula
+	return ((double)sqrtf(
+		(row - dest.first) * (row - dest.first) + (col - dest.second) * (col - dest.second)));
+}
+
+
+// A Utility Function to check whether the given cell is
+// blocked or not
+bool Map::isUnBlocked(int row, int col)
+{
+    // Returns true if the cell is not blocked else false
+    if (map_grid[row][col] == 0)
+        return (true);
+    else
+        return (false);
+}
+
+
+// A Utility Function to trace the path from the source
+// to destination
+std::stack<Pair> Map::tracePath(cell cellDetails[][COL], Pair dest)
+{
+    printf("\nThe Path is ");
+    int row = dest.first;
+    int col = dest.second;
+
+    std::stack<Pair> Path;
+
+    while (!(cellDetails[row][col].parent_i == row
+             && cellDetails[row][col].parent_j == col)) {
+        Path.push(std::make_pair(row, col));
+        int temp_row = cellDetails[row][col].parent_i;
+        int temp_col = cellDetails[row][col].parent_j;
+        row = temp_row;
+        col = temp_col;
+    }
+
+    Path.push(std::make_pair(row, col));
+    std::stack<Pair> temp = Path;
+    while (!temp.empty()) {
+         Pair p = temp.top();
+         temp.pop();
+         printf("-> (%d,%d) ", p.first, p.second);
+     }
+    return Path;
+}
+
+std::stack<Pair> Map::aStarSearch(Pair src, Pair dst)
+{
+	if (isValid(src.first, src.second) == false)
+	{
+		printf("source is invalid\n");
+		return {};
+	}
+
+	if (isValid(dst.first, dst.second) == false)
+	{
+		printf("dst is invalid\n");
+		return {};
+	}
+
+	if (isUnBlocked(src.first, src.second) == false 
+		|| isUnBlocked(dst.first, dst.second) == false) {
+		printf("source or dest is blocked\n");
+	}
+
+	if (isDestination(src.first, src.second, dst))
+	{
+		printf("we are already at the destination\n");
+		return {};
+	}
+
+	bool closedList[ROW][COL];
+	memset(closedList, false, sizeof(closedList));
+
+	cell cellDetails[ROW][COL];
+
+	int i, j;
+
+	for (i = 0; i < ROW; i++)
+	{
+		for (j = 0; j < COL; j++)
+		{
+			cellDetails[i][j].f = __FLT_MAX__;
+			cellDetails[i][j].g = __FLT_MAX__;
+			cellDetails[i][j].h = __FLT_MAX__;
+			cellDetails[i][j].parent_i = -1;
+			cellDetails[i][j].parent_j = -1;
+		}
+	}
+
+	i = src.first, j = src.second;
+	cellDetails[i][j].f = 0.0f;
+	cellDetails[i][j].g = 0.0f;
+	cellDetails[i][j].h = 0.0f;
+	cellDetails[i][j].parent_i = i;
+	cellDetails[i][j].parent_j = j;
+
+	std::set<pPair> openList;
+
+	openList.insert(std::make_pair(0.0, std::make_pair(i, j)));
+
+	bool foundDst = false;
+
+	while (!openList.empty())
+	{
+		pPair p = *openList.begin();
+
+		openList.erase(openList.begin());
+
+		i = p.second.first;
+		j = p.second.second;
+		closedList[i][j] = true;
+		double gNew, hNew, fNew;
+
+		for (Pair cur_dir : directions)
+		{
+			int r = i + cur_dir.first, c = j + cur_dir.second;
+			if (isValid(r, c))
+			{
+				if (isDestination(r, c, dst))
+				{
+					cellDetails[r][c].parent_i = i;
+					cellDetails[r][c].parent_j = j;
+					printf("destination is found\n");
+					
+					// foundDst = true;
+					return tracePath(cellDetails, dst);;
+				}
+				else if (closedList[r][c] == false && isUnBlocked(r, c))
+				{
+					gNew = cellDetails[i][j].g + 1.0;
+					hNew = calculateHValue(r, c, dst);
+					fNew = gNew + hNew;
+
+					if (cellDetails[r][c].f == __FLT_MAX__ || cellDetails[r][c].f > fNew)
+					{
+						openList.insert(std::make_pair(fNew, std::make_pair(r, c)));
+
+						cellDetails[r][c].f = fNew;
+						cellDetails[r][c].g = gNew;
+						cellDetails[r][c].h = hNew;
+						cellDetails[r][c].parent_i = i;
+						cellDetails[r][c].parent_j = j;
+					}
+				}
+			}
+		}
+	}
+	if (foundDst == false)
+	{
+		printf("failed to find the destination cell\n");
+	}
+	return {};
+}

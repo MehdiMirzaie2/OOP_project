@@ -4,8 +4,8 @@
 #include <SFML/Graphics.hpp>
 #include <memory>
 
-const int WINDOW_WIDTH = 1110;
-const int WINDOW_HEIGHT = 560;
+const int WINDOW_WIDTH = 1160;
+const int WINDOW_HEIGHT = 540;
 
 class Window
 {
