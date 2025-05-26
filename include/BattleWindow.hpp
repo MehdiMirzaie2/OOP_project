@@ -18,17 +18,17 @@ private:
     User m_user2;
     sf::Clock m_gameClock;
 
-    void deploye(sf::Event);
-    void selectUnit(sf::Event);
+    void deploye(sf::Event); // Handles unit deployment based on user input
+    void selectUnit(sf::Event); // Handles unit selection logic
 
 public:
-    BattleWindow();
-    void draw_all(sf::RenderWindow *window);
-    int runWindow();
-    void checkCollisions();
-    void updateUnits();
-    void updateAttacks();
-    void startUnitAttack(Unit *attacker);
+    BattleWindow(); // Constructor to initialize the battle window
+    void draw_all(sf::RenderWindow *window); // Draws all battle elements to the window
+    int runWindow(); // Main loop to run the battle window
+    void checkCollisions(); // Checks for collisions between units and attacks
+    void updateUnits(); // Updates all units' states
+    void updateAttacks(); // Updates all active attacks
+    void startUnitAttack(Unit *attacker); // Initiates an attack from the specified unit
 };
 
 #endif // BATTLE_HPP_

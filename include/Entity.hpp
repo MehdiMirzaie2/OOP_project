@@ -10,37 +10,36 @@
 class Entity : public Drawable
 {
 protected:
-    // hp bar if possible
-    float m_damage; // The viable entities all have these variables
-    sf::Sprite m_skin;
-    float m_speed;
-    float m_radius_of_attack;
-    int m_cost;
-    bool m_isActive;
+    float m_damage; // Damage dealt by the entity
+    sf::Sprite m_skin; // Visual representation of the entity
+    float m_speed; // Movement speed of the entity
+    float m_radius_of_attack; // Attack range
+    int m_cost; // Elixir cost to deploy
+    bool m_isActive; // Whether the entity is currently active
 
 public:
-    // initializers
-    Entity();
-    Entity(float dmg, sf::Vector2f location, float spd, float radius_atk, int cst);
+    // Constructors
+    Entity(); // Default constructor
+    Entity(float dmg, sf::Vector2f location, float spd, float radius_atk, int cst); // Initialize entity with key attributes
 
-    // getters
-    float getDamage();
-    sf::Vector2f getLocation();
-    float getSpeed();
-    float getRadius_of_attack();
-    int getCost();
-    bool getisActive();
+    // Getters
+    float getDamage(); // Returns the entity's damage
+    sf::Vector2f getLocation(); // Returns the entity's current position
+    float getSpeed(); // Returns the entity's speed
+    float getRadius_of_attack(); // Returns the attack radius
+    int getCost(); // Returns the Elixir cost
+    bool getisActive(); // Returns whether the entity is active
 
-    // setters
-    void setDamage(float new_dmg);
-    void setSpeed(float new_sp);
-    void setLocation(sf::Vector2f newloc);
-    void setRadius_of_attack(float radius);
-    void setCost(int new_c);
-    void setisActive(bool active);
+    // Setters
+    void setDamage(float new_dmg); // Sets a new damage value
+    void setSpeed(float new_sp); // Sets a new speed value
+    void setLocation(sf::Vector2f newloc); // Updates the entity's location
+    void setRadius_of_attack(float radius); // Sets the attack radius
+    void setCost(int new_c); // Sets the Elixir cost to deploy
+    void setisActive(bool active); // Sets the active state
 
-    //util
-    virtual void draw(sf::RenderWindow *window) = 0;
+    // Pure virtual draw method
+    virtual void draw(sf::RenderWindow *window) = 0; // Draws the entity (must be implemented by derived classes)
 };
 
 #endif

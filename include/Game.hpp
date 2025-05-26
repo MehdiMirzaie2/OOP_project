@@ -9,13 +9,13 @@
 class Game
 {
 private:
-    BattleWindow m_battleWindow;
-    CustomizeWindow m_customizeWindow;
-    MainMenu m_menuWindow;
+    BattleWindow m_battleWindow;    // Handles the battle gameplay screen
+    CustomizeWindow m_customizeWindow; // Handles customization UI
+    MainMenu m_menuWindow;          // Handles main menu UI
 
 public:
-    Game();
-    void runGame();
+    Game();          // Constructor to initialize the game and its windows
+    void runGame();  // Main game loop controlling flow between windows
 };
 
 #endif // UNITS_HEADER_GAME_HPP_
