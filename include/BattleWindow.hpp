@@ -32,6 +32,7 @@ public:
     void updateUnits();
     void updateAttacks();
     void startUnitAttack(Unit *attacker);
+    void checkWinner();
 };
 
 #endif // BATTLE_HPP_

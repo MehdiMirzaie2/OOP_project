@@ -102,7 +102,8 @@ void BattleWindow::selectUnit(sf::Event event)
 int BattleWindow::runWindow()
 {
 	this->window = std::make_unique<sf::RenderWindow>(sf::VideoMode(WINDOW_WIDTH, WINDOW_HEIGHT), "BattleWindow");
-	while (window->isOpen())
+	int winner = 0;
+	while (window->isOpen() && !winner)
 	{
 		gameClock.restart();
 		sf::Vector2i mouse_pos = sf::Mouse::getPosition(*(this->window));
@@ -134,12 +135,24 @@ int BattleWindow::runWindow()
 		updateUnits();
 		updateAttacks();
 		checkCollisions();
+		checkWinner(int& winner);
 
 		draw_all(window.get());
 		user1.update(mouse_pos);
 		user2.update(mouse_pos);
+
 	}
-	return 0;
+	return winner;
+}
+
+void BattleWindow::checkWinner(int& winner)
+{
+	if (user1.getKing()->getisDead()){
+		winner = 2;
+	}
+	else if(user2.getKing()->getisDead()){
+		winner = 1;
+	}
 }
 
 void BattleWindow::updateUnits()

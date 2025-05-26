@@ -10,7 +10,8 @@ void Game::runGame(){
         int choice = menuWindow.runWindow();
         
         if(choice == 1){
-            battleWindow.runWindow();
+            int winner = battleWindow.runWindow();
+            
         }
         else if(choice == 2){
             customizeWindow.runWindow();

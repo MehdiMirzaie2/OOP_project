@@ -25,6 +25,8 @@ class User{
         int getWins();
         int getLosses();
         std:: string getName();
+        Unit* getKing();
+        
         //int getElixir();
         Deck* getDeck();
         
