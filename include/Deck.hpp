@@ -20,8 +20,8 @@ public:
 
     std::vector<std::shared_ptr<Unit>> &getUnits();
     void draw(sf::RenderWindow *window);
-    Unit *getPickedUnit();
-    void swapDeployedUnit();
+    std::shared_ptr<Unit> getPickedUnit();
+    void swapDeployedUnit(const std::shared_ptr<Unit> &unit);
 };
 
 #endif // DECK_HPP_

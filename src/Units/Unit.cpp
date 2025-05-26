@@ -12,10 +12,10 @@ Unit::Unit() : Entity() {};
 Unit::Unit(float dmg, float spd, sf::Vector2f location, float radius_atk, int cst, int hp, std::string idleTextureName, std::string attackingTextureName, std::string projectileTextureName, int alliance)
     : Entity(dmg, location, spd, radius_atk, cst),
       HP(hp),
-      isPicked(false),
       projectileTextureName(projectileTextureName),
       unitTextureIdleName(idleTextureName),
-      unitTextureAttackingName(attackingTextureName)
+      unitTextureAttackingName(attackingTextureName),
+      isPicked(false)
 { // Sync sprite & user posi
     int flip = alliance == 0 ? 1 : -1;
     if (!unitTextureIdle.loadFromFile("src/Textures/" + std::string(idleTextureName)))
@@ -48,15 +48,15 @@ Unit::Unit(float dmg, float spd, sf::Vector2f location, float radius_atk, int cs
 Unit::Unit(const Unit &src)
     : Entity(src), // call the base class copy constructor
       HP(src.HP),
-      isPicked(src.isPicked),
+      attackCooldown(src.attackCooldown),
       projectileTextureName(src.projectileTextureName),
       unitTextureIdleName(src.unitTextureIdleName),
       unitTextureAttackingName(src.unitTextureAttackingName),
-      isAttacking(false),
-      attackCooldown(src.attackCooldown),
-      isDead(src.isDead),
       alliance(src.alliance),
-      current_target(nullptr) // You probably don't want to copy the pointer as-is
+      isPicked(src.isPicked),
+      current_target(nullptr), // You probably don't want to copy the pointer as-is
+      isAttacking(false),
+      isDead(src.isDead)
 {
     int flip = alliance == 0 ? 1 : -1;
 
@@ -411,7 +411,7 @@ void Unit::bringToLife(sf::Vector2f pos, Map &gameMap)
 
     Unit::active_units.push_back(std::shared_ptr<Unit>(this));
     startMovingForward();
-    setPath(gameMap.aStarSearch(std::make_pair(pos.x, pos.y), getClosestTower()));
+    setPath(gameMap.aStarSearch(std::make_pair(int((pos.x - 100) / 30), int(pos.y / 30)), getClosestTower()));
     setisActive(true);
     startMovingForward();
 

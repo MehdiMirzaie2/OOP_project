@@ -90,21 +90,25 @@ std::vector<std::shared_ptr<Unit>> &Deck::getUnits()
     return units;
 }
 
-Unit *Deck::getPickedUnit()
+std::shared_ptr<Unit> Deck::getPickedUnit()
 {
     for (const auto &unit : units)
     {
         if (unit->getIsPicked())
-            return unit.get();
+            return unit;
     }
     return nullptr;
 }
 
-void Deck::swapDeployedUnit()
+void Deck::swapDeployedUnit(const std::shared_ptr<Unit> &unit)
 {
-    for (int i = 0; i < units.size(); i++)
+    for (size_t i = 0; i < units.size(); i++)
     {
-        if (units[i]->getIsPicked())
-            units[i] = std::shared_ptr<Unit>(&Unit(*units[i].get()));
+        if (units[i] == unit) {
+		std::cout << "hello world found\n";
+    		Unit *u1 = director.buildSwords(unit->getAlliance());
+		u1->setLocation(unit->getDeckPosition());
+		units[i] = std::shared_ptr<Unit>(u1);
+	}
     }
 }
