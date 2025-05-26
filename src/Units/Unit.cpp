@@ -420,7 +420,7 @@ Pair Unit::getClosestTower()
     int col = m_skin.getPosition().x / 30, row = m_skin.getPosition().y / 30;
     std::vector<Pair> targets =
         (m_alliance == 1) ? std::vector<Pair>{std::make_pair(3, 7), std::make_pair(8, 4), std::make_pair(9, 4), std::make_pair(14, 7)}
-                        : std::vector<Pair>{std::make_pair(3, 24), std::make_pair(8, 27), std::make_pair(9, 27), std::make_pair(14, 24)};
+                        : std::vector<Pair>{std::make_pair(3, 25), std::make_pair(8, 27), std::make_pair(9, 27), std::make_pair(14, 25)};
 
     float min = __FLT_MAX__;
     int index = 0;
