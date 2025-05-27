@@ -28,7 +28,7 @@ OBJS := $(SRCS:$(SRCS_DIR)/%.cpp=$(OBJS_DIR)/%.o)
 TEST_DEPENDENCIES := test.o Game.o map.o User.o Entity.o Unit.o Director.o Deck.o UnitBuilder.o BattleWindow.o StatsWindow.o MainMenu.o Attack.o Elixir.o Drawable.o 
 TEST_DEPENDENCIES_ACTUAL = $(addprefix $(OBJS_DIR)/, $(TEST_DEPENDENCIES))
 
-$(OBJS_DIR)/%.o: $(SRCS_DIR)/Units/%.cpp
+$(OBJS_DIR)/%.o: $(SRCS_DIR)/%.cpp
 	@mkdir -p $(dir $@)
 	@echo "Compiling $< -> $@"
 	$(CC) $(CFLAGS) $(CPPFLAGS) -c $< -o $@
