@@ -15,6 +15,7 @@ class Drawable // abstract interface for all drawables
         std::string m_unitTextureAttackingName; // Attacking texture identifier
 
     public:
+	Drawable();
         Drawable(std::string, std::string, std::string);
         virtual void draw(sf::RenderWindow* window) = 0;
 };

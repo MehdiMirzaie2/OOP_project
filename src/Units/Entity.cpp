@@ -1,6 +1,6 @@
 #include "../../include/Entity.hpp"
 
-// Entity::Entity() {}; // does nothing atm because I dont know what to put as the default values yet.
+Entity::Entity(): Drawable() {}; // does nothing atm because I dont know what to put as the default values yet.
 
 Entity::Entity(std::string a, std::string b, std::string c, float dmg, sf::Vector2f location, float spd, float radius_atk, int cst) : Drawable(a, b, c)
 {

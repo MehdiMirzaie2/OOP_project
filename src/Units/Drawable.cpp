@@ -1,5 +1,7 @@
 #include "../../include/Drawable.hpp"
 
+Drawable::Drawable() {}
+
 Drawable::Drawable(std::string a, std::string b, std::string c)
 	:m_projectileTextureName(a),
 	m_unitTextureIdleName(b),
