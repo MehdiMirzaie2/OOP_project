@@ -38,59 +38,36 @@ Unit::Unit(float dmg, float spd, sf::Vector2f location, float radius_atk, int cs
                                 : std::vector<Pair>{std::make_pair(3, 23), std::make_pair(8, 26), std::make_pair(9, 26), std::make_pair(14, 23)};
 }
 
-/*
+
 Unit::Unit(const std::shared_ptr<Unit> &src)
-    : Entity(src), // call the base class copy constructor
-      HP(src.getHP()),
-      attackCooldown(src.getAttackCooldown()),
-      projectileTextureName(src.projectileTextureName),
-      unitTextureIdleName(src.unitTextureIdleName),
-      unitTextureAttackingName(src.unitTextureAttackingName),
-      alliance(src.alliance),
-      isPicked(src.isPicked),
-      current_target(nullptr), // You probably don't want to copy the pointer as-is
-      isAttacking(false),
-      isDead(src.isDead)
-{
-    std::cout << "whats good\n";
-    int flip = alliance == 0 ? 1 : -1;
+    : Entity(src->getProjectileTextureName(), src->getIdleTextureName(), src->getAttackingTextureName(), src->getDamage(), src->getLocation(), src->getSpeed(), src->getRadius_of_attack(), src->getCost()), // call the base class copy constructor
+      m_HP(src->getHP()),
+      m_isPicked(false),
+      m_isAttacking(false)
+{ // Sync sprite & user posi
+    int flip = src->getAlliance() == 0 ? 1 : -1;
 
-    if (!unitTextureIdle.loadFromFile("src/Textures/" + src.unitTextureIdleName))
+    m_skin.setTexture(m_unitTextureIdle);
+   if (m_unitTextureIdle.getSize().x > 0 && m_unitTextureIdle.getSize().y > 0)  
     {
-        std::cout << "Unable to load Idle texture!\n";
+        m_skin.setScale(flip * (30.0f / m_unitTextureIdle.getSize().x), 30.0f / m_unitTextureIdle.getSize().y);
     }
-
-    if (!unitTextureAttacking.loadFromFile("src/Textures/" + src.unitTextureAttackingName))
+    else
     {
-        std::cout << "Unable to load attacking texture!\n";
+        std::cerr << "ERROR: Idle texture '" << m_unitTextureIdleName << "' has zero dimensions. Setting default scale." << std::endl;
+        m_skin.setScale(flip * 1.0f, 1.0f); 
     }
+    m_isAttacking = false;
+    m_attackCooldown = sf::seconds(2);
+    m_isDead = false;
+    m_current_target = nullptr;
+    m_timeSinceDeath.restart();
+    m_alliance = src->getAlliance();
 
-    if (!deadTexture.loadFromFile("src/Textures/death.png"))
-    {
-        std::cout << "Couldnt load death texture\n";
-    }
-
-skin.setTexture(unitTextureIdle);
-    std::cout << "texture size = " << unitTextureIdle.getSize().x << " " << unitTextureIdle.getSize().y << "\n";
-    skin.setScale(flip * (30.0f / unitTextureIdle.getSize().x), 30.0f / unitTextureIdle.getSize().y);
-    isAttacking = false;
-    attackCooldown = sf::seconds(2);
-    isDead = false;
-    current_target = nullptr;
-    timeSinceDeath.restart();
-    this->alliance = alliance;
-    std::cout << "created copy of unit\n";
-
-
-
-    // Setup sprite
-    //skin.setTexture(unitTextureIdle);
-    //skin.setScale(flip * (30.0f / unitTextureIdle.getSize().x), 30.0f / unitTextureIdle.getSize().y);
-
-    // Reset clock/timers
-    //timeSinceDeath.restart();
+    targets = (m_alliance == 1) ? std::vector<Pair>{std::make_pair(3, 8), std::make_pair(8, 5), std::make_pair(9, 5), std::make_pair(14, 8)}
+                                : std::vector<Pair>{std::make_pair(3, 23), std::make_pair(8, 26), std::make_pair(9, 26), std::make_pair(14, 23)};
 }
-*/
+
 std::vector<std::unique_ptr<Attack>> Unit::active_attacks = {};
 std::vector<std::shared_ptr<Unit>> Unit::active_units = {};
 std::unordered_set<Pair, pair_hash> Unit::dead_towers;

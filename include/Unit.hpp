@@ -64,6 +64,7 @@ public:
 
     // Constructors
     Unit(); // Default constructor
+    Unit(const std::shared_ptr<Unit> &src);
     Unit(float dmg, float spd, sf::Vector2f location, float radius_atk, int cst, int hp, std::string idleTextureName, std::string attackingTextureName, std::string projectileTextureName, int alliance); // Parameterized constructor
 
     // Getters

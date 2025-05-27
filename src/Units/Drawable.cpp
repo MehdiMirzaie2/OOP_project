@@ -22,3 +22,16 @@ Drawable::Drawable(std::string a, std::string b, std::string c)
         std::cout << "Couldnt load death soul\n";
     }
 }
+
+
+std::string Drawable::getProjectileTextureName() {
+    return m_projectileTextureName;
+}
+
+std::string Drawable::getIdleTextureName() {
+    return m_unitTextureIdleName;
+}
+
+std::string Drawable::getAttackingTextureName() {
+    return m_unitTextureAttackingName;
+}

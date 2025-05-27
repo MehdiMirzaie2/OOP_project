@@ -19,6 +19,10 @@ class Drawable // abstract interface for all drawables
         Drawable(std::string, std::string, std::string);
         virtual void draw(sf::RenderWindow* window) = 0;
         virtual ~Drawable() = default; 
+
+        std::string getProjectileTextureName(); 
+        std::string getIdleTextureName();
+        std::string getAttackingTextureName();
 };
 
 #endif // DRAWABLE_HPP_
