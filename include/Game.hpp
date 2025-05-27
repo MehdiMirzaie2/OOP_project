@@ -3,14 +3,14 @@
 
 #include "User.hpp"
 #include "BattleWindow.hpp"
-#include "CustomizeWindow.hpp"
+#include "StatsWindow.hpp"
 #include "MainMenu.hpp"
 
 class Game
 {
 private:
     BattleWindow m_battleWindow;
-    CustomizeWindow m_customizeWindow;
+    StatsWindow m_statsWindow;
     MainMenu m_menuWindow;
     std::string statsFile;
     User m_user1; 

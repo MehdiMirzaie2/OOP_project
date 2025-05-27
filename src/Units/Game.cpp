@@ -18,7 +18,8 @@ void Game::runGame(){
             playing = false;
         }
         else if(choice == 2){
-            m_customizeWindow.runWindow();
+            int back = m_statsWindow.runWindow(statsFile);
+            std:: cout << "statwindow returned; " << back << std::endl;
         }
         else{
             std:: cout << "Playing is false!\n";

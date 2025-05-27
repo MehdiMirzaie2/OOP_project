@@ -51,7 +51,7 @@ MainMenu::MainMenu()
     m_menuBG.setPosition(WINDOW_WIDTH/2.f, WINDOW_HEIGHT/2.f);
 
     m_menuTexts[0].setString("Play");
-    m_menuTexts[1].setString("Units");
+    m_menuTexts[1].setString("Stats");
     m_menuTexts[2].setString("Exit");
     sf::Vector2f start = sf::Vector2f(WINDOW_WIDTH/2.f - 30, WINDOW_HEIGHT/2.f); // Starting position for first option - play
     sf::Vector2f padding_y(0, 40); // Padding between successive options , eg between play and options
