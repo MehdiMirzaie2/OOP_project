@@ -40,6 +40,8 @@ void BattleWindow::deploye(sf::Event event)
 
 	if (m_gameMap.getMapGrid()[row][col] == 0 && ((m_turn == 0 && col < 14) || (m_turn == 1 && col > 15)) && user->getElixir()->getElixir() > unitToDeploy->getCost())
 	{
+
+		std::cout << "\n\ndeploying unit\n\n";
 		sf::Vector2f a = sf::Vector2f((col * 30) + 100, row * 30);
 		unitToDeploy->setLocation(a);
 
