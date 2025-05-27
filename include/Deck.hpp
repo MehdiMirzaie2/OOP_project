@@ -7,7 +7,7 @@
 
 const int MAX_UNITS = 5;
 
-class Deck : public Drawable
+class Deck
 {
 private:
     Director m_director;

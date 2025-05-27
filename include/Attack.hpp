@@ -6,7 +6,7 @@
 
 class Unit;
 
-class Attack : public Drawable
+class Attack
 {
 private:
     sf::Texture m_attackTexture;

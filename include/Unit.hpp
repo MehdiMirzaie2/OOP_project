@@ -40,19 +40,12 @@ class Unit : public Entity
 {
 protected:
     float m_HP; // Health points of the unit
-    sf::Texture m_unitTextureIdle; // Texture when idle
-    sf::Texture m_unitTextureAttacking; // Texture when attacking
-    sf::Texture m_deadTexture; // Texture when dead
     sf::Vector2f m_deckPos; // Position in the deck UI
     sf::Vector2i m_dydx; // Direction vector for movement
     sf::Clock m_timeSinceDeath; // Timer since unit died
     sf::Clock m_MoveClock; // Timer for movement timing
     sf::Clock m_attackClock; // Timer for attack cooldown
     sf::Time m_attackCooldown; // Time between attacks
-
-    std::string m_projectileTextureName; // Projectile texture identifier
-    std::string m_unitTextureIdleName; // Idle texture identifier
-    std::string m_unitTextureAttackingName; // Attacking texture identifier
 
     bool m_isTower = false; // Is this unit a tower?
     int m_alliance; // Team/alliance affiliation

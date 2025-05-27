@@ -19,8 +19,8 @@ protected:
 
 public:
     // Constructors
-    Entity(); // Default constructor
-    Entity(float dmg, sf::Vector2f location, float spd, float radius_atk, int cst); // Initialize entity with key attributes
+    // Entity(); // Default constructor
+    Entity(std::string a, std::string, std::string, float dmg, sf::Vector2f location, float spd, float radius_atk, int cst); // Initialize entity with key attributes
 
     // Getters
     float getDamage(); // Returns the entity's damage

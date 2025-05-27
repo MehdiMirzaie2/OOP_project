@@ -30,7 +30,7 @@ struct cell
     double f, g, h;         // A* cost values: f = g + h
 };
 
-class Map : public Drawable
+class Map
 {
 private:
     int m_rows; // Number of rows in the grid
