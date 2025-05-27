@@ -32,7 +32,6 @@ public:
     void updateUnits(); // Updates all units' states
     void updateAttacks(); // Updates all active attacks
     void startUnitAttack(Unit *attacker); // Initiates an attack from the specified unit
-    void checkWinner()
 };
 
 
