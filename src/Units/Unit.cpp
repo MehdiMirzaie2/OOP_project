@@ -189,7 +189,6 @@ void Unit::update() // Handles Unit Animations
         else
         {
             startMovingForward(); // Handles disabling of attacks and starts movement
-
         }   
         
     }
