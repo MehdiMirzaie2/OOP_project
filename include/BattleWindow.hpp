@@ -6,6 +6,7 @@
 #include "Director.hpp"
 #include "User.hpp"
 #include "Unit.hpp"
+#include "ElixerBar.hpp"
 
 class BattleWindow : public Window
 // Renders the battle visuals like the map.
@@ -18,8 +19,15 @@ private:
     User m_user2;
     sf::Clock m_gameClock;
 
+    ElixirBar elixirBar1;
+    ElixirBar elixirBar2;
+    void updateElixirBars();
+    void drawElixirBars(sf::RenderWindow& window);
+
+
     void deploye(sf::Event);
     void selectUnit(sf::Event);
+    void loadDecks();
 
 public:
     BattleWindow();
