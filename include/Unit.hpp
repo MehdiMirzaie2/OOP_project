@@ -3,6 +3,7 @@
 #include <iostream>
 #include "Entity.hpp"
 #include "Attack.hpp"
+#include "HPBar.hpp"
 #include <SFML/System/Clock.hpp>
 #include <SFML/System/Time.hpp>
 #include <vector>
@@ -29,7 +30,8 @@ class Unit : public Entity
 		sf::Vector2f m_deckPos;
 		sf::Vector2i dydx;
 		sf::Clock timeSinceDeath;
-
+		HPBar m_HPBar;
+		
 		// sf::Clock attackAnimationHoldTime;
 		
        // Weapon* weapon; // to be implemente
@@ -39,7 +41,6 @@ class Unit : public Entity
 		// initialisers
 		Unit();
 		Unit(float dmg, float spd, sf::Vector2f location ,float radius_atk, int cst, int hp, std::string idleTextureName, std:: string attackingTextureName, std:: string projectileTextureName, int alliance); //unit builder has the values for the unit
-		
 
 		// getters
         float getHP();
