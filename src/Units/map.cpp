@@ -36,11 +36,7 @@ Map::Map()
     if(!m_map_texture.loadFromFile("src/Textures/background.png")){
 		std:: cout << "COULDNT FIND THE MAP BG\n";
 	}
-	else {
-    std::cout << "Loaded map BG successfully. Size: "
-              << m_map_texture.getSize().x << "x"
-              << m_map_texture.getSize().y << std::endl;
-	}
+	
     m_map_sprite.setTexture(m_map_texture);
 	m_map_sprite.setOrigin(m_map_texture.getSize().x/2.f, m_map_texture.getSize().y/2.f);
 

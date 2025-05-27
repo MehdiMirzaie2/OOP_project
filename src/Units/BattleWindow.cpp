@@ -31,7 +31,7 @@ void BattleWindow::deploye(sf::Event event)
 	int col = int(p.x / 30), row = int(p.y / 30);
 
 	unitToDeploy->setIsPicked(false);
-	if (m_gameMap.getMapGrid()[row][col] != 0 || user->getElixir()->getElixir() < unitToDeploy->getCost())
+	if (m_gameMap.getMapGrid()[row][col] != 0 || user->getElixir()->getElixir() < unitToDeploy->getCost() || !m_gameMap.isValid(row, col))
 	{
 		std::cout << "did not deploy, because not enought elixir\n";
 		unitToDeploy->setLocation(unitToDeploy->getDeckPosition());
@@ -121,6 +121,7 @@ int BattleWindow::runWindow()
 		checkCollisions();
 		checkWinner();
 		if (BattleWindow::winner != 0){
+			m_window->close();
 			return winner;
 		}
 

@@ -10,10 +10,7 @@ Attack::Attack(Unit *owner, std::string attackTextureName, Unit *target)
     {
         std::cout << "Unable to load attack texture: src/Textures/" << attackTextureName << std::endl;
     }
-    else
-    {
-        std::cout << "Loaded attack texture : src/Textures/" << attackTextureName << std::endl;
-    }
+    
     m_isActive = false;
     m_damage = 20;
     m_speed = 0.5;
@@ -83,7 +80,7 @@ bool Attack::isHit(std::vector<std::shared_ptr<Unit>> unitlist)
             if (unit->getisActive())
             {
                 unit->takeDamage(*this);
-                std::cout << "HIT!!\n";
+               
                 auto it = std::find_if(Unit::active_attacks.begin(), Unit::active_attacks.end(),
                                        [this](const std::unique_ptr<Attack> &p_attack)
                                        {

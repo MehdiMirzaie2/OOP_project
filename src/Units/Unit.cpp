@@ -189,13 +189,10 @@ void Unit::update(Map &map) // Handles Unit Animations
     // Movement Logic
     if (m_isMovingForward && m_MoveClock.getElapsedTime() >= sf::seconds(m_speed) && !m_isTower)
     {
-        std::cout << "speed = " << m_speed << std::endl;
         if (!m_path.empty())
         {
             Pair p = m_path.top();
             m_path.pop();
-            // std::cout << p.first << " " << p.second << "\n";
-            //  skin.move((p.second * 30), (p.first + 30));
             m_skin.setPosition((p.second * 30) + 100, p.first * 30);
         }
         else
@@ -204,7 +201,6 @@ void Unit::update(Map &map) // Handles Unit Animations
             if (dead_towers.find(std::make_pair(row, col)) != dead_towers.end()) 
                 setPath(map.aStarSearch(std::make_pair(row, col), getClosestTower()));
             // need to update, when tower is destroyed move to next tower
-            std::cout << "path is empty\n";
         }
         m_MoveClock.restart();
     }
@@ -260,7 +256,7 @@ void Unit::attemptShooting()
 void Unit::dead()
 {
     if (m_isTower) {
-	    std::cout << "dead tower\n";
+	    
         dead_towers.insert(getClosestTower());
     }
     m_skin.setOrigin(m_deadTexture.getSize().x / 2.f, m_deadTexture.getSize().y / 2.f);
@@ -305,11 +301,6 @@ bool Unit::getisTower()
     return m_isTower;
 }
 
-void Unit::describe()
-{
-    std::cout << "hello\n";
-}
-
 void Unit::setisTower(bool istower)
 {
     m_isTower = istower;
@@ -327,9 +318,13 @@ void Unit::takeDamage(Attack attack)
     {
         return;
     }
-    std::cout << "Original HP: " << m_HP << std::endl;
+    
     this->m_HP -= attack.getDamage();
     std::cout << "Remaining HP: " << m_HP << std::endl;
+    if (m_HP <= 0){
+        dead();
+        return;
+    }
 }
 
 sf::Sprite Unit::getSprite()
@@ -366,18 +361,17 @@ void Unit::setDydx(sf::Vector2i _dydx)
 
 Pair Unit::getClosestTower()
 {
-    std::cout << "alience == " << m_alliance << "\n";
     int col = m_skin.getPosition().x / 30, row = m_skin.getPosition().y / 30;
     float min = __FLT_MAX__;
     int index = 0;                                                                 
 
     for (int i = 0; i < 4; i++)
     {
-	    std::cout << "hello world\n";
+	    
 
         if (dead_towers.find(targets[i]) == dead_towers.end())
         {
-		std::cout << "found a tower that is not dead\n";
+		
             double distance = ((row - targets[i].first) * (row - targets[i].first)) + ((col - targets[i].second) * (col - targets[i].second));
             distance *= distance;
             if (distance < min)
@@ -400,17 +394,3 @@ int Unit::getAlliance()
 {
     return m_alliance;
 }
-/*
-void Unit::bringToLife(sf::Vector2f pos, Map &gameMap)
-{
-    setLocation(pos);
-
-    Unit::active_units.push_back(std::shared_ptr<Unit>(this));
-    startMovingForward();
-    setPath(gameMap.aStarSearch(std::make_pair(int((pos.x - 100) / 30), int(pos.y / 30)), getClosestTower()));
-    setisActive(true);
-    startMovingForward();
-
-    std::cout << "\n\n\ndepoyed unit\n\n\n\n";
-}
-*/
