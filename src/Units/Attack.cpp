@@ -70,19 +70,19 @@ void Attack::update()
 bool Attack::isHit(std::vector<std::shared_ptr<Unit>> unitlist)
 {
     sf::FloatRect collision_box = m_attackSprite.getGlobalBounds();
-    for (long unsigned int i = 0; i < unitlist.size(); i++)
+    for (auto unit: unitlist)
     {
-        Unit *unit_ptr = unitlist[i].get();
-        if (m_owner == unit_ptr || unit_ptr->getisDead())
+        //Unit *unit_ptr = unitlist[i].get();
+        if (m_owner == unit.get() || unit->getisDead())
         {
             continue;
         }
-        if (collision_box.intersects(unit_ptr->getSkin().getGlobalBounds()))
+        if (collision_box.intersects(unit->getSkin().getGlobalBounds()))
         {
             m_isActive = false;
-            if (unit_ptr->getisActive())
+            if (unit->getisActive())
             {
-                unit_ptr->takeDamage(*this);
+                unit->takeDamage(*this);
                 std::cout << "HIT!!\n";
                 auto it = std::find_if(Unit::active_attacks.begin(), Unit::active_attacks.end(),
                                        [this](const std::unique_ptr<Attack> &p_attack)

@@ -45,8 +45,8 @@ Unit::Unit(float dmg, float spd, sf::Vector2f location, float radius_atk, int cs
     m_timeSinceDeath.restart();
     this->m_alliance = alliance;
 
-    targets = (m_alliance == 1) ? std::vector<Pair>{std::make_pair(3, 7), std::make_pair(8, 4), std::make_pair(9, 4), std::make_pair(14, 7)}
-                                : std::vector<Pair>{std::make_pair(3, 24), std::make_pair(8, 27), std::make_pair(9, 27), std::make_pair(14, 24)};
+    targets = (m_alliance == 1) ? std::vector<Pair>{std::make_pair(3, 8), std::make_pair(8, 5), std::make_pair(9, 5), std::make_pair(14, 8)}
+                                : std::vector<Pair>{std::make_pair(3, 23), std::make_pair(8, 26), std::make_pair(9, 26), std::make_pair(14, 23)};
 }
 
 /*
@@ -104,6 +104,7 @@ skin.setTexture(unitTextureIdle);
 */
 std::vector<std::unique_ptr<Attack>> Unit::active_attacks = {};
 std::vector<std::shared_ptr<Unit>> Unit::active_units = {};
+std::unordered_set<Pair, pair_hash> Unit::dead_towers;
 
 void Unit::useAttack(Unit *hunted_target)
 { // Use all attack sprites
@@ -321,6 +322,7 @@ void Unit::attemptShooting()
 void Unit::dead()
 {
     if (m_isTower) {
+	    std::cout << "dead tower\n";
         dead_towers.insert(getClosestTower());
     }
     m_skin.setOrigin(m_deadTexture.getSize().x / 2.f, m_deadTexture.getSize().y / 2.f);
