@@ -6,12 +6,16 @@
 /*need to change the background png, made a mistake, some rows are narrower than others*/
 
 BattleWindow::BattleWindow()
+    : elixirBar1(8, 30.f, 24.f),
+      elixirBar2(8, 30.f, 24.f)
 {
-	m_user1 = User("Adi", 0);
-	m_user2 = User("Mehdi", 1);
-	m_window = nullptr;
-	m_turn = 0;
+    user1 = User("Adi", 0);
+    user2 = User("Mehdi", 1);
+    window = nullptr;
+    active_units = {};
+    m_turn = 0;
 }
+
 
 void BattleWindow::deploye(sf::Event event)
 {
@@ -113,16 +117,31 @@ int BattleWindow::runWindow()
 			}
 		}
 
+		updateElixirBars();
 		updateUnits();
 		updateAttacks();
 		checkCollisions();
 
 		draw_all(m_window.get());
+		drawElixirBars(*window);
+		
 		m_user1.update(mouse_pos);
 		m_user2.update(mouse_pos);
 	}
 	return 0;
 }
+
+void BattleWindow::updateElixirBars() {
+    elixirBar1.update(user1.getElixir()->getElixir());
+    elixirBar2.update(user2.getElixir()->getElixir());
+}
+
+
+void BattleWindow::drawElixirBars(sf::RenderWindow& window) {
+    elixirBar1.draw(window, 20.f, 10.f);                   // Top-left for user1
+    elixirBar2.draw(window, WINDOW_WIDTH - 20.f - 8*30.f, 10.f);  // Top-right for user2 (8 units * unit width = bar width)
+}
+
 
 void BattleWindow::updateUnits()
 {
