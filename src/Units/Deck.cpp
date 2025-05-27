@@ -89,17 +89,19 @@ std::shared_ptr<Unit> Deck::getPickedUnit()
 
 void Deck::swapDeployedUnit(const std::shared_ptr<Unit> &unit)
 {
-    for (auto m_unit : m_units)
+    for (auto it = m_units.begin(); it != m_units.end(); ++it)
     {
-        if (m_unit == unit)
+        if (*it == unit)
         {
-
+		std::cout << "calling swap\n";
             // std::shared_ptr<Unit> newUnit = m_director.buildSwords(unit->getAlliance());
-            std::shared_ptr<Unit> newUnit(unit);
+            std::shared_ptr<Unit> newUnit = std::make_shared<Unit>(*unit);
+
             newUnit->setLocation(unit->getDeckPosition());
             newUnit->setDeckPosition(unit->getDeckPosition());
             m_units.erase(unit);
             m_units.insert(newUnit);
+	    break;
         }
     }
 }

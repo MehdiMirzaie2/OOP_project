@@ -45,6 +45,7 @@ Unit::Unit(const std::shared_ptr<Unit> &src)
       m_isPicked(false),
       m_isAttacking(false)
 { // Sync sprite & user posi
+  	std::cout << "\n\ncalling Unit copy constructor\n\n";
     int flip = src->getAlliance() == 0 ? 1 : -1;
 
     m_skin.setTexture(m_unitTextureIdle);

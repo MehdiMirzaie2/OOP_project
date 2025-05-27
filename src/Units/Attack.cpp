@@ -19,7 +19,8 @@ Attack::Attack(Unit *owner, std::string attackTextureName, Unit *target)
     m_speed = 0.5;
     m_attackSprite.setOrigin(m_attackTexture.getSize().x / 2.f, m_attackTexture.getSize().y / 2.f);
     m_attackSprite.setTexture(m_attackTexture);
-    m_attackSprite.setScale(0.06f, 0.06f);
+    int flip = target->getAlliance() == 0 ? 1 : -1;
+    m_attackSprite.setScale(flip * 0.06f, 0.06f);
     m_owner = owner;
     m_target = target;
 }
