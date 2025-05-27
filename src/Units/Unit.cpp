@@ -37,7 +37,15 @@ Unit::Unit(float dmg, float spd, sf::Vector2f location, float radius_atk, int cs
     }
 
     m_skin.setTexture(m_unitTextureIdle);
-    m_skin.setScale(flip * (30.0f / m_unitTextureIdle.getSize().x), 30.0f / m_unitTextureIdle.getSize().y);
+   if (m_unitTextureIdle.getSize().x > 0 && m_unitTextureIdle.getSize().y > 0)  
+    {
+        m_skin.setScale(flip * (30.0f / m_unitTextureIdle.getSize().x), 30.0f / m_unitTextureIdle.getSize().y);
+    }
+    else
+    {
+        std::cerr << "ERROR: Idle texture '" << idleTextureName << "' has zero dimensions. Setting default scale." << std::endl;
+        m_skin.setScale(flip * 1.0f, 1.0f); 
+    }
     m_isAttacking = false;
     m_attackCooldown = sf::seconds(2);
     m_isDead = false;

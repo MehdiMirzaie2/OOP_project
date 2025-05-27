@@ -4,17 +4,15 @@
 // int unitsDeployedCount = 0;
 
 /*need to change the background png, made a mistake, some rows are narrower than others*/
-
-BattleWindow::BattleWindow(User* user1, User* user2)
+BattleWindow::BattleWindow()
 {
-	m_user1 = user1;
-	m_user2 = user2;
-	
+	m_user1 = new User("Player 1", 0);
+	m_user2 = new User("Player 2", 1);
 	m_window = nullptr;
 	m_turn = 0;
 }
 
-static bool BattleWindow::winner = 0;
+int BattleWindow::winner = 0;
 
 void BattleWindow::deploye(sf::Event event)
 {
@@ -97,7 +95,7 @@ int BattleWindow::runWindow()
 		while (m_window->pollEvent(event) && BattleWindow::winner == 0)
 		{
 			if (event.type == sf::Event::Closed)
-				m_window->close();
+				return 2;
 
 			if (event.type == sf::Event::MouseButtonPressed)
 			{
@@ -225,4 +223,11 @@ void BattleWindow::checkCollisions()
 			std::cout << "Attack hit detected\n";
 		};
 	}
+}
+
+BattleWindow::~BattleWindow()
+{
+	std:: cout << "Exiting battle\n";
+	delete m_user1;
+	delete m_user2;
 }

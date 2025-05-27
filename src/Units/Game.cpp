@@ -3,12 +3,13 @@
 #include <sstream>
 
 Game::Game(){
-    m_battleWindow = BattleWindow(&m_user1, &m_user2);
+    statsFile = "stats.txt";
 }
 
 void Game::runGame(){
     bool playing = true;
     while (playing){
+        
         int choice = m_menuWindow.runWindow();
         
         if(choice == 1){
@@ -29,73 +30,47 @@ void Game::runGame(){
 
 void Game::registerWinner(int winner)
 {
-    std::ofstream stats(statsFile, std::ios::app);
+    // STATS FORMAT: 
+    // Player 1 - wins/loss
+    // Player 2 - wins/loss
 
-    std::string buffer_string = "";
-    bool found_winner = false;
-    bool found_loser = false;
+    // Default stats
+    int w1 = 0, l1 = 0, w2 = 0, l2 = 0;
 
-    while(stats.getline(buffer_string)){
-        std::istringstream iss(buffer_string);
-        std::vector<std::string> words;
-        std::string word;
+    // Read stats
+    std::ifstream in(statsFile);
+    std::string line;
 
-        while (iss >> word) {
-            words.push_back(word);
-        }
-        if (words[0] == m_user1.getName()){
-            if (winner == 1){
-                found_winner = true;
-                std:: cout << "Found winner already in stats\n";
-                int wins = std::stoi(words[1]);
-                wins++;
-                words[1].swap(std::to_string(wins));
-            }
-            else{
-                found_loser = true;
-                std::cout << "Found loser already in stats\n";
-                int losses = std::stoi(words[1]);
-                losses++;
-                words[1].swap(std::to_string(losses));
-            }
-        }
-        if (words[0] == m_user2.getName()){
-             if (winner == 1){
-                found_winner = true;
-                std:: cout << "Found winner already in stats\n";
-                int wins = std::stoi(words[1]);
-                wins++;
-                words[1].swap(std::to_string(wins));
-            }
-            else{
-                found_loser = true;
-                std::cout << "Found loser already in stats\n";
-                int losses = std::stoi(words[1]);
-                losses++;
-                words[1].swap(std::to_string(losses));
-            }
-        }
+    if (std::getline(in, line)) {
+        std::istringstream iss(line);
+        std::string temp;
+        char slash;
+        iss >> temp >> temp >> temp >> w1 >> slash >> l1;
     }
 
-    if (found_winner == 0){
-        if (winner == 1){
-            std::string win_msg = m_user1.getName() + std::to_string(m_user1.getWins()) + std::to_string(m_user1.getLosses());
-            stats << win_msg;
-        }
-        else{
-            std::string win_msg = m_user2.getName() + std::to_string(m_user2.getWins()) + std::to_string(m_user2.getLosses());
-            stats << win_msg;
-        }
+    if (std::getline(in, line)) {
+        std::istringstream iss(line);
+        std::string temp;
+        char slash;
+        iss >> temp >> temp >> temp >> w2 >> slash >> l2;
     }
-    else if(found_loser == 0){
-        if (winner == 1){
-            std::string loss_msg = m_user2.getName() + std::to_string(m_user1.getWins()) + std::to_string(m_user2.getLosses());
-            stats << loss_msg;
-        }
-        else{
-            std::string loss_msg = m_user1.getName() + std::to_string(m_user1.getWins()) + std::to_string(m_user1.getLosses());
-            stats << loss_msg;
-        }
+    in.close();
+
+    // updating winners
+    if (winner == 1) {
+        w1++;
+        l2++;
+    } else {
+        w2++;
+        l1++;
     }
-    
+
+    // Overwrite data in file
+    std::ofstream out(statsFile, std::ios::out | std::ios::trunc);
+    out << "Player 1 - " << w1 << "/" << l1 << "\n";
+    out << "Player 2 - " << w2 << "/" << l2 << "\n";
+    out.close();
+
+    std::cout << "Stats updated successfully\n";
+
 }

@@ -50,7 +50,7 @@ public:
     sf::RectangleShape createTower(float x, float y, sf::Color baseColor);
 
     std::vector<std::vector<int>> &getMapGrid();
-
+    
     // A* algo
     bool isValid(int row, int col);
     bool isDestination(int row, int col, Pair dest);

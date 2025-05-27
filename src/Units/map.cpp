@@ -6,6 +6,7 @@
 
 Map::Map()
 {
+
     m_map_grid = {
         //     {0,  1,  2,  3,  4,  5,  6,  7,  8,  9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27, 28, 29, 30, 31} 
         /*0*/  {0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  2,  2,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0},
@@ -32,7 +33,14 @@ Map::Map()
     //directions = {std::make_pair(0, -1), std::make_pair(1, 0), std::make_pair(0, 1), std::make_pair(-1, 0)};
     m_directions = {std::make_pair(0, 1), std::make_pair(0, -1), std::make_pair(1, 0), std::make_pair(-1, 0), std::make_pair(1, 1), std::make_pair(1, -1), std::make_pair(-1, 1), std::make_pair(-1, -1)};
     //map background set up
-    m_map_texture.loadFromFile("src/Textures/background.png");
+    if(!m_map_texture.loadFromFile("src/Textures/background.png")){
+		std:: cout << "COULDNT FIND THE MAP BG\n";
+	}
+	else {
+    std::cout << "Loaded map BG successfully. Size: "
+              << m_map_texture.getSize().x << "x"
+              << m_map_texture.getSize().y << std::endl;
+	}
     m_map_sprite.setTexture(m_map_texture);
 	m_map_sprite.setOrigin(m_map_texture.getSize().x/2.f, m_map_texture.getSize().y/2.f);
 
@@ -61,6 +69,8 @@ sf::RectangleShape Map::createTower(float x, float y, sf::Color baseColor)
     tower.setOutlineColor(sf::Color::Black);
     return tower;
 }
+
+
 
 void Map::draw(sf::RenderWindow *window)
 {

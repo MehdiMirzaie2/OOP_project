@@ -23,7 +23,7 @@ private:
 
 public:
     static int winner;
-    BattleWindow(User* user1, User* user2);
+    BattleWindow();
     void draw_all(sf::RenderWindow *window);
     int runWindow();
     void checkCollisions();
@@ -31,6 +31,9 @@ public:
     void updateAttacks();
     void checkWinner();
     void startUnitAttack(Unit *attacker);
+
+    ~BattleWindow();
 };
+
 
 #endif // BATTLE_HPP_
