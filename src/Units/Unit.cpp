@@ -7,102 +7,69 @@
 // How quickly the souls vanish from the battlefield
 #define SOUL_SPEED 10
 
-Unit::Unit() : Entity() {};
+Unit::Unit() : Entity() {}
 
 Unit::Unit(float dmg, float spd, sf::Vector2f location, float radius_atk, int cst, int hp, std::string idleTextureName, std::string attackingTextureName, std::string projectileTextureName, int alliance)
-    : Entity(dmg, location, spd, radius_atk, cst),
-	  m_HP(hp),
-      m_HPBar(hp),
-      m_projectileTextureName(projectileTextureName),
-      m_unitTextureIdleName(idleTextureName),
-      m_unitTextureAttackingName(attackingTextureName),
+    : Entity(projectileTextureName, idleTextureName,attackingTextureName, dmg, location, spd, radius_atk, cst),
+      m_HP(hp),
       m_isPicked(false),
       m_isAttacking(false)
-
 { // Sync sprite & user posi
     int flip = alliance == 0 ? 1 : -1;
-    std::cout << idleTextureName << std::endl;
-    if (!m_unitTextureIdle.loadFromFile("src/Textures/" + std::string(idleTextureName)))
-    {
-        std::cout << "Unable to load Idle texture!\n";
-    }
-
-    if (!m_unitTextureAttacking.loadFromFile("src/Textures/" + std::string(attackingTextureName)))
-    {
-        std::cout << "Unable to load attacking texture!\n";
-    }
-    m_projectileTextureName = projectileTextureName;
-
-    if (!m_deadTexture.loadFromFile("src/Textures/death.png"))
-    {
-        std::cout << "Couldnt load death soul\n";
-    }
 
     m_skin.setTexture(m_unitTextureIdle);
-    m_skin.setScale(flip * (30.0f / m_unitTextureIdle.getSize().x), 30.0f / m_unitTextureIdle.getSize().y);
+   if (m_unitTextureIdle.getSize().x > 0 && m_unitTextureIdle.getSize().y > 0)  
+    {
+        m_skin.setScale(flip * (30.0f / m_unitTextureIdle.getSize().x), 30.0f / m_unitTextureIdle.getSize().y);
+    }
+    else
+    {
+        std::cerr << "ERROR: Idle texture '" << idleTextureName << "' has zero dimensions. Setting default scale." << std::endl;
+        m_skin.setScale(flip * 1.0f, 1.0f); 
+    }
     m_isAttacking = false;
     m_attackCooldown = sf::seconds(2);
     m_isDead = false;
     m_current_target = nullptr;
     m_timeSinceDeath.restart();
-    this->m_alliance = alliance;
+    m_alliance = alliance;
+
+    targets = (m_alliance == 1) ? std::vector<Pair>{std::make_pair(3, 6), std::make_pair(8, 3), std::make_pair(9, 3), std::make_pair(14, 6)}
+                                : std::vector<Pair>{std::make_pair(3, 25), std::make_pair(8, 28), std::make_pair(9, 28), std::make_pair(14, 25)};
 }
 
-/*
 Unit::Unit(const std::shared_ptr<Unit> &src)
-    : Entity(src), // call the base class copy constructor
-      HP(src.getHP()),
-      attackCooldown(src.getAttackCooldown()),
-      projectileTextureName(src.projectileTextureName),
-      unitTextureIdleName(src.unitTextureIdleName),
-      unitTextureAttackingName(src.unitTextureAttackingName),
-      alliance(src.alliance),
-      isPicked(src.isPicked),
-      current_target(nullptr), // You probably don't want to copy the pointer as-is
-      isAttacking(false),
-      isDead(src.isDead)
-{
-    std::cout << "whats good\n";
-    int flip = alliance == 0 ? 1 : -1;
+    : Entity(src->getProjectileTextureName(), src->getIdleTextureName(), src->getAttackingTextureName(), src->getDamage(), src->getLocation(), src->getSpeed(), src->getRadius_of_attack(), src->getCost()), // call the base class copy constructor
+      m_HP(src->getHP()),
+      m_isPicked(false),
+      m_isAttacking(false)
+{ // Sync sprite & user posi
+    int flip = src->getAlliance() == 0 ? 1 : -1;
 
-    if (!unitTextureIdle.loadFromFile("src/Textures/" + src.unitTextureIdleName))
+    m_skin.setTexture(m_unitTextureIdle);
+   if (m_unitTextureIdle.getSize().x > 0 && m_unitTextureIdle.getSize().y > 0)  
     {
-        std::cout << "Unable to load Idle texture!\n";
+        m_skin.setScale(flip * (30.0f / m_unitTextureIdle.getSize().x), 30.0f / m_unitTextureIdle.getSize().y);
     }
-
-    if (!unitTextureAttacking.loadFromFile("src/Textures/" + src.unitTextureAttackingName))
+    else
     {
-        std::cout << "Unable to load attacking texture!\n";
+        std::cerr << "ERROR: Idle texture '" << m_unitTextureIdleName << "' has zero dimensions. Setting default scale." << std::endl;
+        m_skin.setScale(flip * 1.0f, 1.0f); 
     }
+    m_isAttacking = false;
+    m_attackCooldown = sf::seconds(2);
+    m_isDead = false;
+    m_current_target = nullptr;
+    m_timeSinceDeath.restart();
+    m_alliance = src->getAlliance();
 
-    if (!deadTexture.loadFromFile("src/Textures/death.png"))
-    {
-        std::cout << "Couldnt load death texture\n";
-    }
-
-skin.setTexture(unitTextureIdle);
-    std::cout << "texture size = " << unitTextureIdle.getSize().x << " " << unitTextureIdle.getSize().y << "\n";
-    skin.setScale(flip * (30.0f / unitTextureIdle.getSize().x), 30.0f / unitTextureIdle.getSize().y);
-    isAttacking = false;
-    attackCooldown = sf::seconds(2);
-    isDead = false;
-    current_target = nullptr;
-    timeSinceDeath.restart();
-    this->alliance = alliance;
-    std::cout << "created copy of unit\n";
-
-
-
-    // Setup sprite
-    //skin.setTexture(unitTextureIdle);
-    //skin.setScale(flip * (30.0f / unitTextureIdle.getSize().x), 30.0f / unitTextureIdle.getSize().y);
-
-    // Reset clock/timers
-    //timeSinceDeath.restart();
+    targets = (m_alliance == 1) ? std::vector<Pair>{std::make_pair(3, 8), std::make_pair(8, 5), std::make_pair(9, 5), std::make_pair(14, 8)}
+                                : std::vector<Pair>{std::make_pair(3, 23), std::make_pair(8, 26), std::make_pair(9, 26), std::make_pair(14, 23)};
 }
-*/
+
 std::vector<std::unique_ptr<Attack>> Unit::active_attacks = {};
 std::vector<std::shared_ptr<Unit>> Unit::active_units = {};
+std::unordered_set<Pair, pair_hash> Unit::dead_towers;
 
 void Unit::useAttack(Unit *hunted_target)
 { // Use all attack sprites
@@ -115,6 +82,9 @@ void Unit::useAttack(Unit *hunted_target)
 void Unit::startMovingForward()
 {
     if (m_isTower){
+        m_isAttacking = false;
+        m_current_target = nullptr;
+        m_MoveClock.restart();
         return;
     }
     m_isMovingForward = true;
@@ -131,14 +101,11 @@ float Unit::getHP()
 void Unit::setHP(float newHP)
 {
     m_HP = newHP;
-    m_HP = std::max(0.f, newHP);
-    m_HPBar.update(m_HP);
 }
 
 void Unit::updateLocation(sf::Vector2f location)
 {
     m_skin.setPosition(location);
-    m_HPBar.setPosition(location.x, location.y - 10);
 }
 
 void Unit::setDeckPosition(sf::Vector2f location)
@@ -154,7 +121,6 @@ sf::Vector2f Unit::getDeckPosition()
 void Unit::updateSpriteLoc()
 {
     m_skin.setPosition(sf::Vector2f(this->getLocation().x, this->getLocation().y));
-	m_HPBar.setPosition(sf::Vector2f(unitPos.x, unitPos.y - 10)); 
 }
 
 bool Unit::getisDead()
@@ -183,10 +149,10 @@ void Unit::update() // Handles Unit Animations
         }
         else
         {
-            if (!m_isTower){
+            if (!m_isTower)
+            {
                 startMovingForward(); // Handles disabling of attacks and starts movement
-
-            }   
+            }
         }
     }
     else
@@ -209,7 +175,6 @@ void Unit::update() // Handles Unit Animations
             m_skin.move(-m_speed, 0);
         }
     }
-    m_HPBar.setPosition(m_skin.getPosition().x, m_skin.getPosition().y - 10);
 }
 
 void Unit::update(Map &map) // Handles Unit Animations
@@ -231,6 +196,7 @@ void Unit::update(Map &map) // Handles Unit Animations
         }
         if (!m_current_target->getisDead())
         {
+            updateAttackAnimation();
             attemptShooting(); // Handles cooldown and firing
         }
         else
@@ -251,20 +217,18 @@ void Unit::update(Map &map) // Handles Unit Animations
     // Movement Logic
     if (m_isMovingForward && m_MoveClock.getElapsedTime() >= sf::seconds(m_speed) && !m_isTower)
     {
-        std::cout << "speed = " << m_speed << std::endl;
         if (!m_path.empty())
         {
             Pair p = m_path.top();
             m_path.pop();
-            // std::cout << p.first << " " << p.second << "\n";
-            //  skin.move((p.second * 30), (p.first + 30));
             m_skin.setPosition((p.second * 30) + 100, p.first * 30);
-            m_HPBar.setPosition(m_skin.getPosition().x, m_skin.getPosition().y - 10);
         }
         else
         {
+            int col = (m_skin.getPosition().x - 100) / 30, row = m_skin.getPosition().y / 30;
+            if (dead_towers.find(std::make_pair(row, col)) != dead_towers.end()) 
+                setPath(map.aStarSearch(std::make_pair(row, col), getClosestTower()));
             // need to update, when tower is destroyed move to next tower
-            std::cout << "path is empty\n";
         }
         m_MoveClock.restart();
     }
@@ -279,14 +243,12 @@ void Unit::updateAttackAnimation()
     first_half_after_attack = first_half_after_attack * early_factor;
     if (elapsed_seconds <= first_half_after_attack && m_skin.getTexture() != &m_unitTextureAttacking)
     {
-        std::cout << "First half!!\n";
         std::cout << m_attackClock.getElapsedTime().asSeconds() << std::endl;
         m_skin.setTexture(m_unitTextureAttacking);
     }
     // for the second half, IdleTexture, which changes just when it becomes attack time
     else if (elapsed_seconds > first_half_after_attack && elapsed_seconds < first_half_after_attack * 2 && m_skin.getTexture() != &m_unitTextureIdle)
     {
-        std::cout << "Second half\n";
         m_skin.setTexture(m_unitTextureIdle);
     }
 }
@@ -294,7 +256,6 @@ void Unit::updateAttackAnimation()
 void Unit::draw(sf::RenderWindow *window)
 {
     window->draw(m_skin);
-	m_HPBar.draw(*window);
 
     if (m_isAttacking)
     {
@@ -322,7 +283,10 @@ void Unit::attemptShooting()
 
 void Unit::dead()
 {
-
+    if (m_isTower) {
+	    
+        dead_towers.insert(getClosestTower());
+    }
     m_skin.setOrigin(m_deadTexture.getSize().x / 2.f, m_deadTexture.getSize().y / 2.f);
     m_skin.setTextureRect(sf::IntRect(0, 0, m_deadTexture.getSize().x, m_deadTexture.getSize().y));
     m_skin.setTexture(m_deadTexture);
@@ -365,11 +329,6 @@ bool Unit::getisTower()
     return m_isTower;
 }
 
-void Unit::describe()
-{
-    std::cout << "hello\n";
-}
-
 void Unit::setisTower(bool istower)
 {
     m_isTower = istower;
@@ -387,17 +346,20 @@ void Unit::takeDamage(Attack attack)
     {
         return;
     }
-    std::cout << "Original HP: " << m_HP << std::endl;
+    
     this->m_HP -= attack.getDamage();
-	m_HPBar.update(m_HP);
     std::cout << "Remaining HP: " << m_HP << std::endl;
-	
+    if (m_HP <= 0){
+        dead();
+        return;
+    }
 }
 
 sf::Sprite Unit::getSprite()
 {
     return m_skin;
 }
+
 
 void Unit::moveIfPicked(sf::Vector2i mouse_pos)
 {
@@ -408,7 +370,6 @@ void Unit::moveIfPicked(sf::Vector2i mouse_pos)
             mouse_pos.y - m_dydx.y);
         setLocation(location);
     }
-    m_HPBar.setPosition(location.x, location.y - 10);
 }
 
 void Unit::setIsPicked(bool status)
@@ -428,22 +389,24 @@ void Unit::setDydx(sf::Vector2i _dydx)
 
 Pair Unit::getClosestTower()
 {
-    std::cout << "alience == " << m_alliance << "\n";
     int col = m_skin.getPosition().x / 30, row = m_skin.getPosition().y / 30;
-    std::vector<Pair> targets =
-        (m_alliance == 1) ? std::vector<Pair>{std::make_pair(3, 7), std::make_pair(8, 4), std::make_pair(9, 4), std::make_pair(14, 7)}
-                        : std::vector<Pair>{std::make_pair(3, 25), std::make_pair(8, 27), std::make_pair(9, 27), std::make_pair(14, 25)};
-
     float min = __FLT_MAX__;
-    int index = 0;
+    int index = 0;                                                                 
+
     for (int i = 0; i < 4; i++)
     {
-        double distance = ((row - targets[i].first) * (row - targets[i].first)) + ((col - targets[i].second) * (col - targets[i].second));
-        distance *= distance;
-        if (distance < min)
+	    
+
+        if (dead_towers.find(targets[i]) == dead_towers.end())
         {
-            min = distance;
-            index = i;
+		
+            double distance = ((row - targets[i].first) * (row - targets[i].first)) + ((col - targets[i].second) * (col - targets[i].second));
+            distance *= distance;
+            if (distance < min)
+            {
+                min = distance;
+                index = i;
+            }
         }
     }
     std::cout << targets[index].first << " " << targets[index].second << "\n";
@@ -459,17 +422,3 @@ int Unit::getAlliance()
 {
     return m_alliance;
 }
-/*
-void Unit::bringToLife(sf::Vector2f pos, Map &gameMap)
-{
-    setLocation(pos);
-
-    Unit::active_units.push_back(std::shared_ptr<Unit>(this));
-    startMovingForward();
-    setPath(gameMap.aStarSearch(std::make_pair(int((pos.x - 100) / 30), int(pos.y / 30)), getClosestTower()));
-    setisActive(true);
-    startMovingForward();
-
-    std::cout << "\n\n\ndepoyed unit\n\n\n\n";
-}
-*/

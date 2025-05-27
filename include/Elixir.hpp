@@ -3,21 +3,19 @@
 
 #include <SFML/Graphics.hpp>
 
-class Elixir {
-	private:
-		int m_amount;
-		int m_max;
-		int elixir; 
-		sf::Clock m_timer;
+class Elixir
+{
+private:
+	int m_amount; // Current amount of elixir
+	int m_max; // Maximum elixir capacity
+	sf::Clock m_timer; // Timer for elixir regeneration
 
-	public:
-		Elixir();
+public:
+	Elixir(); // Constructor to initialize elixir state
 
-		void update();
-		int getElixir();
-		void decreaseElixir(int amount);
-		void setElixir(int amount);
+	void update(); // Regenerates elixir over time
+	int getElixir(); // Returns the current elixir amount
+	void decreaseElixir(int amount); // Reduces elixir by a specified amount
 };
-
 
 #endif

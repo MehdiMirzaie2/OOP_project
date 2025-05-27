@@ -5,45 +5,40 @@
 #include "Unit.hpp"
 #include "Deck.hpp"
 #include "Elixir.hpp"
+#include <array>
 
-class User{
-    private:
-        int wins;
-        int losses;
-        std:: string name;
-        Elixir *m_elixir;       
-        Unit** towers;
-        Unit** king;
-        Deck* unitDeck;
-        ElixirBar elixirBar; // Add ElixirBar member
-        
-    public:
-        //initializers
-        User();
-        User(std:: string name);    
-        User(std::string name, int left_or_right);
-        //getters
-        int getWins();
-        int getLosses();
-        std:: string getName();
-        //int getElixir();
-        Deck* getDeck();
-        Unit** getTowers();
-        Unit** getKing();
+class User
+{
+private:
+    int m_wins; // Number of wins
+    int m_losses; // Number of losses
+    std::string m_name; // Player's name
+    std::unique_ptr<Elixir> m_elixir; // Player's elixir resource manager
+    std::array<std::shared_ptr<Unit>, 2> m_towers; // Player's two tower units
+    
+    std::unique_ptr<Deck> m_unitDeck; // Player's unit deck
 
-        Elixir* getElixir();    
-        //setters
-        void setWins(int w);
-        void setLosses(int l);
-        void setName(std:: string new_name);
-        void setElixir(int new_elixir);
-       
-        void update(sf::Vector2i mouse_pos); // Use explicit parameter name
-        void draw(sf::RenderWindow& window);
+public:
+    // Constructors
+    User(); // Default constructor
+    User(std::string name, int left_or_right); // Constructor with name and side choice
 
-        //void fight_user(User other);
-        void deploy(int index, sf::Vector2i d_loc); //abstract class
+    // Getters
+    int getWins(); // Returns number of wins
+    int getLosses(); // Returns number of losses
+    std::string getName(); // Returns player name
+    Deck *getDeck(); // Returns pointer to player's deck
+    std::array<std::shared_ptr<Unit>,2> getTowers();
+    Elixir *getElixir(); // Returns pointer to player's elixir
 
+    // Setters
+    void setWins(int w); // Sets wins count
+    void setLosses(int l); // Sets losses count
+    void setName(std::string new_name); // Sets player name
+
+    // Utility methods
+    void update(sf::Vector2i); // Updates player state with input vector
+    void draw(sf::RenderWindow *window); // Draws player-related visuals on window
 };
 
 #endif // UNITS_HEADER_USER_HPP_

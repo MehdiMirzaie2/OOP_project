@@ -4,82 +4,93 @@
 #include <iostream>
 #include <algorithm>
 
-Attack::Attack(Unit* owner, std:: string attackTextureName, Unit* target)
+Attack::Attack(Unit *owner, std::string attackTextureName, Unit *target)
 {
-    if (!attackTexture.loadFromFile("src/Textures/" + attackTextureName))
+    if (!m_attackTexture.loadFromFile("src/Textures/" + attackTextureName))
     {
         std::cout << "Unable to load attack texture: src/Textures/" << attackTextureName << std::endl;
-        
     }
-    else{
-        std::cout << "Loaded attack texture : src/Textures/" << attackTextureName << std:: endl;
-    }
-    isActive = false;
-    damage = 20;
-    speed = 0.5;
-    attackSprite.setOrigin(attackTexture.getSize().x/2.f, attackTexture.getSize().y/2.f);
-    attackSprite.setTexture(attackTexture);
-    attackSprite.setScale(0.06f, 0.06f);
-    this->owner = owner;
-    this->target = target;
+    
+    m_isActive = false;
+    m_damage = 20;
+    m_speed = 0.5;
+    m_attackSprite.setOrigin(m_attackTexture.getSize().x / 2.f, m_attackTexture.getSize().y / 2.f);
+    m_attackSprite.setTexture(m_attackTexture);
+    m_attackSprite.setScale(0.06f, 0.06f);
+    m_owner = owner;
+    m_target = target;
 }
 
 void Attack::shoot(sf::Vector2f shooting_location)
 {
-    attackSprite.setPosition(shooting_location);
-    isActive = true;
+    m_attackSprite.setPosition(shooting_location);
+    m_isActive = true;
 }
 
 void Attack::move()
 {
-    sf::Vector2f location = attackSprite.getPosition();
-    float displacement_x = target->getLocation().x - location.x;
-    float displacement_y = target->getLocation().y - location.y;
+    sf::Vector2f location = m_attackSprite.getPosition();
+    float displacement_x = m_target->getLocation().x - location.x;
+    float displacement_y = m_target->getLocation().y - location.y;
 
     // To calculate the unit vector for direction, as the above vector is not a unit vector, we divide by distance
 
-    float distance = std::sqrt((displacement_x*displacement_x) + (displacement_y*displacement_y));
-    float normalized_displacement_x = displacement_x/distance;
-    float normalized_displacement_y = displacement_y/distance;
+    float distance = std::sqrt((displacement_x * displacement_x) + (displacement_y * displacement_y));
+    float normalized_displacement_x = displacement_x / distance;
+    float normalized_displacement_y = displacement_y / distance;
 
-    
-    attackSprite.move(sf::Vector2f(normalized_displacement_x*speed, normalized_displacement_y*speed));
+    m_attackSprite.move(sf::Vector2f(normalized_displacement_x * m_speed, normalized_displacement_y * m_speed));
 }
 
-bool Attack::getisActive(){return isActive;};
+bool Attack::getisActive() { return m_isActive; };
 
-int Attack::getDamage(){return damage;};
+int Attack::getDamage() { return m_damage; };
 
 void Attack::updateLocation(sf::Vector2f new_loc)
 {
-    attackSprite.setPosition(new_loc);
+    m_attackSprite.setPosition(new_loc);
 }
 
-void Attack::draw(sf::RenderWindow* window)
-{  
-    window->draw(attackSprite);
+void Attack::draw(sf::RenderWindow *window)
+{
+    window->draw(m_attackSprite);
 }
 
 void Attack::update()
 {
-    if (getisActive()){
+    if (getisActive())
+    {
         move();
     }
 }
 
-bool Attack::isHit(std::vector<Unit*> unitlist)
+bool Attack::isHit(std::vector<std::shared_ptr<Unit>> unitlist)
 {
-    sf::FloatRect collision_box = attackSprite.getGlobalBounds();
-    for(long unsigned int i = 0; i < unitlist.size(); i++){
-        if (owner == unitlist[i] || unitlist[i]->getisDead()){
+    sf::FloatRect collision_box = m_attackSprite.getGlobalBounds();
+    for (auto unit: unitlist)
+    {
+        //Unit *unit_ptr = unitlist[i].get();
+        if (m_owner == unit.get() || unit->getisDead())
+        {
             continue;
         }
-        if (collision_box.intersects(unitlist[i]->getSkin().getGlobalBounds())){
-            isActive = false;
-            if(unitlist[i]->getisActive()){
-                unitlist[i]->takeDamage(*this);
-                std:: cout << "HIT!!\n";
-                Unit::active_attacks.erase(std::find(Unit::active_attacks.begin(), Unit::active_attacks.end(), this));
+        if (collision_box.intersects(unit->getSkin().getGlobalBounds()))
+        {
+            m_isActive = false;
+            if (unit->getisActive())
+            {
+                unit->takeDamage(*this);
+               
+                auto it = std::find_if(Unit::active_attacks.begin(), Unit::active_attacks.end(),
+                                       [this](const std::unique_ptr<Attack> &p_attack)
+                                       {
+                                           return p_attack.get() == this;
+                                       });
+
+                if (it != Unit::active_attacks.end())
+                {
+                    Unit::active_attacks.erase(it); // Erase the unique_ptr; this will delete the Attack object
+                }
                 return true;
             }
         }
@@ -87,7 +98,8 @@ bool Attack::isHit(std::vector<Unit*> unitlist)
     return false;
 }
 
-std:: string Attack::describe(){
-    std:: string exist = "The attack is exist!\n";
+std::string Attack::describe()
+{
+    std::string exist = "The attack is exist!\n";
     return exist;
 }

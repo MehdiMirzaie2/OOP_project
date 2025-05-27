@@ -6,44 +6,34 @@
 #include "Director.hpp"
 #include "User.hpp"
 #include "Unit.hpp"
-#include "ElixirBar.hpp"
 
-class BattleWindow : public Window {
+class BattleWindow : public Window
+// Renders the battle visuals like the map.
+{
 private:
-    Map gameMap;
-    Director director;
+    Map m_gameMap;
+    Director m_director;
     int m_turn;
-    User user1, user2;  // Users holding game logic and elixir
-    std::vector<Unit*> active_units;
-    std::vector<Unit*> user1_units;
-    std::vector<Unit*> user2_units;
-    int num_deployed[2] = {0, 0};
-    sf::Clock gameClock;
+    User* m_user1;
+    User* m_user2;
+    sf::Clock m_gameClock;
 
-    // Initialize ElixirBars with maxElixir=8, unitWidth=20.f, height=30.f
-    ElixirBar elixirBar1;
-    ElixirBar elixirBar2;
-
-    void loadDecks();
-    void deploye(sf::Event);
-    void selectUnit(sf::Event);
-
-    // New private helper methods for elixir bars
-    void updateElixirBars();
-    void drawElixirBars(sf::RenderWindow& window);
-
+    void deploye(sf::Event); // Handles unit deployment based on user input
+    void selectUnit(sf::Event); // Handles unit selection logic
 
 public:
-    BattleWindow();
-    int runWindow();
-    void checkCollisions();
-    void updateUnits(sf::Time time_passed);
-    void updateAttacks();
-
-    void updateUnits();
-
-    // Override base class draw method or add one to draw UI
-    void draw(sf::RenderWindow& window);
+    static int winner;
+    ~BattleWindow();    
+    BattleWindow(); // Constructor to initialize the battle window
+    void draw_all(sf::RenderWindow *window); // Draws all battle elements to the window
+    int runWindow(); // Main loop to run the battle window
+    void checkCollisions(); // Checks for collisions between units and attacks
+    void checkWinner(); // Checks if the game has been won
+    void updateUnits(); // Updates all units' states
+    void updateAttacks(); // Updates all active attacks
+    void startUnitAttack(Unit *attacker); // Initiates an attack from the specified unit
+    void checkWinner()
 };
 
-#endif // BATTLEWINDOW_HPP_
+
+#endif // BATTLE_HPP_

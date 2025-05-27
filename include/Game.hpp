@@ -3,24 +3,23 @@
 
 #include "User.hpp"
 #include "BattleWindow.hpp"
-#include "CustomizeWindow.hpp"
+#include "StatsWindow.hpp"
 #include "MainMenu.hpp"
-#include "GameDataManager.hpp"
 
-class Game{
+class Game
+{
+private:
+    BattleWindow m_battleWindow;
+    StatsWindow m_statsWindow;
+    MainMenu m_menuWindow;
+    std::string statsFile;
+    User m_user1; 
+    User m_user2;
 
-    private:
-        BattleWindow battleWindow;
-        CustomizeWindow customizeWindow;
-        MainMenu menuWindow;
-        GameDataManager userData;
-       
-    public:
-        Game();
-        void runGame();
-        
-        
+public:
+    Game();
+    void runGame();
+    void registerWinner(int winner);
 };
-
 
 #endif // UNITS_HEADER_GAME_HPP_
