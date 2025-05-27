@@ -15,13 +15,12 @@ private:
     std::string m_name; // Player's name
     std::unique_ptr<Elixir> m_elixir; // Player's elixir resource manager
     std::array<std::shared_ptr<Unit>, 2> m_towers; // Player's two tower units
-    std::shared_ptr<Unit> m_king; // Player's king unit
+    
     std::unique_ptr<Deck> m_unitDeck; // Player's unit deck
 
 public:
     // Constructors
     User(); // Default constructor
-    User(std::string name); // Constructor with name
     User(std::string name, int left_or_right); // Constructor with name and side choice
 
     // Getters
@@ -29,7 +28,7 @@ public:
     int getLosses(); // Returns number of losses
     std::string getName(); // Returns player name
     Deck *getDeck(); // Returns pointer to player's deck
-    Unit* getKing(); // Returns king
+    std::array<std::shared_ptr<Unit>,2> getTowers();
     Elixir *getElixir(); // Returns pointer to player's elixir
 
     // Setters

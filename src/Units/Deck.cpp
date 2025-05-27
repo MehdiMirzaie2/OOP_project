@@ -67,11 +67,6 @@ std::set<std::shared_ptr<Unit>> &Deck::getUnits()
     return m_units;
 }
 
-std::shared_ptr<Unit> Deck::generateKing(int alliance)
-{
-    return m_director.buildKing(alliance);
-}
-
 std::shared_ptr<Unit> Deck::generateTowers(int alliance)
 {
     return m_director.buildTower(alliance);

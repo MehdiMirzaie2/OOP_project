@@ -120,6 +120,9 @@ int BattleWindow::runWindow()
 		updateAttacks();
 		checkCollisions();
 		checkWinner();
+		if (BattleWindow::winner != 0){
+			return winner;
+		}
 
 		draw_all(m_window.get());
 		m_user1->update(mouse_pos);
@@ -131,19 +134,29 @@ int BattleWindow::runWindow()
 void BattleWindow::checkWinner()
 // checks if anybody has won, if they have then increments their win counter and increments losser's loss counter.
 {
-	if (m_user1->getKing()->getisDead()){
-		BattleWindow::winner = 2;
-		m_user2->setWins(m_user2->getWins() + 1);
-		m_user1->setLosses(m_user1->getLosses() + 1);
-		std:: cout << "winner: p2\n";
+	// check if user1's tower is dead
+	auto towers_1 = m_user1->getTowers();
+	auto towers_2 = m_user2->getTowers();
+	
+	for(auto tower : towers_1){
+		if (tower->getisDead()){
+			BattleWindow::winner = 2;
+			m_user2->setWins(m_user2->getWins() + 1);
+			m_user1->setLosses(m_user1->getLosses() + 1);
+			std:: cout << "winner: p2\n";
+			return;
+		}
 	}
-	else if(m_user2->getKing()->getisDead()){
-		BattleWindow::winner = 1;
-		m_user1->setWins(m_user1->getWins() + 1);
-		m_user2->setLosses(m_user2->getLosses() + 1);
+	for(auto tower : towers_2){
+		if (tower->getisDead()){
+			BattleWindow::winner = 1;
+			m_user1->setWins(m_user1->getWins() + 1);
+			m_user2->setLosses(m_user2->getLosses() + 1);
+			std:: cout << "winner: p1\n";
+			return;
+		}
+	}
 
-		std:: cout << "winner: p1\n";
-	}
 }
 
 void BattleWindow::updateUnits()
