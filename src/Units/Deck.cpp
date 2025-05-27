@@ -16,7 +16,7 @@ Deck::Deck(int left_or_right)
     {
         if (unit)
         {
-            std::cout << "pushing unit\n";
+            
             sf::Vector2f location(left_pos, (50 * i) + 100);
             unit->setLocation(location);
             unit->setDeckPosition(location);
@@ -26,7 +26,7 @@ Deck::Deck(int left_or_right)
         i++;
     }
 
-    std::cout << "built deck\n";
+    
 }
 
 Deck::Deck()
@@ -42,10 +42,9 @@ Deck::Deck()
     int i = 0;
     for (auto unit : m_units)
     {
-        /* not sure how to use builder */
         if (unit)
         {
-            std::cout << "pushing unit\n";
+          
             sf::Vector2f location(50, (50 * i) + 100);
             unit->setLocation(location);
         }
@@ -65,11 +64,6 @@ void Deck::draw(sf::RenderWindow *window)
 std::set<std::shared_ptr<Unit>> &Deck::getUnits()
 {
     return m_units;
-}
-
-std::shared_ptr<Unit> Deck::generateKing(int alliance)
-{
-    return m_director.buildKing(alliance);
 }
 
 std::shared_ptr<Unit> Deck::generateTowers(int alliance)

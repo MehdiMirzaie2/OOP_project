@@ -15,7 +15,6 @@ public:
         std::shared_ptr<Unit> buildTank(int alliance); // Builds and returns a tank unit for the given alliance
         std::shared_ptr<Unit> buildMage(int alliance); // Builds and returns a mage unit for the given alliance
         std::shared_ptr<Unit> buildTower(int alliance); // Builds and returns a tower unit for the given alliance
-        std::shared_ptr<Unit> buildKing(int alliance); // Builds and returns a king unit for the given alliance
 };
 
 #endif // DIRECTOR_HPP_

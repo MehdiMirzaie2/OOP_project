@@ -17,7 +17,6 @@ public:
     Deck(); // Default constructor
     Deck(int); // Constructor that initializes the deck with an alliance
 
-    std::shared_ptr<Unit> generateKing(int alliance); // Creates and returns a King unit for the specified alliance
     std::shared_ptr<Unit> generateTowers(int alliance); // Creates and returns Tower units for the specified alliance
     std::set<std::shared_ptr<Unit>> &getUnits(); // Returns a reference to the set of units in the deck
     void draw(sf::RenderWindow *window); // Draws all units in the deck to the window

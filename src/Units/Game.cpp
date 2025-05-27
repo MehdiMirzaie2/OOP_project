@@ -15,7 +15,6 @@ void Game::runGame(){
         if(choice == 1){
             int winner = m_battleWindow.runWindow();
             registerWinner(winner);
-            playing = false;
         }
         else if(choice == 2){
             int back = m_statsWindow.runWindow(statsFile);

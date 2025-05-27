@@ -2,23 +2,6 @@
 
 User::User() {};
 
-User::User(std::string name)
-{
-    m_name = name;
-    m_wins = 0;
-    m_losses = 0;
-    // towers = {nullptr};
-    m_unitDeck = std::make_unique<Deck>();
-    m_king = m_unitDeck->generateKing(0);
-
-    sf::Sprite king_sprite = m_king->getSkin();
-    sf::Vector2f current_scale = king_sprite.getScale();
-    king_sprite.setScale(current_scale.x * 5, current_scale.y * 5);
-
-    m_king->describe();
-    m_elixir = std::make_unique<Elixir>();
-}
-
 User::User(std::string name, int left_or_right)
 {
     m_name = name;
@@ -26,25 +9,6 @@ User::User(std::string name, int left_or_right)
     m_losses = 0;
     // towers = {nullptr};
     m_unitDeck = std::make_unique<Deck>(left_or_right);
-
-    m_king = std::shared_ptr<Unit>(m_unitDeck->generateKing(left_or_right));
-    sf::Sprite king_sprite = m_king->getSkin();
-    sf::Vector2f current_scale = king_sprite.getScale();
-    int flip = left_or_right == 0 ? 1 : -1;
-
-    std::cout << "current scale: " << current_scale.x << std::endl;
-    king_sprite.setScale(flip * current_scale.x * 5.f, current_scale.y * 5.f);
-    std::cout << "current scale: " << king_sprite.getScale().x << std::endl;
-
-    m_king->setSkin(king_sprite);
-    m_king->setisActive(true);
-    m_king->setisTower(true);
-
-    m_king->describe();
-
-    if (left_or_right == 0){
-        std:: cout << "Left king alliance: " << m_king->getAlliance() << std::endl;
-    }
 
     for (int i = 0; i < 2; i++)
     {
@@ -90,6 +54,11 @@ Elixir *User::getElixir()
     return m_elixir.get();
 }
 
+std::array<std::shared_ptr<Unit>,2> User::getTowers(){
+    return m_towers;
+};
+
+
 void User::update(sf::Vector2i mouse_pos)
 {
     m_elixir->update();
@@ -98,11 +67,6 @@ void User::update(sf::Vector2i mouse_pos)
     {
         unit->moveIfPicked(mouse_pos);
     }
-}
-
-Unit* User::getKing()
-{
-    return m_king.get();
 }
 
 void User::setLosses(int l)
@@ -127,8 +91,6 @@ std::string User::getName() { return m_name; }
 void User::draw(sf::RenderWindow *window)
 {
     m_unitDeck->draw(window);
-    m_king->draw(window);
-
     for (auto &tower : m_towers)
     {
         tower->draw(window);

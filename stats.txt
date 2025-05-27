@@ -1,2 +1,2 @@
-Player 1 - 0/7
-Player 2 - 7/0
+Player 1 - 5/13
+Player 2 - 13/5
