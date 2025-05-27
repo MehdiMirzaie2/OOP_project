@@ -1,4 +1,5 @@
 #include "../../include/User.hpp"
+#include <iostream>
 
 User::User() {};
 
@@ -81,6 +82,15 @@ User::User(std::string name, int left_or_right)
     m_elixir = std::make_unique<Elixir>();
 }
 
+User::~User() {
+
+    if (m_elixir) delete m_elixir;
+    if (unitDeck) delete unitDeck;
+
+    delete m_elixir;
+    delete unitDeck; 
+}
+
 Elixir *User::getElixir()
 {
     return m_elixir.get();
@@ -89,6 +99,7 @@ Elixir *User::getElixir()
 void User::update(sf::Vector2i mouse_pos)
 {
     m_elixir->update();
+    elixirBar.update(m_elixir->getElixir());
 
     for (const auto &unit : m_unitDeck->getUnits())
     {
