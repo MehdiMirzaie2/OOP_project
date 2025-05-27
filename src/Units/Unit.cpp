@@ -434,8 +434,11 @@ Pair Unit::getClosestTower()
 
     for (int i = 0; i < 4; i++)
     {
-        if (dead_towers.find(targets[i]) != dead_towers.end())
+	    std::cout << "hello world\n";
+
+        if (dead_towers.find(targets[i]) == dead_towers.end())
         {
+		std::cout << "found a tower that is not dead\n";
             double distance = ((row - targets[i].first) * (row - targets[i].first)) + ((col - targets[i].second) * (col - targets[i].second));
             distance *= distance;
             if (distance < min)
