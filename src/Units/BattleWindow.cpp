@@ -1,5 +1,7 @@
 #include "../../include/BattleWindow.hpp"
+#include "../../include/ElixirBar.hpp"
 #include <cmath>
+#include <iostream>
 
 // int unitsDeployedCount = 0;
 
